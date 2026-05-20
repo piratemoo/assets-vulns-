@@ -8,6 +8,9 @@ on:
 permissions:
   contents: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   update-feed:
     runs-on: ubuntu-latest
@@ -174,7 +177,10 @@ jobs:
 
           def parse_date(value: str) -> dt.datetime:
               try:
-                  return dt.datetime.fromisoformat((value or "").replace("Z", "+00:00"))
+                  parsed = dt.datetime.fromisoformat((value or "").replace("Z", "+00:00"))
+                  if parsed.tzinfo is None:
+                      return parsed.replace(tzinfo=dt.timezone.utc)
+                  return parsed.astimezone(dt.timezone.utc)
               except ValueError:
                   try:
                       return dt.datetime.strptime(value[:10], "%Y-%m-%d").replace(tzinfo=dt.timezone.utc)
