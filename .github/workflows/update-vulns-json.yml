@@ -67,6 +67,20 @@ jobs:
               ("Synacktiv", "https://www.synacktiv.com/en/feed/lastblog.xml"),
           ]
 
+          SOURCE_PROFILES = {
+              "Project Zero": ("Project Zero", "https://x.com/ProjectZeroBugs"),
+              "watchTowr Labs": ("watchTowr Labs", "https://x.com/watchtowrcyber"),
+              "Horizon3 Attack Team": ("Horizon3 Attack Team", "https://x.com/Horizon3Attack"),
+              "Dirkjan Mollema": ("_dirkjan", "https://x.com/_dirkjan"),
+              "ZDI": ("ZDI", "https://x.com/thezdi"),
+              "NCC Group Research": ("NCC Group Research", "https://research.nccgroup.com/"),
+              "Bishop Fox": ("Bishop Fox", "https://x.com/BishopFox"),
+              "Elastic Security Labs": ("Elastic Security Labs", "https://www.elastic.co/security-labs"),
+              "GitHub Security Lab": ("GitHub Security Lab", "https://github.com/github/securitylab"),
+              "Aqua Nautilus": ("Aqua Nautilus", "https://www.aquasec.com/cloud-native-academy/aqua-research/"),
+              "Synacktiv": ("Synacktiv", "https://x.com/synacktiv"),
+          }
+
           HIGH_SIGNAL = {
               "active directory", "ad cs", "adcs", "android", "apache", "apple", "atlassian", "azure",
               "citrix", "confluence", "connectwise", "container", "cisco", "exchange", "esxi",
@@ -208,8 +222,10 @@ jobs:
                               fields["link"] = child.attrib.get("href") or norm(child.text or "")
                       text = f"{fields['title']} {fields['summary']}"
                       for cve in {match.upper() for match in CVE_RE.findall(text)}:
+                          profile_name, profile_url = SOURCE_PROFILES.get(source, (source, url))
                           mentions.setdefault(cve, []).append({
-                              "source": source,
+                              "source": profile_name,
+                              "profileUrl": profile_url,
                               "title": compact(fields["title"], 140),
                               "url": fields["link"] or url,
                           })
@@ -344,7 +360,7 @@ jobs:
                   "proof": "working public poc",
                   "reliability": "reliable exploit" if item and repo.get("score", 0) >= 60 else "partial exploit",
                   "researcher": mention["source"] if mention else repo.get("owner", "public research"),
-                  "researcherUrl": mention["url"] if mention else repo["url"],
+                  "researcherUrl": mention.get("profileUrl", "") if mention else repo["url"],
                   "pocWorks": "Yes",
                   "added": "tracked",
                   "language": "public tooling",
