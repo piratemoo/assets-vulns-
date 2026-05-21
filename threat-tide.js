@@ -13,6 +13,9 @@
     medium: "https://raw.githubusercontent.com/piratemoo/vuln-feed/refs/heads/main/3.png"
   };
 
+  const MAX_LINKS_PER_CARD = 8;
+  const MAX_TAGS_PER_CARD = 8;
+
   const menuItems = [
     { label: "All", section: "all" },
     { label: "Windows", section: "windows" },
@@ -555,7 +558,7 @@
     }
   ];
 
-  let vulns = fallbackVulns;
+  let vulns = fallbackVulns.map(normalizeVuln);
 
   function numberOr(value, fallback) {
     const parsed = Number(value);
@@ -575,7 +578,7 @@
   }
 
   function cleanAdded(value, fallbackTime) {
-    const raw = String(value || "").trim();
+    const raw = cleanInlineText(value, 48);
     const directTime = formatCentralTime(raw);
     if (directTime) return directTime;
     const fallback = formatCentralTime(fallbackTime);
@@ -584,7 +587,7 @@
   }
 
   function cleanLanguage(value) {
-    const raw = String(value || "").trim();
+    const raw = cleanInlineText(value, 64);
     if (!raw || raw.toLowerCase() === "unknown" || raw.toLowerCase() === "public tooling") return "Unknown";
     return titleCase(raw);
   }
@@ -611,42 +614,45 @@
     if (!Array.isArray(links)) return [];
     return links
       .map((link) => {
-        if (Array.isArray(link)) return [String(link[0] || "Reference"), String(link[1] || "")];
-        if (link && typeof link === "object") return [String(link.label || link.name || "Reference"), String(link.url || "")];
+        if (Array.isArray(link)) return [cleanInlineText(link[0] || "Reference", 48), safeUrl(link[1])];
+        if (link && typeof link === "object") return [cleanInlineText(link.label || link.name || "Reference", 48), safeUrl(link.url)];
         return null;
       })
-      .filter((link) => link && link[1]);
+      .filter((link) => link && link[0] && link[1])
+      .slice(0, MAX_LINKS_PER_CARD);
   }
 
   function normalizeVuln(item) {
     const rawTags = Array.isArray(item.tags) ? item.tags : [];
-    const tags = rawTags.map((tag) => String(tag));
+    const tags = rawTags.map((tag) => cleanInlineText(tag, 32)).filter(Boolean).slice(0, MAX_TAGS_PER_CARD);
     const tagEcosystem = tags.map((tag) => tag.toLowerCase()).find((tag) => ["windows", "linux", "android", "ios", "cloud"].includes(tag));
-    const ecosystem = String(item.ecosystem || tagEcosystem || "research").toLowerCase();
-    const severity = String(item.severity || "high").toLowerCase();
-    const chainValue = Array.isArray(item.chains) ? item.chains.map((chain) => String(chain)) : String(item.chains || "Use as a chain primitive with initial access, credential access, lateral movement, or persistence.");
+    const ecosystem = cleanSlug(item.ecosystem || tagEcosystem || "research", "research");
+    const severity = cleanSlug(item.severity || "high", "high");
+    const chainValue = Array.isArray(item.chains)
+      ? item.chains.map((chain) => cleanInlineText(chain, 160)).filter(Boolean).slice(0, 8)
+      : cleanBlockText(item.chains || "Use as a chain primitive with initial access, credential access, lateral movement, or persistence.", 500);
     return {
-      cve: String(item.cve || "NO-CVE"),
-      title: String(item.title || "Untitled vulnerability signal"),
+      cve: cleanInlineText(item.cve || "NO-CVE", 64),
+      title: cleanInlineText(item.title || "Untitled vulnerability signal", 180),
       ecosystem,
-      category: String(item.category || "research").toLowerCase(),
+      category: cleanSlug(item.category || "research", "research"),
       severity: ["critical", "high", "medium"].includes(severity) ? severity : "high",
-      proof: String(item.proof || "working public poc"),
-      reliability: String(item.reliability || "reliable exploit"),
-      researcher: String(item.researcher || "unknown"),
-      researcherUrl: String(item.researcherUrl || ""),
-      pocWorks: String(item.pocWorks || "Yes"),
-      difficulty: difficultyFor(item),
+      proof: cleanInlineText(item.proof || "working public poc", 80),
+      reliability: cleanInlineText(item.reliability || "reliable exploit", 80),
+      researcher: cleanInlineText(item.researcher || "unknown", 80),
+      researcherUrl: safeUrl(item.researcherUrl),
+      pocWorks: cleanInlineText(item.pocWorks || "Yes", 16),
+      difficulty: cleanInlineText(difficultyFor(item), 32),
       added: cleanAdded(item.firstSeenAt || item.added, liveFeedUpdatedAt),
       language: cleanLanguage(item.language),
-      summary: String(item.summary || ""),
-      technicalSummary: String(item.technicalSummary || ""),
-      breakdown: String(item.breakdown || item.summary || ""),
-      exploitSyntax: String(item.exploitSyntax || ""),
-      whatBroke: String(item.whatBroke || "The affected component exposed a useful exploit primitive."),
-      reality: String(item.reality || "Realistic exploitation depends on exposure, version, and environmental preconditions."),
+      summary: cleanBlockText(item.summary || "", 520),
+      technicalSummary: cleanBlockText(item.technicalSummary || "", 520),
+      breakdown: cleanBlockText(item.breakdown || item.summary || "", 800),
+      exploitSyntax: cleanCodeText(item.exploitSyntax || "", 1200),
+      whatBroke: cleanBlockText(item.whatBroke || "The affected component exposed a useful exploit primitive.", 500),
+      reality: cleanBlockText(item.reality || "Realistic exploitation depends on exposure, version, and environmental preconditions.", 500),
       chains: chainValue,
-      weaponized: String(item.weaponized || "Track public tooling and reproduction reports before treating it as broadly weaponized."),
+      weaponized: cleanBlockText(item.weaponized || "Track public tooling and reproduction reports before treating it as broadly weaponized.", 500),
       tags,
       confidence: Math.max(0, Math.min(100, numberOr(item.confidence, 75))),
       weaponization: Math.max(0, Math.min(100, numberOr(item.weaponization || item.weaponizationLikelihood, 70))),
@@ -667,7 +673,7 @@
       if (!vulns.length) throw new Error("empty normalized feed");
       root.dataset.feedSource = "github";
     } catch (error) {
-      vulns = fallbackVulns;
+      vulns = fallbackVulns.map(normalizeVuln);
       root.dataset.feedSource = "fallback";
     }
   }
@@ -700,6 +706,60 @@
 
   function escapeHtml(value) {
     return String(value).replace(/[&<>"']/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"})[char]);
+  }
+
+  function cleanInlineText(value, maxLength = 240) {
+    return String(value || "")
+      .replace(/[\u0000-\u001F\u007F]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, maxLength);
+  }
+
+  function cleanBlockText(value, maxLength = 800) {
+    return String(value || "")
+      .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, " ")
+      .replace(/[ \t]+/g, " ")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim()
+      .slice(0, maxLength);
+  }
+
+  function cleanCodeText(value, maxLength = 1200) {
+    return String(value || "")
+      .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, " ")
+      .trim()
+      .slice(0, maxLength);
+  }
+
+  function cleanSlug(value, fallback) {
+    const slug = String(value || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9-]/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+    return slug || fallback;
+  }
+
+  function safeUrl(value) {
+    const raw = String(value || "").trim();
+    if (!raw) return "";
+    try {
+      const url = new URL(raw, window.location.origin);
+      if (!["https:", "http:"].includes(url.protocol)) return "";
+      if (url.username || url.password) return "";
+      return url.href;
+    } catch (error) {
+      return "";
+    }
+  }
+
+  function safeHref(value) {
+    return escapeHtml(safeUrl(value) || "#");
+  }
+
+  function safeExternalAttrs() {
+    return 'target="_blank" rel="noopener noreferrer"';
   }
 
   function archiveDate(dayOffset) {
@@ -744,7 +804,7 @@
       .slice()
       .sort((left, right) => right.weight - left.weight)
       .map((source) => `
-        <a class="pm-source-chip" href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">
+        <a class="pm-source-chip" href="${safeHref(source.url)}" ${safeExternalAttrs()}>
           <strong>${escapeHtml(source.name)}</strong>
           <span>${escapeHtml(source.lane)}</span>
         </a>`)
@@ -794,7 +854,7 @@
   }
 
   function actionLinks(item) {
-    return item.links.map(([label, url]) => `<a href="${escapeHtml(url)}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a>`).join("");
+    return item.links.map(([label, url]) => `<a href="${safeHref(url)}" ${safeExternalAttrs()}>${escapeHtml(label)}</a>`).join("");
   }
 
   const platformIcons = {
@@ -818,7 +878,7 @@
 
   function researcherLink(item) {
     if (!item.researcherUrl) return `<span class="meta-value">${escapeHtml(item.researcher)}</span>`;
-    return `<a class="meta-value meta-link" href="${escapeHtml(item.researcherUrl)}" target="_blank" rel="noreferrer"><span class="pm-researcher-icon" aria-hidden="true">${platformIcon(item.researcherUrl)}</span><span>${escapeHtml(item.researcher)}</span></a>`;
+    return `<a class="meta-value meta-link" href="${safeHref(item.researcherUrl)}" ${safeExternalAttrs()}><span class="pm-researcher-icon" aria-hidden="true">${platformIcon(item.researcherUrl)}</span><span>${escapeHtml(item.researcher)}</span></a>`;
   }
 
   function repoUrl(item) {
@@ -996,7 +1056,7 @@
           <div class="pm-questions">
             <div class="pm-question pm-syntax"><h3>Summary</h3><p>${escapeHtml(technicalSummary(item))}</p></div>
             <div class="pm-question pm-syntax"><h3>Syntax</h3><pre><code>${escapeHtml(exploitSyntax(item))}</code></pre></div>
-            <div class="pm-question pm-syntax"><h3>Similar vulnerabilities</h3><div class="pm-resource-list">${relatedResources(item).map((resource) => `<a href="${escapeHtml(resource.url)}" target="_blank" rel="noreferrer">${escapeHtml(resource.label)}</a>`).join("")}</div></div>
+            <div class="pm-question pm-syntax"><h3>Similar vulnerabilities</h3><div class="pm-resource-list">${relatedResources(item).map((resource) => `<a href="${safeHref(resource.url)}" ${safeExternalAttrs()}>${escapeHtml(resource.label)}</a>`).join("")}</div></div>
           </div>
         </div>
       </article>`;
