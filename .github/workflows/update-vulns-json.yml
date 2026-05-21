@@ -33,6 +33,7 @@ jobs:
           from __future__ import annotations
 
           import datetime as dt
+          import email.utils
           import html
           import json
           import os
@@ -54,8 +55,10 @@ jobs:
           TOKEN = os.environ.get("GITHUB_TOKEN", "")
           CVE_RE = re.compile(r"CVE-\d{4}-\d{4,7}", re.I)
           LOCAL_TZ = ZoneInfo("America/Chicago")
+          LOOKBACK_DAYS = 7
 
           RSS_SOURCES = [
+              ("Google Security Blog", "https://security.googleblog.com/feeds/posts/default"),
               ("Project Zero", "https://googleprojectzero.blogspot.com/feeds/posts/default"),
               ("watchTowr Labs", "https://labs.watchtowr.com/rss/"),
               ("Horizon3 Attack Team", "https://www.horizon3.ai/feed/"),
@@ -70,6 +73,7 @@ jobs:
           ]
 
           SOURCE_PROFILES = {
+              "Google Security Blog": ("Google Security Blog", "https://blog.google/security/"),
               "Project Zero": ("Project Zero", "https://x.com/ProjectZeroBugs"),
               "watchTowr Labs": ("watchTowr Labs", "https://x.com/watchtowrcyber"),
               "Horizon3 Attack Team": ("Horizon3 Attack Team", "https://x.com/Horizon3Attack"),
@@ -85,10 +89,10 @@ jobs:
 
           HIGH_SIGNAL = {
               "active directory", "ad cs", "adcs", "android", "apache", "apple", "atlassian", "azure",
-              "citrix", "confluence", "connectwise", "container", "cisco", "exchange", "esxi",
+              "chrome", "chromium", "citrix", "confluence", "connectwise", "container", "cisco", "exchange", "esxi",
               "fortinet", "gitlab", "jenkins", "kerberos", "kubernetes", "linux", "microsoft",
-              "openssh", "palo alto", "pan-os", "screenconnect", "sharepoint", "teamcity",
-              "vmware", "vpn", "windows", "wordpress",
+              "openssh", "palo alto", "pan-os", "pixel", "screenconnect", "sharepoint", "teamcity",
+              "webkit", "vmware", "vpn", "windows", "wordpress", "zero-click", "zeroclick",
           }
 
           PRIMITIVES = {
@@ -192,6 +196,8 @@ jobs:
               }.get(value.lower(), value.replace("-", " ").title())
 
           def parse_date(value: str) -> dt.datetime:
+              if not value:
+                  return dt.datetime(1970, 1, 1, tzinfo=dt.timezone.utc)
               try:
                   parsed = dt.datetime.fromisoformat((value or "").replace("Z", "+00:00"))
                   if parsed.tzinfo is None:
@@ -199,12 +205,20 @@ jobs:
                   return parsed.astimezone(dt.timezone.utc)
               except ValueError:
                   try:
+                      parsed = email.utils.parsedate_to_datetime(value)
+                      if parsed.tzinfo is None:
+                          parsed = parsed.replace(tzinfo=dt.timezone.utc)
+                      return parsed.astimezone(dt.timezone.utc)
+                  except Exception:
+                      pass
+                  try:
                       return dt.datetime.strptime(value[:10], "%Y-%m-%d").replace(tzinfo=dt.timezone.utc)
                   except Exception:
                       return dt.datetime(1970, 1, 1, tzinfo=dt.timezone.utc)
 
           def rss_mentions() -> dict[str, list[dict]]:
               mentions: dict[str, list[dict]] = {}
+              cutoff = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=LOOKBACK_DAYS)
               for source, url in RSS_SOURCES:
                   xml = fetch_text(url)
                   if not xml:
@@ -215,13 +229,18 @@ jobs:
                       continue
                   entries = [node for node in root.iter() if node.tag.split("}")[-1] in {"item", "entry"}]
                   for entry in entries[:25]:
-                      fields = {"title": "", "summary": "", "link": ""}
+                      fields = {"title": "", "summary": "", "link": "", "published": ""}
                       for child in list(entry):
                           tag = child.tag.split("}")[-1]
-                          if tag in {"title", "description", "summary", "content"}:
+                          if tag in {"title", "description", "summary", "content", "encoded"}:
                               fields["title" if tag == "title" else "summary"] = norm(child.text or "")
                           if tag == "link":
                               fields["link"] = child.attrib.get("href") or norm(child.text or "")
+                          if tag in {"pubDate", "published", "updated", "date"}:
+                              fields["published"] = norm(child.text or "")
+                      published = parse_date(fields["published"])
+                      if published < cutoff:
+                          continue
                       text = f"{fields['title']} {fields['summary']}"
                       for cve in {match.upper() for match in CVE_RE.findall(text)}:
                           profile_name, profile_url = SOURCE_PROFILES.get(source, (source, url))
@@ -229,7 +248,9 @@ jobs:
                               "source": profile_name,
                               "profileUrl": profile_url,
                               "title": compact(fields["title"], 140),
+                              "summary": compact(fields["summary"], 260),
                               "url": fields["link"] or url,
+                              "publishedAt": published.isoformat().replace("+00:00", "Z"),
                           })
               return mentions
 
@@ -305,7 +326,8 @@ jobs:
               return score
 
           def github_candidate(cve: str) -> dict | None:
-              query = f"{cve} exploit poc in:name,description,readme"
+              pushed_after = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=LOOKBACK_DAYS)).date().isoformat()
+              query = f"{cve} exploit poc in:name,description,readme pushed:>={pushed_after}"
               url = GITHUB_SEARCH + "?" + urllib.parse.urlencode({
                   "q": query,
                   "sort": "updated",
@@ -332,11 +354,26 @@ jobs:
 
           def format_added(first_seen_at: str) -> str:
               local = parse_date(first_seen_at).astimezone(LOCAL_TZ)
-              return local.strftime("%b %d, %I:%M %p CT").replace(" 0", " ")
+              return local.strftime("%I:%M %p %Z").lstrip("0")
+
+          def archive_day_offset(first_seen_at: str, now_utc: dt.datetime) -> int:
+              first_local = parse_date(first_seen_at).astimezone(LOCAL_TZ).date()
+              now_local = now_utc.astimezone(LOCAL_TZ).date()
+              return max(0, (now_local - first_local).days)
 
           def language_label(repo: dict) -> str:
               language = norm(repo.get("language", ""))
-              return language or "unknown"
+              return language or "Unknown"
+
+          def difficulty_label(repo: dict, prim: str, epss: float) -> str:
+              score = repo.get("score", 0)
+              if prim in {"RCE", "Auth Bypass"} and score >= 65 and epss >= 0.08:
+                  return "easy"
+              if score >= 60:
+                  return "moderate"
+              if prim in {"Local LPE", "File Read"}:
+                  return "situational"
+              return "needs validation"
 
           def exploit_syntax(repo: dict, language: str) -> str:
               repo_url = repo.get("url", "")
@@ -379,6 +416,7 @@ jobs:
               return items[:5]
 
           def make_entry(item: dict, epss: float, repo: dict, mention: dict | None, nvd: dict, day_offset: int, first_seen_at: str) -> dict:
+              is_kev = bool(item.get("dateAdded"))
               cve = item["cveID"].upper()
               vendor = norm(item.get("vendorProject", ""))
               product = norm(item.get("product", ""))
@@ -401,7 +439,12 @@ jobs:
               title = compact(f"{title_base} with public poc signal", 92)
               summary = compact(f"{vendor} {product} has a {prim.lower()} issue that matters when the affected system is exposed or reachable from an operator foothold.", 210)
               if desc:
-                  summary = compact(f"{desc} The practical signal is that a public GitHub poc exists and the issue is already tracked in KEV.", 230)
+                  summary = compact(desc, 230)
+              technical_summary = compact(f"The exploit path abuses a trust boundary in {product or vendor or 'the affected component'}: attacker-controlled input reaches {prim.lower()} handling that should require stricter validation, authentication, or state checks.", 280)
+              if mention and mention.get("summary"):
+                  technical_summary = compact(re.sub(r"<[^>]+>", " ", mention["summary"]), 300)
+              elif mention and mention.get("title"):
+                  technical_summary = compact(f"{mention['title']}. The relevant takeaway is the vulnerable input path, required target shape, and how the public code validates the bug.", 300)
               links = [["GitHub", repo["url"]]]
               if mention:
                   links.append(["Technical Paper", mention["url"]])
@@ -409,9 +452,10 @@ jobs:
               if vendor_links:
                   links.append(["Vendor Advisory", vendor_links[0]])
               tags = [labelize(ecosystem), labelize(category), prim]
-              if item:
+              if is_kev:
                   tags.append("KEV")
               language = language_label(repo)
+              difficulty = difficulty_label(repo, prim, epss)
               return {
                   "cve": cve,
                   "title": title,
@@ -419,20 +463,22 @@ jobs:
                   "category": category,
                   "severity": severity,
                   "proof": "working public poc",
-                  "reliability": "reliable exploit" if item and repo.get("score", 0) >= 60 else "partial exploit",
+                  "reliability": "reliable exploit" if repo.get("score", 0) >= 60 else "partial exploit",
                   "researcher": mention["source"] if mention else repo.get("owner", "public research"),
                   "researcherUrl": mention.get("profileUrl", "") if mention else (repo.get("owner_url") or repo["url"]),
                   "pocWorks": "Yes",
+                  "difficulty": difficulty,
                   "added": format_added(first_seen_at),
                   "firstSeenAt": first_seen_at,
                   "language": language,
                   "summary": summary,
-                  "breakdown": compact(f"Operator signal is the combination of KEV exploitation, EPSS {epss:.3f}, and a public repo that appears exploit-focused. Validate exact product version and exposure before promoting to active operations.", 300),
+                  "technicalSummary": technical_summary,
+                  "breakdown": technical_summary,
                   "whatBroke": compact(desc or f"{vendor} {product} exposed a useful {prim.lower()} primitive.", 240),
                   "reality": compact(f"Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at {repo.get('name')}.", 260),
                   "exploitSyntax": exploit_syntax(repo, language),
                   "chains": chain_items(vendor, product, category, prim),
-                  "weaponized": "Likely worth tracking because KEV confirms exploitation pressure and public tooling exists.",
+                  "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
                   "tags": tags,
                   "confidence": confidence,
                   "weaponization": weaponization,
@@ -454,28 +500,54 @@ jobs:
 
           kev = kev_items()
           rss = rss_mentions()
-          cves = [item.get("cveID", "").upper() for item in kev if CVE_RE.fullmatch(item.get("cveID", ""))]
-          epss = epss_scores(cves)
+          kev_by_cve = {
+              item.get("cveID", "").upper(): item
+              for item in kev
+              if CVE_RE.fullmatch(item.get("cveID", ""))
+          }
+          candidate_cves = sorted(set(kev_by_cve) | set(rss))
+          epss = epss_scores(candidate_cves)
+
+          def synthetic_item(cve: str, nvd: dict, mention: dict | None) -> dict:
+              return {
+                  "cveID": cve,
+                  "vendorProject": "",
+                  "product": "",
+                  "vulnerabilityName": (mention or {}).get("title") or cve,
+                  "shortDescription": nvd.get("description") or (mention or {}).get("summary") or "",
+                  "notes": "",
+              }
+
           scored = []
-          for item in kev:
-              cve = item.get("cveID", "").upper()
-              if not CVE_RE.fullmatch(cve):
-                  continue
-              text = " ".join([item.get("vendorProject", ""), item.get("product", ""), item.get("vulnerabilityName", ""), item.get("shortDescription", "")]).lower()
+          for cve in candidate_cves:
+              item = kev_by_cve.get(cve)
+              mention = rss.get(cve, [None])[0]
+              text = " ".join([
+                  cve,
+                  item.get("vendorProject", "") if item else "",
+                  item.get("product", "") if item else "",
+                  item.get("vulnerabilityName", "") if item else "",
+                  item.get("shortDescription", "") if item else "",
+                  mention.get("title", "") if mention else "",
+                  mention.get("summary", "") if mention else "",
+              ]).lower()
               signal = 0
+              signal += 25 if item else 0
+              signal += 38 if mention else 0
               signal += 45 if any(term in text for term in HIGH_SIGNAL) else 0
               signal += 20 if any(term in text for terms in PRIMITIVES.values() for term in terms[1]) else 0
               signal += int((epss.get(cve, 0) or 0) * 70)
-              signal += 18 if cve in rss else 0
-              signal += max(0, 60 - min(60, (dt.datetime.now(dt.timezone.utc) - parse_date(item.get("dateAdded", ""))).days // 7))
+              if item:
+                  signal += max(0, 60 - min(60, (now_utc - parse_date(item.get("dateAdded", ""))).days // 7))
+              if mention:
+                  signal += max(0, 25 - max(0, (now_utc - parse_date(mention.get("publishedAt", ""))).days) * 3)
               if signal >= 55:
-                  scored.append((signal, item))
+                  scored.append((signal, cve))
           scored.sort(key=lambda pair: pair[0], reverse=True)
 
           entries = []
           seen = set()
-          for signal, item in scored[:35]:
-              cve = item["cveID"].upper()
+          for signal, cve in scored[:45]:
               if cve in seen:
                   continue
               try:
@@ -485,8 +557,12 @@ jobs:
                   time.sleep(0.4)
                   nvd = nvd_lookup(cve)
                   mention = rss.get(cve, [None])[0]
-                  day_offset = min(6, len(entries) // 3)
+                  item = kev_by_cve.get(cve) or synthetic_item(cve, nvd, mention)
                   first_seen_at = existing_first_seen.get(cve) or now_utc.isoformat().replace("+00:00", "Z")
+                  day_offset = archive_day_offset(first_seen_at, now_utc)
+                  if day_offset >= LOOKBACK_DAYS:
+                      first_seen_at = now_utc.isoformat().replace("+00:00", "Z")
+                      day_offset = 0
                   entries.append(make_entry(item, epss.get(cve, 0), repo, mention, nvd, day_offset, first_seen_at))
                   seen.add(cve)
               except Exception as exc:
