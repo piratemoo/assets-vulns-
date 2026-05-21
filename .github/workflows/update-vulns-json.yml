@@ -43,6 +43,7 @@ jobs:
           import urllib.request
           import xml.etree.ElementTree as ET
           from pathlib import Path
+          from zoneinfo import ZoneInfo
 
           OUT = Path("vulns.json")
           CISA_KEV = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
@@ -52,6 +53,7 @@ jobs:
           UA = "pirate.moo-threat-tide/1.0"
           TOKEN = os.environ.get("GITHUB_TOKEN", "")
           CVE_RE = re.compile(r"CVE-\d{4}-\d{4,7}", re.I)
+          LOCAL_TZ = ZoneInfo("America/Chicago")
 
           RSS_SOURCES = [
               ("Project Zero", "https://googleprojectzero.blogspot.com/feeds/posts/default"),
@@ -315,10 +317,68 @@ jobs:
               ranked = sorted(((repo_score(repo, cve), repo) for repo in repos), key=lambda item: item[0], reverse=True)
               for score, repo in ranked:
                   if score >= 45 and repo.get("html_url"):
-                      return {"score": score, "url": repo["html_url"], "owner": repo.get("owner", {}).get("login") or repo.get("full_name", "").split("/")[0], "name": repo.get("full_name", ""), "description": repo.get("description") or ""}
+                      owner = repo.get("owner", {}) if isinstance(repo.get("owner"), dict) else {}
+                      return {
+                          "score": score,
+                          "url": repo["html_url"],
+                          "owner": owner.get("login") or repo.get("full_name", "").split("/")[0],
+                          "owner_url": owner.get("html_url") or "",
+                          "name": repo.get("full_name", ""),
+                          "description": repo.get("description") or "",
+                          "language": repo.get("language") or "",
+                          "pushed_at": repo.get("pushed_at") or "",
+                      }
               return None
 
-          def make_entry(item: dict, epss: float, repo: dict, mention: dict | None, nvd: dict, day_offset: int) -> dict:
+          def format_added(first_seen_at: str) -> str:
+              local = parse_date(first_seen_at).astimezone(LOCAL_TZ)
+              return local.strftime("%b %d, %I:%M %p CT").replace(" 0", " ")
+
+          def language_label(repo: dict) -> str:
+              language = norm(repo.get("language", ""))
+              return language or "unknown"
+
+          def exploit_syntax(repo: dict, language: str) -> str:
+              repo_url = repo.get("url", "")
+              repo_name = (repo.get("name", "").split("/")[-1] or "poc").strip()
+              lower = language.lower()
+              lines = [
+                  "# authorized lab / owned targets only",
+                  f"git clone {repo_url}",
+                  f"cd {repo_name}",
+              ]
+              if "python" in lower:
+                  lines.append("python3 <script>.py --target https://<authorized-target>")
+              elif lower in {"go", "golang"}:
+                  lines.append("go run . --target https://<authorized-target>")
+              elif lower in {"c", "c++", "cpp"}:
+                  lines.extend(["make", "./<compiled-poc> <authorized-target>"])
+              elif "ruby" in lower:
+                  lines.append("ruby <script>.rb --target https://<authorized-target>")
+              elif "java" in lower:
+                  lines.append("java -jar <poc>.jar https://<authorized-target>")
+              elif "shell" in lower or "bash" in lower:
+                  lines.append("bash <script>.sh https://<authorized-target>")
+              else:
+                  lines.append("# use the repo README invocation against https://<authorized-target>")
+              lines.append("# confirm exact flags in the linked GitHub README before validation")
+              return "\n".join(lines)
+
+          def chain_items(vendor: str, product: str, category: str, prim: str) -> list[str]:
+              subject = product or vendor or "the affected product"
+              items = [f"initial access through exposed {subject}"]
+              if prim in {"RCE", "Auth Bypass"}:
+                  items.extend(["credential access from service context", "webshell or command execution follow-up"])
+              if category in {"vpn-edge", "webstack", "rmm", "devops"}:
+                  items.append("internal pivot from an internet-facing control point")
+              if category in {"adcs", "kerberos", "ntlm"}:
+                  items.append("identity escalation or relay path")
+              if category in {"kernel", "framework"}:
+                  items.append("local privilege escalation after a foothold")
+              items.append("lateral movement if secrets or management access are recovered")
+              return items[:5]
+
+          def make_entry(item: dict, epss: float, repo: dict, mention: dict | None, nvd: dict, day_offset: int, first_seen_at: str) -> dict:
               cve = item["cveID"].upper()
               vendor = norm(item.get("vendorProject", ""))
               product = norm(item.get("product", ""))
@@ -339,9 +399,9 @@ jobs:
               weaponization = min(99, int(55 + epss * 80 + (18 if item else 0) + (10 if item.get("knownRansomwareCampaignUse") == "Known" else 0)))
               title_base = name or f"{vendor} {product} {prim}"
               title = compact(f"{title_base} with public poc signal", 92)
-              summary = compact(f"{vendor} {product} is in CISA KEV and has public GitHub tooling signal; prioritize exposure, exploitability, and chain value over CVSS alone.", 210)
+              summary = compact(f"{vendor} {product} has a {prim.lower()} issue that matters when the affected system is exposed or reachable from an operator foothold.", 210)
               if desc:
-                  summary = compact(f"{desc} Public tooling signal: {repo.get('name')}.", 210)
+                  summary = compact(f"{desc} The practical signal is that a public GitHub poc exists and the issue is already tracked in KEV.", 230)
               links = [["GitHub", repo["url"]]]
               if mention:
                   links.append(["Technical Paper", mention["url"]])
@@ -351,6 +411,7 @@ jobs:
               tags = [labelize(ecosystem), labelize(category), prim]
               if item:
                   tags.append("KEV")
+              language = language_label(repo)
               return {
                   "cve": cve,
                   "title": title,
@@ -360,15 +421,17 @@ jobs:
                   "proof": "working public poc",
                   "reliability": "reliable exploit" if item and repo.get("score", 0) >= 60 else "partial exploit",
                   "researcher": mention["source"] if mention else repo.get("owner", "public research"),
-                  "researcherUrl": mention.get("profileUrl", "") if mention else repo["url"],
+                  "researcherUrl": mention.get("profileUrl", "") if mention else (repo.get("owner_url") or repo["url"]),
                   "pocWorks": "Yes",
-                  "added": "tracked",
-                  "language": "public tooling",
+                  "added": format_added(first_seen_at),
+                  "firstSeenAt": first_seen_at,
+                  "language": language,
                   "summary": summary,
                   "breakdown": compact(f"Operator signal is the combination of KEV exploitation, EPSS {epss:.3f}, and a public repo that appears exploit-focused. Validate exact product version and exposure before promoting to active operations.", 300),
                   "whatBroke": compact(desc or f"{vendor} {product} exposed a useful {prim.lower()} primitive.", 240),
                   "reality": compact(f"Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at {repo.get('name')}.", 260),
-                  "chains": compact(f"Use as a chain primitive for initial access, credential access, lateral movement, or control-plane compromise depending on where {product or vendor} sits in the estate.", 250),
+                  "exploitSyntax": exploit_syntax(repo, language),
+                  "chains": chain_items(vendor, product, category, prim),
                   "weaponized": "Likely worth tracking because KEV confirms exploitation pressure and public tooling exists.",
                   "tags": tags,
                   "confidence": confidence,
@@ -376,6 +439,18 @@ jobs:
                   "dayOffset": day_offset,
                   "links": links[:3],
               }
+
+          now_utc = dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
+          existing_first_seen = {}
+          if OUT.exists():
+              try:
+                  existing_payload = json.loads(OUT.read_text(encoding="utf-8"))
+                  fallback_time = existing_payload.get("updatedAt") or now_utc.isoformat().replace("+00:00", "Z")
+                  for existing in existing_payload.get("vulns", []):
+                      if isinstance(existing, dict) and existing.get("cve"):
+                          existing_first_seen[existing["cve"].upper()] = existing.get("firstSeenAt") or fallback_time
+              except Exception as exc:
+                  print(f"warn: could not read existing first-seen times: {exc}")
 
           kev = kev_items()
           rss = rss_mentions()
@@ -411,7 +486,8 @@ jobs:
                   nvd = nvd_lookup(cve)
                   mention = rss.get(cve, [None])[0]
                   day_offset = min(6, len(entries) // 3)
-                  entries.append(make_entry(item, epss.get(cve, 0), repo, mention, nvd, day_offset))
+                  first_seen_at = existing_first_seen.get(cve) or now_utc.isoformat().replace("+00:00", "Z")
+                  entries.append(make_entry(item, epss.get(cve, 0), repo, mention, nvd, day_offset, first_seen_at))
                   seen.add(cve)
               except Exception as exc:
                   print(f"warn: skipped {cve}: {exc}")
@@ -424,7 +500,7 @@ jobs:
               raise SystemExit(0)
 
           payload = {
-              "updatedAt": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+              "updatedAt": now_utc.isoformat().replace("+00:00", "Z"),
               "cadence": "3x daily",
               "proofPolicy": "verified working public pocs",
               "sources": ["CISA KEV", "FIRST EPSS", "NVD", "GitHub Search", *[name for name, _ in RSS_SOURCES]],
