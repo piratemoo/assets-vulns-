@@ -375,6 +375,24 @@ jobs:
                   return "situational"
               return "needs validation"
 
+          def operator_severity(nvd_sev: str, prim: str, ecosystem: str, category: str, epss: float, repo: dict, is_kev: bool, text: str) -> str:
+              lower = text.lower()
+              score = int(repo.get("score", 0) or 0)
+              exposed = ecosystem == "cloud" or category in {"vpn-edge", "rmm", "devops", "webstack", "exchange"}
+              if prim in {"File Read", "XSS", "SQLi"} or any(term in lower for term in ["path traversal", "out-of-bounds read", "information disclosure"]):
+                  return "high" if is_kev or epss >= 0.04 or exposed else "medium"
+              if prim == "Local LPE" or ecosystem in {"android", "ios"}:
+                  return "high" if is_kev or score >= 65 or epss >= 0.05 else "medium"
+              if prim in {"RCE", "Auth Bypass", "Session Theft"}:
+                  if exposed and (is_kev or epss >= 0.12 or score >= 70 or "ransomware" in lower):
+                      return "critical"
+                  return "high"
+              if nvd_sev == "MEDIUM":
+                  return "medium"
+              if nvd_sev == "CRITICAL":
+                  return "high"
+              return "high"
+
           def exploit_syntax(repo: dict, language: str) -> str:
               repo_url = repo.get("url", "")
               repo_name = (repo.get("name", "").split("/")[-1] or "poc").strip()
@@ -428,11 +446,7 @@ jobs:
               category = tag_value(text, CATEGORY_RULES, "webstack")
               prim = primitive(text)
               nvd_sev = (nvd.get("severity") or "").upper()
-              severity = "critical" if prim in {"RCE", "Auth Bypass", "Session Theft"} and (epss >= 0.08 or item.get("knownRansomwareCampaignUse") == "Known") else "high"
-              if nvd_sev == "CRITICAL":
-                  severity = "critical"
-              if nvd_sev == "MEDIUM" and epss < 0.03:
-                  severity = "medium"
+              severity = operator_severity(nvd_sev, prim, ecosystem, category, epss, repo, is_kev, text)
               confidence = min(98, 70 + repo.get("score", 0) // 3 + (12 if mention else 0) + (8 if item else 0))
               weaponization = min(99, int(55 + epss * 80 + (18 if item else 0) + (10 if item.get("knownRansomwareCampaignUse") == "Known" else 0)))
               title_base = name or f"{vendor} {product} {prim}"
