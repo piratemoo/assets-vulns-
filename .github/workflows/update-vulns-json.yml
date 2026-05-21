@@ -3,8 +3,8 @@ name: Update Threat Tide live vuln feed
 on:
   workflow_dispatch:
   schedule:
-    # GitHub cron is UTC. This lands around morning, afternoon, and evening in US Central time.
-    - cron: "17 2,14,20 * * *"
+    # GitHub cron is UTC. This targets 8:00 AM, 2:00 PM, and 9:00 PM US Central during daylight time.
+    - cron: "0 2,13,19 * * *"
 
 permissions:
   contents: write
