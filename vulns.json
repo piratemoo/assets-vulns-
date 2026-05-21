@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-21T04:48:02Z",
+  "updatedAt": "2026-05-21T19:38:48Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -7,6 +7,7 @@
     "FIRST EPSS",
     "NVD",
     "GitHub Search",
+    "Google Security Blog",
     "Project Zero",
     "watchTowr Labs",
     "Horizon3 Attack Team",
@@ -21,72 +22,23 @@
   ],
   "vulns": [
     {
-      "cve": "CVE-2026-41940",
-      "title": "WebPros cPanel & WHM and WP2 (WordPress Squared) Missing Authentication for Critical.",
-      "ecosystem": "cloud",
-      "category": "webstack",
-      "severity": "critical",
-      "proof": "working public poc",
-      "reliability": "reliable exploit",
-      "researcher": "watchTowr Labs",
-      "researcherUrl": "https://x.com/watchtowrcyber",
-      "pocWorks": "Yes",
-      "added": "May 20, 11:33 PM CT",
-      "firstSeenAt": "2026-05-21T04:33:40Z",
-      "language": "unknown",
-      "summary": "WebPros cPanel & WHM (WebHost Manager) and WP2 (WordPress Squared) contain an authentication bypass vulnerability in the login flow that allows unauthenticated remote attackers to gain unauthorized access to the control panel..",
-      "breakdown": "Operator signal is the combination of KEV exploitation, EPSS 0.885, and a public repo that appears exploit-focused. Validate exact product version and exposure before promoting to active operations.",
-      "whatBroke": "WebPros cPanel & WHM (WebHost Manager) and WP2 (WordPress Squared) contain an authentication bypass vulnerability in the login flow that allows unauthenticated remote attackers to gain unauthorized access to the control panel.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Defacto-ridgepole254/CVE-2026-41940-Exploit-PoC.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/Defacto-ridgepole254/CVE-2026-41940-Exploit-PoC\ncd CVE-2026-41940-Exploit-PoC\n# use the repo README invocation against https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed cPanel & WHM and WP2 (WordPress Squared)",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because KEV confirms exploitation pressure and public tooling exists.",
-      "tags": [
-        "Cloud",
-        "Webstack",
-        "Auth Bypass",
-        "KEV"
-      ],
-      "confidence": 98,
-      "weaponization": 99,
-      "dayOffset": 0,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/Defacto-ridgepole254/CVE-2026-41940-Exploit-PoC"
-        ],
-        [
-          "Technical Paper",
-          "https://labs.watchtowr.com/the-internet-is-falling-down-falling-down-falling-down-cpanel-whm-authentication-bypass-cve-2026-41940/"
-        ],
-        [
-          "Vendor Advisory",
-          "https://support.cpanel.net/hc/en-us/articles/40073787579671-cPanel-WHM-Security-Update-04-28-2026"
-        ]
-      ]
-    },
-    {
       "cve": "CVE-2024-27199",
       "title": "JetBrains TeamCity Relative Path Traversal Vulnerability with public poc signal",
       "ecosystem": "cloud",
       "category": "devops",
-      "severity": "critical",
+      "severity": "high",
       "proof": "working public poc",
       "reliability": "reliable exploit",
       "researcher": "Stuub",
       "researcherUrl": "https://github.com/Stuub",
       "pocWorks": "Yes",
-      "added": "May 20, 11:33 PM CT",
+      "difficulty": "moderate",
+      "added": "11:33 PM CDT",
       "firstSeenAt": "2026-05-21T04:33:40Z",
       "language": "Python",
-      "summary": "JetBrains TeamCity contains a relative path traversal vulnerability that could allow limited admin actions to be performed. The practical signal is that a public GitHub poc exists and the issue is already tracked in KEV.",
-      "breakdown": "Operator signal is the combination of KEV exploitation, EPSS 0.909, and a public repo that appears exploit-focused. Validate exact product version and exposure before promoting to active operations.",
+      "summary": "JetBrains TeamCity contains a relative path traversal vulnerability that could allow limited admin actions to be performed.",
+      "technicalSummary": "The exploit path abuses a trust boundary in TeamCity: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in TeamCity: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
       "whatBroke": "JetBrains TeamCity contains a relative path traversal vulnerability that could allow limited admin actions to be performed.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Stuub/RCity-CVE-2024-27198.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/Stuub/RCity-CVE-2024-27198\ncd RCity-CVE-2024-27198\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
@@ -97,7 +49,7 @@
         "internal pivot from an internet-facing control point",
         "lateral movement if secrets or management access are recovered"
       ],
-      "weaponized": "Likely worth tracking because KEV confirms exploitation pressure and public tooling exists.",
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
         "Cloud",
         "DevOps",
@@ -106,7 +58,7 @@
       ],
       "confidence": 98,
       "weaponization": 99,
-      "dayOffset": 0,
+      "dayOffset": 1,
       "links": [
         [
           "GitHub",
@@ -119,347 +71,104 @@
       ]
     },
     {
-      "cve": "CVE-2025-64446",
-      "title": "Fortinet FortiWeb Path Traversal Vulnerability with public poc signal",
+      "cve": "CVE-2026-41940",
+      "title": "WebPros cPanel & WHM and WP2 (WordPress Squared) Missing Authentication for Critical.",
       "ecosystem": "cloud",
-      "category": "vpn-edge",
+      "category": "webstack",
       "severity": "critical",
       "proof": "working public poc",
-      "reliability": "partial exploit",
-      "researcher": "watchTowr Labs",
-      "researcherUrl": "https://x.com/watchtowrcyber",
+      "reliability": "reliable exploit",
+      "researcher": "Defacto-ridgepole254",
+      "researcherUrl": "https://github.com/Defacto-ridgepole254",
       "pocWorks": "Yes",
-      "added": "May 20, 11:33 PM CT",
+      "difficulty": "easy",
+      "added": "11:33 PM CDT",
       "firstSeenAt": "2026-05-21T04:33:40Z",
-      "language": "Python",
-      "summary": "Fortinet FortiWeb contains a relative path traversal vulnerability that may allow an unauthenticated attacker to execute administrative commands on the system via crafted HTTP or HTTPS requests. The practical signal is that a.",
-      "breakdown": "Operator signal is the combination of KEV exploitation, EPSS 0.929, and a public repo that appears exploit-focused. Validate exact product version and exposure before promoting to active operations.",
-      "whatBroke": "Fortinet FortiWeb contains a relative path traversal vulnerability that may allow an unauthenticated attacker to execute administrative commands on the system via crafted HTTP or HTTPS requests.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at eagle-nett/FORTIWEB_CVE-2025-64446-58034.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/eagle-nett/FORTIWEB_CVE-2025-64446-58034\ncd FORTIWEB_CVE-2025-64446-58034\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "language": "Unknown",
+      "summary": "WebPros cPanel & WHM (WebHost Manager) and WP2 (WordPress Squared) contain an authentication bypass vulnerability in the login flow that allows unauthenticated remote attackers to gain unauthorized access to the control panel.",
+      "technicalSummary": "The exploit path abuses a trust boundary in cPanel & WHM and WP2 (WordPress Squared): attacker-controlled input reaches auth bypass handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in cPanel & WHM and WP2 (WordPress Squared): attacker-controlled input reaches auth bypass handling that should require stricter validation, authentication, or state checks.",
+      "whatBroke": "WebPros cPanel & WHM (WebHost Manager) and WP2 (WordPress Squared) contain an authentication bypass vulnerability in the login flow that allows unauthenticated remote attackers to gain unauthorized access to the control panel.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Defacto-ridgepole254/CVE-2026-41940-Exploit-PoC.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/Defacto-ridgepole254/CVE-2026-41940-Exploit-PoC\ncd CVE-2026-41940-Exploit-PoC\n# use the repo README invocation against https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed FortiWeb",
+        "initial access through exposed cPanel & WHM and WP2 (WordPress Squared)",
+        "credential access from service context",
+        "webshell or command execution follow-up",
         "internal pivot from an internet-facing control point",
         "lateral movement if secrets or management access are recovered"
       ],
-      "weaponized": "Likely worth tracking because KEV confirms exploitation pressure and public tooling exists.",
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
         "Cloud",
-        "VPN Edge",
-        "File Read",
+        "Webstack",
+        "Auth Bypass",
         "KEV"
       ],
       "confidence": 98,
       "weaponization": 99,
+      "dayOffset": 1,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/Defacto-ridgepole254/CVE-2026-41940-Exploit-PoC"
+        ],
+        [
+          "Vendor Advisory",
+          "https://support.cpanel.net/hc/en-us/articles/40073787579671-cPanel-WHM-Security-Update-04-28-2026"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-0300",
+      "title": "Palo Alto Networks PAN-OS Out-of-bounds Write Vulnerability with public poc signal",
+      "ecosystem": "cloud",
+      "category": "vpn-edge",
+      "severity": "critical",
+      "proof": "working public poc",
+      "reliability": "reliable exploit",
+      "researcher": "Horizon3 Attack Team",
+      "researcherUrl": "https://x.com/Horizon3Attack",
+      "pocWorks": "Yes",
+      "difficulty": "easy",
+      "added": "2:38 PM CDT",
+      "firstSeenAt": "2026-05-21T19:38:48Z",
+      "language": "Python",
+      "summary": "Palo Alto Networks PAN-OS contains an out-of-bounds write vulnerability in the User-ID Authentication Portal (aka Captive Portal) service that can allow an unauthenticated attacker to execute arbitrary code with root privileges.",
+      "technicalSummary": "A critical buffer overflow vulnerability has been identified in Palo Alto Networks PAN-OS in the User-ID captive portal functionality that could lead to remote code execution. Tracked as CVE-2026-0300 and rated CVSS 9.3, the flaw stems from improper.",
+      "breakdown": "A critical buffer overflow vulnerability has been identified in Palo Alto Networks PAN-OS in the User-ID captive portal functionality that could lead to remote code execution. Tracked as CVE-2026-0300 and rated CVSS 9.3, the flaw stems from improper.",
+      "whatBroke": "Palo Alto Networks PAN-OS contains an out-of-bounds write vulnerability in the User-ID Authentication Portal (aka Captive Portal) service that can allow an unauthenticated attacker to execute arbitrary code with root privileges on the.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at bannned-bit/CVE-2026-0300-PANOS.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/bannned-bit/CVE-2026-0300-PANOS\ncd CVE-2026-0300-PANOS\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed PAN-OS",
+        "credential access from service context",
+        "webshell or command execution follow-up",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Cloud",
+        "VPN Edge",
+        "RCE",
+        "KEV"
+      ],
+      "confidence": 98,
+      "weaponization": 84,
       "dayOffset": 0,
       "links": [
         [
           "GitHub",
-          "https://github.com/eagle-nett/FORTIWEB_CVE-2025-64446-58034"
+          "https://github.com/bannned-bit/CVE-2026-0300-PANOS"
         ],
         [
           "Technical Paper",
-          "https://labs.watchtowr.com/when-the-impersonation-function-gets-used-to-impersonate-users-fortinet-fortiweb-auth-bypass/"
+          "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-0300/"
         ],
         [
           "Vendor Advisory",
-          "https://www.fortiguard.com/psirt/FG-IR-25-910"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-3055",
-      "title": "Citrix NetScaler Out-of-Bounds Read Vulnerability with public poc signal",
-      "ecosystem": "cloud",
-      "category": "vpn-edge",
-      "severity": "critical",
-      "proof": "working public poc",
-      "reliability": "reliable exploit",
-      "researcher": "watchTowr Labs",
-      "researcherUrl": "https://x.com/watchtowrcyber",
-      "pocWorks": "Yes",
-      "added": "May 20, 11:33 PM CT",
-      "firstSeenAt": "2026-05-21T04:33:40Z",
-      "language": "Python",
-      "summary": "Citrix NetScaler ADC (formerly Citrix ADC), NetScaler Gateway (formerly Citrix Gateway) and NetScaler ADC FIPS and NDcPP contain an out-of-bounds reads vulnerability when configured as a SAML IDP leading to memory overread. The.",
-      "breakdown": "Operator signal is the combination of KEV exploitation, EPSS 0.800, and a public repo that appears exploit-focused. Validate exact product version and exposure before promoting to active operations.",
-      "whatBroke": "Citrix NetScaler ADC (formerly Citrix ADC), NetScaler Gateway (formerly Citrix Gateway) and NetScaler ADC FIPS and NDcPP contain an out-of-bounds reads vulnerability when configured as a SAML IDP leading to memory overread.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at fevar54/CVE-2026-3055---Citrix-NetScaler-Memory-Overread-PoC.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/fevar54/CVE-2026-3055---Citrix-NetScaler-Memory-Overread-PoC\ncd CVE-2026-3055---Citrix-NetScaler-Memory-Overread-PoC\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed NetScaler",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because KEV confirms exploitation pressure and public tooling exists.",
-      "tags": [
-        "Cloud",
-        "VPN Edge",
-        "Session Theft",
-        "KEV"
-      ],
-      "confidence": 98,
-      "weaponization": 99,
-      "dayOffset": 1,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/fevar54/CVE-2026-3055---Citrix-NetScaler-Memory-Overread-PoC"
-        ],
-        [
-          "Technical Paper",
-          "https://labs.watchtowr.com/please-we-beg-just-one-weekend-free-of-appliances-citrix-netscaler-cve-2026-3055-memory-overread-part-2/"
-        ],
-        [
-          "Vendor Advisory",
-          "https://support.citrix.com/support-home/kbsearch/article?articleNumber=CTX696300&articleURL=NetScaler_ADC_and_NetScaler_Gateway_Security_Bulletin_for_CVE_2026_3055_and_CVE_2026_4368"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-20127",
-      "title": "Cisco Catalyst SD-WAN Controller and Manager Authentication Bypass Vulnerability with.",
-      "ecosystem": "cloud",
-      "category": "webstack",
-      "severity": "critical",
-      "proof": "working public poc",
-      "reliability": "reliable exploit",
-      "researcher": "sfewer-r7",
-      "researcherUrl": "https://github.com/sfewer-r7",
-      "pocWorks": "Yes",
-      "added": "May 20, 11:33 PM CT",
-      "firstSeenAt": "2026-05-21T04:33:40Z",
-      "language": "Ruby",
-      "summary": "Cisco Catalyst SD-WAN Controller, formerly SD-WAN vSmart, and Cisco Catalyst SD-WAN Manager, formerly SD-WAN vManage, contain an authentication bypass vulnerability could allow an unauthenticated, remote attacker to bypass.",
-      "breakdown": "Operator signal is the combination of KEV exploitation, EPSS 0.590, and a public repo that appears exploit-focused. Validate exact product version and exposure before promoting to active operations.",
-      "whatBroke": "Cisco Catalyst SD-WAN Controller, formerly SD-WAN vSmart, and Cisco Catalyst SD-WAN Manager, formerly SD-WAN vManage, contain an authentication bypass vulnerability could allow an unauthenticated, remote attacker to bypass authentication.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at sfewer-r7/CVE-2026-20127.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/sfewer-r7/CVE-2026-20127\ncd CVE-2026-20127\nruby <script>.rb --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed Catalyst SD-WAN Controller and Manager",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because KEV confirms exploitation pressure and public tooling exists.",
-      "tags": [
-        "Cloud",
-        "Webstack",
-        "Auth Bypass",
-        "KEV"
-      ],
-      "confidence": 98,
-      "weaponization": 99,
-      "dayOffset": 1,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/sfewer-r7/CVE-2026-20127"
-        ],
-        [
-          "Vendor Advisory",
-          "https://www.cisa.gov/news-events/directives/ed-26-03-mitigate-vulnerabilities-cisco-sd-wan-systems"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-34197",
-      "title": "Apache ActiveMQ Improper Input Validation Vulnerability with public poc signal",
-      "ecosystem": "cloud",
-      "category": "webstack",
-      "severity": "critical",
-      "proof": "working public poc",
-      "reliability": "reliable exploit",
-      "researcher": "keraattin",
-      "researcherUrl": "https://github.com/keraattin",
-      "pocWorks": "Yes",
-      "added": "May 20, 11:33 PM CT",
-      "firstSeenAt": "2026-05-21T04:33:40Z",
-      "language": "Python",
-      "summary": "Apache ActiveMQ contains an improper input validation vulnerability that allows for code injection. The practical signal is that a public GitHub poc exists and the issue is already tracked in KEV.",
-      "breakdown": "Operator signal is the combination of KEV exploitation, EPSS 0.758, and a public repo that appears exploit-focused. Validate exact product version and exposure before promoting to active operations.",
-      "whatBroke": "Apache ActiveMQ contains an improper input validation vulnerability that allows for code injection.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at keraattin/CVE-2026-34197.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/keraattin/CVE-2026-34197\ncd CVE-2026-34197\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed ActiveMQ",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because KEV confirms exploitation pressure and public tooling exists.",
-      "tags": [
-        "Cloud",
-        "Webstack",
-        "RCE",
-        "KEV"
-      ],
-      "confidence": 98,
-      "weaponization": 99,
-      "dayOffset": 1,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/keraattin/CVE-2026-34197"
-        ],
-        [
-          "Vendor Advisory",
-          "https://activemq.apache.org/security-advisories.data/CVE-2026-34197-announcement.txt"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-35616",
-      "title": "Fortinet FortiClient EMS Improper Access Control Vulnerability with public poc signal",
-      "ecosystem": "cloud",
-      "category": "vpn-edge",
-      "severity": "critical",
-      "proof": "working public poc",
-      "reliability": "partial exploit",
-      "researcher": "Bishop Fox",
-      "researcherUrl": "https://x.com/BishopFox",
-      "pocWorks": "Yes",
-      "added": "May 20, 11:33 PM CT",
-      "firstSeenAt": "2026-05-21T04:33:40Z",
-      "language": "Python",
-      "summary": "Fortinet FortiClient EMS contains an improper access control vulnerability that may allow an unauthenticated attacker to execute unauthorized code or commands via crafted requests. The practical signal is that a public GitHub.",
-      "breakdown": "Operator signal is the combination of KEV exploitation, EPSS 0.448, and a public repo that appears exploit-focused. Validate exact product version and exposure before promoting to active operations.",
-      "whatBroke": "Fortinet FortiClient EMS contains an improper access control vulnerability that may allow an unauthenticated attacker to execute unauthorized code or commands via crafted requests.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Alaatk/CVE-2026-35616.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/Alaatk/CVE-2026-35616\ncd CVE-2026-35616\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed FortiClient EMS",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because KEV confirms exploitation pressure and public tooling exists.",
-      "tags": [
-        "Cloud",
-        "VPN Edge",
-        "RCE",
-        "KEV"
-      ],
-      "confidence": 98,
-      "weaponization": 99,
-      "dayOffset": 2,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/Alaatk/CVE-2026-35616"
-        ],
-        [
-          "Technical Paper",
-          "https://bishopfox.com/blog/api-authentication-bypass-in-forticlient-ems-7-4-5-7-4-6-cve-2026-35616"
-        ],
-        [
-          "Vendor Advisory",
-          "https://fortiguard.fortinet.com/psirt/FG-IR-26-099"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2025-52691",
-      "title": "SmarterTools SmarterMail Unrestricted Upload of File with Dangerous Type Vulnerability.",
-      "ecosystem": "cloud",
-      "category": "webstack",
-      "severity": "critical",
-      "proof": "working public poc",
-      "reliability": "reliable exploit",
-      "researcher": "watchTowr Labs",
-      "researcherUrl": "https://x.com/watchtowrcyber",
-      "pocWorks": "Yes",
-      "added": "May 20, 11:33 PM CT",
-      "firstSeenAt": "2026-05-21T04:33:40Z",
-      "language": "Shell",
-      "summary": "SmarterTools SmarterMail contains an unrestricted upload of file with dangerous type vulnerability that could allow an unauthenticated attacker to upload arbitrary files to any location on the mail server, potentially enabling.",
-      "breakdown": "Operator signal is the combination of KEV exploitation, EPSS 0.874, and a public repo that appears exploit-focused. Validate exact product version and exposure before promoting to active operations.",
-      "whatBroke": "SmarterTools SmarterMail contains an unrestricted upload of file with dangerous type vulnerability that could allow an unauthenticated attacker to upload arbitrary files to any location on the mail server, potentially enabling remote code.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at ninjazan420/CVE-2025-52691-PoC-SmarterMail-authentication-bypass-exploit-WT-2026-0001.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/ninjazan420/CVE-2025-52691-PoC-SmarterMail-authentication-bypass-exploit-WT-2026-0001\ncd CVE-2025-52691-PoC-SmarterMail-authentication-bypass-exploit-WT-2026-0001\nbash <script>.sh https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed SmarterMail",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because KEV confirms exploitation pressure and public tooling exists.",
-      "tags": [
-        "Cloud",
-        "Webstack",
-        "Auth Bypass",
-        "KEV"
-      ],
-      "confidence": 98,
-      "weaponization": 99,
-      "dayOffset": 2,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/ninjazan420/CVE-2025-52691-PoC-SmarterMail-authentication-bypass-exploit-WT-2026-0001"
-        ],
-        [
-          "Technical Paper",
-          "https://labs.watchtowr.com/do-smart-people-ever-say-theyre-smart-smartertools-smartermail-pre-auth-rce-cve-2025-52691/"
-        ],
-        [
-          "Vendor Advisory",
-          "https://www.smartertools.com/smartermail/release-notes/current"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-1340",
-      "title": "Ivanti Endpoint Manager Mobile (EPMM) Code Injection Vulnerability with public poc signal",
-      "ecosystem": "cloud",
-      "category": "vpn-edge",
-      "severity": "critical",
-      "proof": "working public poc",
-      "reliability": "reliable exploit",
-      "researcher": "watchTowr Labs",
-      "researcherUrl": "https://x.com/watchtowrcyber",
-      "pocWorks": "Yes",
-      "added": "May 20, 11:33 PM CT",
-      "firstSeenAt": "2026-05-21T04:33:40Z",
-      "language": "Shell",
-      "summary": "Ivanti Endpoint Manager Mobile (EPMM) contains a code injection vulnerability that could allow attackers to achieve unauthenticated remote code execution. The practical signal is that a public GitHub poc exists and the issue is.",
-      "breakdown": "Operator signal is the combination of KEV exploitation, EPSS 0.707, and a public repo that appears exploit-focused. Validate exact product version and exposure before promoting to active operations.",
-      "whatBroke": "Ivanti Endpoint Manager Mobile (EPMM) contains a code injection vulnerability that could allow attackers to achieve unauthenticated remote code execution.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at YunfeiGE18/CVE-2026-1281-CVE-2026-1340-Ivanti-EPMM-RCE.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/YunfeiGE18/CVE-2026-1281-CVE-2026-1340-Ivanti-EPMM-RCE\ncd CVE-2026-1281-CVE-2026-1340-Ivanti-EPMM-RCE\nbash <script>.sh https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed Endpoint Manager Mobile (EPMM)",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because KEV confirms exploitation pressure and public tooling exists.",
-      "tags": [
-        "Cloud",
-        "VPN Edge",
-        "RCE",
-        "KEV"
-      ],
-      "confidence": 98,
-      "weaponization": 99,
-      "dayOffset": 2,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/YunfeiGE18/CVE-2026-1281-CVE-2026-1340-Ivanti-EPMM-RCE"
-        ],
-        [
-          "Technical Paper",
-          "https://labs.watchtowr.com/someone-knows-bash-far-too-well-and-we-love-it-ivanti-epmm-pre-auth-rces-cve-2026-1281-cve-2026-1340/"
-        ],
-        [
-          "Vendor Advisory",
-          "https://hub.ivanti.com/s/article/Security-Advisory-Ivanti-Endpoint-Manager-Mobile-EPMM-CVE-2026-1281-CVE-2026-1340?language=en_US"
+          "https://security.paloaltonetworks.com/CVE-2026-0300"
         ]
       ]
     },
@@ -474,11 +183,13 @@
       "researcher": "fangbarristerbar",
       "researcherUrl": "https://github.com/fangbarristerbar",
       "pocWorks": "Yes",
-      "added": "May 20, 11:33 PM CT",
+      "difficulty": "easy",
+      "added": "11:33 PM CDT",
       "firstSeenAt": "2026-05-21T04:33:40Z",
-      "language": "unknown",
-      "summary": "Cisco Catalyst SD-WAN Controller & Manager contain an authentication bypass vulnerability that allows an unauthenticated, remote attacker to bypass authentication and obtain administrative privileges on an affected system. The.",
-      "breakdown": "Operator signal is the combination of KEV exploitation, EPSS 0.237, and a public repo that appears exploit-focused. Validate exact product version and exposure before promoting to active operations.",
+      "language": "Unknown",
+      "summary": "Cisco Catalyst SD-WAN Controller & Manager contain an authentication bypass vulnerability that allows an unauthenticated, remote attacker to bypass authentication and obtain administrative privileges on an affected system.",
+      "technicalSummary": "The exploit path abuses a trust boundary in Catalyst SD-WAN: attacker-controlled input reaches auth bypass handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in Catalyst SD-WAN: attacker-controlled input reaches auth bypass handling that should require stricter validation, authentication, or state checks.",
       "whatBroke": "Cisco Catalyst SD-WAN Controller & Manager contain an authentication bypass vulnerability that allows an unauthenticated, remote attacker to bypass authentication and obtain administrative privileges on an affected system.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at fangbarristerbar/CVE-2026-20182-POC.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/fangbarristerbar/CVE-2026-20182-POC\ncd CVE-2026-20182-POC\n# use the repo README invocation against https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
@@ -489,7 +200,7 @@
         "internal pivot from an internet-facing control point",
         "lateral movement if secrets or management access are recovered"
       ],
-      "weaponized": "Likely worth tracking because KEV confirms exploitation pressure and public tooling exists.",
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
         "Cloud",
         "Webstack",
@@ -497,8 +208,8 @@
         "KEV"
       ],
       "confidence": 98,
-      "weaponization": 91,
-      "dayOffset": 3,
+      "weaponization": 99,
+      "dayOffset": 1,
       "links": [
         [
           "GitHub",
@@ -507,6 +218,55 @@
         [
           "Vendor Advisory",
           "https://www.cisa.gov/news-events/directives/ed-26-03-mitigate-vulnerabilities-cisco-sd-wan-systems"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2025-64446",
+      "title": "Fortinet FortiWeb Path Traversal Vulnerability with public poc signal",
+      "ecosystem": "cloud",
+      "category": "vpn-edge",
+      "severity": "high",
+      "proof": "working public poc",
+      "reliability": "reliable exploit",
+      "researcher": "AN5I",
+      "researcherUrl": "https://github.com/AN5I",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "11:33 PM CDT",
+      "firstSeenAt": "2026-05-21T04:33:40Z",
+      "language": "Python",
+      "summary": "Fortinet FortiWeb contains a relative path traversal vulnerability that may allow an unauthenticated attacker to execute administrative commands on the system via crafted HTTP or HTTPS requests.",
+      "technicalSummary": "The exploit path abuses a trust boundary in FortiWeb: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in FortiWeb: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
+      "whatBroke": "Fortinet FortiWeb contains a relative path traversal vulnerability that may allow an unauthenticated attacker to execute administrative commands on the system via crafted HTTP or HTTPS requests.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at AN5I/cve-2025-64446-fortiweb-exploit.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/AN5I/cve-2025-64446-fortiweb-exploit\ncd cve-2025-64446-fortiweb-exploit\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed FortiWeb",
+        "credential access from service context",
+        "webshell or command execution follow-up",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Cloud",
+        "VPN Edge",
+        "RCE",
+        "KEV"
+      ],
+      "confidence": 98,
+      "weaponization": 99,
+      "dayOffset": 1,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/AN5I/cve-2025-64446-fortiweb-exploit"
+        ],
+        [
+          "Vendor Advisory",
+          "https://www.fortiguard.com/psirt/FG-IR-25-910"
         ]
       ]
     }
