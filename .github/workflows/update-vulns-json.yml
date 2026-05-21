@@ -28,10 +28,12 @@ jobs:
       - name: Build live vuln feed
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          EXTRA_RSS_SOURCES: ${{ secrets.EXTRA_RSS_SOURCES }}
         run: |
           python - <<'PY'
           from __future__ import annotations
 
+          import base64
           import datetime as dt
           import email.utils
           import html
@@ -53,6 +55,7 @@ jobs:
           GITHUB_SEARCH = "https://api.github.com/search/repositories"
           UA = "pirate.moo-threat-tide/1.0"
           TOKEN = os.environ.get("GITHUB_TOKEN", "")
+          EXTRA_RSS_SOURCES = os.environ.get("EXTRA_RSS_SOURCES", "")
           CVE_RE = re.compile(r"CVE-\d{4}-\d{4,7}", re.I)
           LOCAL_TZ = ZoneInfo("America/Chicago")
           LOOKBACK_DAYS = 7
@@ -70,6 +73,15 @@ jobs:
               ("GitHub Security Lab", "https://github.blog/security/vulnerability-research/feed/"),
               ("Aqua Nautilus", "https://www.aquasec.com/feed/"),
               ("Synacktiv", "https://www.synacktiv.com/en/feed/lastblog.xml"),
+              ("SSD Disclosure", "https://ssd-disclosure.com/feed/"),
+              ("Rapid7 Blog", "https://www.rapid7.com/blog/rss.xml"),
+              ("Qualys Research", "https://blog.qualys.com/feed"),
+              ("SonarSource", "https://www.sonarsource.com/blog/rss.xml"),
+              ("GitLab Releases", "https://about.gitlab.com/releases.xml"),
+              ("ProjectDiscovery", "https://projectdiscovery.io/blog/rss.xml"),
+              ("Kaspersky Securelist", "https://securelist.com/feed/"),
+              ("Exodus Intelligence", "https://blog.exodusintel.com/feed/"),
+              ("The GitHub Blog Security", "https://github.blog/security/feed/"),
           ]
 
           SOURCE_PROFILES = {
@@ -85,30 +97,76 @@ jobs:
               "GitHub Security Lab": ("GitHub Security Lab", "https://github.com/github/securitylab"),
               "Aqua Nautilus": ("Aqua Nautilus", "https://www.aquasec.com/cloud-native-academy/aqua-research/"),
               "Synacktiv": ("Synacktiv", "https://x.com/synacktiv"),
+              "SSD Disclosure": ("SSD Disclosure", "https://ssd-disclosure.com/"),
+              "Rapid7 Blog": ("Rapid7", "https://github.com/rapid7"),
+              "Qualys Research": ("Qualys Research", "https://blog.qualys.com/"),
+              "SonarSource": ("SonarSource", "https://x.com/SonarSource"),
+              "GitLab Releases": ("GitLab", "https://about.gitlab.com/releases/"),
+              "ProjectDiscovery": ("ProjectDiscovery", "https://github.com/projectdiscovery"),
+              "Kaspersky Securelist": ("Kaspersky GReAT", "https://securelist.com/"),
+              "Exodus Intelligence": ("Exodus Intelligence", "https://blog.exodusintel.com/"),
+              "The GitHub Blog Security": ("GitHub Security", "https://github.blog/security/"),
           }
+
+          for line in EXTRA_RSS_SOURCES.splitlines():
+              if "|" not in line:
+                  continue
+              name, url = [part.strip() for part in line.split("|", 1)]
+              if name and url.startswith("https://"):
+                  RSS_SOURCES.append((name, url))
+                  SOURCE_PROFILES.setdefault(name, (name, url))
 
           HIGH_SIGNAL = {
               "active directory", "ad cs", "adcs", "android", "apache", "apple", "atlassian", "azure",
-              "chrome", "chromium", "citrix", "confluence", "connectwise", "container", "cisco", "exchange", "esxi",
-              "fortinet", "gitlab", "jenkins", "kerberos", "kubernetes", "linux", "microsoft",
-              "openssh", "palo alto", "pan-os", "pixel", "screenconnect", "sharepoint", "teamcity",
-              "webkit", "vmware", "vpn", "windows", "wordpress", "zero-click", "zeroclick",
+              "chrome", "chromium", "citrix", "confluence", "connectwise", "container", "cisco",
+              "domain controller", "exchange", "esxi", "entra", "fortinet", "gitlab", "jenkins",
+              "kerberos", "kubernetes", "ldap", "linux", "microsoft", "ntlm", "oauth", "openssh",
+              "palo alto", "pan-os", "pixel", "rdp", "relay", "saml", "sccm", "screenconnect",
+              "sharepoint", "teamcity", "webkit", "windows", "winrm", "wordpress", "vmware",
+              "vpn", "zero-click", "zeroclick",
           }
 
           PRIMITIVES = {
               "auth bypass": ("Auth Bypass", ["authentication bypass", "auth bypass", "authorization bypass"]),
-              "rce": ("RCE", ["remote code execution", "rce", "command injection", "code execution"]),
-              "lpe": ("Local LPE", ["privilege escalation", "lpe", "local privilege", "elevation of privilege"]),
+              "rce": ("RCE", ["remote code execution", "rce", "command injection", "code execution", "pre-auth rce", "preauth rce"]),
+              "lpe": ("Local LPE", ["privilege escalation", "lpe", "local privilege", "elevation of privilege", "eop"]),
               "file read": ("File Read", ["file read", "path traversal", "arbitrary file", "file disclosure"]),
               "session theft": ("Session Theft", ["session", "token", "cookie", "credential disclosure"]),
               "sqli": ("SQLi", ["sql injection", "sqli"]),
               "xss": ("XSS", ["cross-site scripting", "xss"]),
           }
 
+          X_STYLE_DISCOVERY_QUERIES = [
+              "CVE exploit PoC RCE",
+              "CVE exploit PoC LPE",
+              "CVE exploit PoC Windows",
+              "CVE exploit PoC Exchange",
+              "CVE exploit PoC SharePoint",
+              "CVE exploit PoC Active Directory",
+              "CVE exploit PoC ADCS",
+              "CVE exploit PoC Kerberos",
+              "CVE exploit PoC NTLM",
+              "CVE exploit PoC SCCM",
+              "CVE exploit PoC Citrix",
+              "CVE exploit PoC Ivanti",
+              "CVE exploit PoC Fortinet",
+              "CVE exploit PoC Palo Alto",
+              "CVE exploit PoC VMware",
+              "CVE exploit PoC Jenkins",
+              "CVE exploit PoC GitLab",
+              "CVE exploit PoC Kubernetes",
+              "CVE exploit PoC Android",
+              "CVE exploit PoC iOS",
+              "CVE auth bypass exploit",
+              "CVE command injection exploit",
+              "CVE privilege escalation exploit",
+              "CVE weaponized exploit",
+          ]
+
           ECOSYSTEM_RULES = [
               ("android", ["android", "aosp", "pixel"]),
               ("ios", ["ios", "ipados", "iphone", "webkit", "safari", "imessage", "apple"]),
-              ("windows", ["windows", "microsoft", "exchange", "sharepoint", "active directory", "ad cs", "adcs", "ntlm", "kerberos", "sccm", "hyper-v"]),
+              ("windows", ["windows", "microsoft", "exchange", "sharepoint", "active directory", "ad cs", "adcs", "ntlm", "kerberos", "sccm", "hyper-v", "winrm", "rdp"]),
               ("linux", ["linux", "openssh", "sudo", "systemd", "ubuntu", "debian", "kernel"]),
               ("cloud", ["citrix", "fortinet", "palo alto", "pan-os", "ivanti", "vmware", "esxi", "kubernetes", "jenkins", "gitlab", "teamcity", "confluence", "atlassian", "connectwise", "vpn", "cloud"]),
           ]
@@ -117,7 +175,9 @@ jobs:
               ("adcs", ["ad cs", "adcs", "certificate"]),
               ("kerberos", ["kerberos"]),
               ("ntlm", ["ntlm", "relay"]),
-              ("exchange", ["exchange"]),
+              ("exchange", ["exchange", "owa", "ecp", "outlook web access"]),
+              ("sharepoint", ["sharepoint"]),
+              ("sccm", ["sccm", "configuration manager", "configmgr"]),
               ("rmm", ["screenconnect", "connectwise", "rmm"]),
               ("vpn-edge", ["citrix", "fortinet", "palo alto", "pan-os", "ivanti", "vpn", "gateway", "ssl-vpn"]),
               ("devops", ["jenkins", "gitlab", "teamcity", "ci/cd", "ci server"]),
@@ -193,6 +253,8 @@ jobs:
                   "rmm": "RMM",
                   "ssh": "SSH",
                   "sqli": "SQLi",
+                  "sharepoint": "SharePoint",
+                  "sccm": "SCCM",
               }.get(value.lower(), value.replace("-", " ").title())
 
           def parse_date(value: str) -> dt.datetime:
@@ -325,9 +387,81 @@ jobs:
               score += min(int(repo.get("stargazers_count") or 0), 40) // 8
               return score
 
-          def github_candidate(cve: str) -> dict | None:
+          def repo_to_candidate(repo: dict, cve: str, bonus: int = 0) -> dict:
+              owner = repo.get("owner", {}) if isinstance(repo.get("owner"), dict) else {}
+              score = repo_score(repo, cve) + bonus
+              return {
+                  "score": score,
+                  "url": repo.get("html_url", ""),
+                  "owner": owner.get("login") or repo.get("full_name", "").split("/")[0],
+                  "owner_url": owner.get("html_url") or "",
+                  "name": repo.get("full_name", ""),
+                  "description": repo.get("description") or "",
+                  "language": repo.get("language") or "",
+                  "pushed_at": repo.get("pushed_at") or "",
+              }
+
+          def github_readme_text(full_name: str) -> str:
+              if not full_name or "/" not in full_name:
+                  return ""
+              url = f"https://api.github.com/repos/{full_name}/readme"
+              try:
+                  data = fetch_json(url)
+                  content = data.get("content", "")
+                  encoding = data.get("encoding", "")
+                  if content and encoding == "base64":
+                      return base64.b64decode(content).decode("utf-8", "replace")[:12000]
+              except Exception as exc:
+                  print(f"warn: readme fetch failed {full_name}: {exc}")
+              return ""
+
+          def github_recent_cve_repos() -> dict[str, list[dict]]:
+              pushed_after = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=LOOKBACK_DAYS)).date().isoformat()
+              discovered: dict[str, list[dict]] = {}
+              seen_repos: set[str] = set()
+              readme_budget = 24
+              for base_query in X_STYLE_DISCOVERY_QUERIES:
+                  query = f"{base_query} in:name,description,readme pushed:>={pushed_after}"
+                  url = GITHUB_SEARCH + "?" + urllib.parse.urlencode({
+                      "q": query,
+                      "sort": "updated",
+                      "order": "desc",
+                      "per_page": "20",
+                  })
+                  data = fetch_json(url)
+                  repos = data.get("items", []) if isinstance(data.get("items"), list) else []
+                  for repo in repos:
+                      repo_url = repo.get("html_url", "")
+                      full_name = repo.get("full_name", "")
+                      if not repo_url or repo_url in seen_repos:
+                          continue
+                      seen_repos.add(repo_url)
+                      text = " ".join([
+                          full_name,
+                          repo.get("name", ""),
+                          repo.get("description") or "",
+                      ])
+                      cves = {match.upper() for match in CVE_RE.findall(text)}
+                      if not cves and readme_budget > 0:
+                          readme_budget -= 1
+                          readme = github_readme_text(full_name)
+                          cves = {match.upper() for match in CVE_RE.findall(readme)}
+                      for cve in cves:
+                          candidate = repo_to_candidate(repo, cve, bonus=14)
+                          if candidate["score"] >= 42:
+                              discovered.setdefault(cve, []).append(candidate)
+                  time.sleep(0.25)
+              return discovered
+
+          def github_candidate(cve: str, seeded: list[dict] | None = None) -> dict | None:
+              seeded_ranked = sorted(seeded or [], key=lambda repo: repo.get("score", 0), reverse=True)
+              for repo in seeded_ranked:
+                  if repo.get("score", 0) >= 42 and repo.get("url"):
+                      return repo
               pushed_after = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=LOOKBACK_DAYS)).date().isoformat()
               queries = [
+                  f"{cve} exploit poc rce lpe in:name,description,readme pushed:>={pushed_after}",
+                  f"{cve} exploit poc windows exchange in:name,description,readme pushed:>={pushed_after}",
                   f"{cve} exploit poc in:name,description,readme pushed:>={pushed_after}",
                   f"{cve} exploit poc in:name,description,readme",
               ]
@@ -343,17 +477,7 @@ jobs:
                   ranked = sorted(((repo_score(repo, cve), repo) for repo in repos), key=lambda item: item[0], reverse=True)
                   for score, repo in ranked:
                       if score >= 45 and repo.get("html_url"):
-                          owner = repo.get("owner", {}) if isinstance(repo.get("owner"), dict) else {}
-                          return {
-                              "score": score,
-                              "url": repo["html_url"],
-                              "owner": owner.get("login") or repo.get("full_name", "").split("/")[0],
-                              "owner_url": owner.get("html_url") or "",
-                              "name": repo.get("full_name", ""),
-                              "description": repo.get("description") or "",
-                              "language": repo.get("language") or "",
-                              "pushed_at": repo.get("pushed_at") or "",
-                          }
+                          return repo_to_candidate(repo, cve)
               return None
 
           def format_added(first_seen_at: str) -> str:
@@ -518,12 +642,13 @@ jobs:
 
           kev = kev_items()
           rss = rss_mentions()
+          github_discovered = github_recent_cve_repos()
           kev_by_cve = {
               item.get("cveID", "").upper(): item
               for item in kev
               if CVE_RE.fullmatch(item.get("cveID", ""))
           }
-          candidate_cves = sorted(set(kev_by_cve) | set(rss))
+          candidate_cves = sorted(set(kev_by_cve) | set(rss) | set(github_discovered))
           epss = epss_scores(candidate_cves)
 
           def synthetic_item(cve: str, nvd: dict, mention: dict | None) -> dict:
@@ -540,6 +665,7 @@ jobs:
           for cve in candidate_cves:
               item = kev_by_cve.get(cve)
               mention = rss.get(cve, [None])[0]
+              repo_hint = (github_discovered.get(cve) or [None])[0]
               text = " ".join([
                   cve,
                   item.get("vendorProject", "") if item else "",
@@ -548,12 +674,17 @@ jobs:
                   item.get("shortDescription", "") if item else "",
                   mention.get("title", "") if mention else "",
                   mention.get("summary", "") if mention else "",
+                  repo_hint.get("name", "") if repo_hint else "",
+                  repo_hint.get("description", "") if repo_hint else "",
               ]).lower()
               signal = 0
               signal += 25 if item else 0
               signal += 38 if mention else 0
+              signal += 42 if repo_hint else 0
+              signal += min(25, int(repo_hint.get("score", 0)) // 3) if repo_hint else 0
               signal += 45 if any(term in text for term in HIGH_SIGNAL) else 0
               signal += 20 if any(term in text for terms in PRIMITIVES.values() for term in terms[1]) else 0
+              signal += 12 if any(term in text for term in ["windows", "exchange", "sharepoint", "adcs", "kerberos", "ntlm", "rce", "lpe"]) else 0
               signal += int((epss.get(cve, 0) or 0) * 70)
               if item:
                   signal += max(0, 60 - min(60, (now_utc - parse_date(item.get("dateAdded", ""))).days // 7))
@@ -569,7 +700,7 @@ jobs:
               if cve in seen:
                   continue
               try:
-                  repo = github_candidate(cve)
+                  repo = github_candidate(cve, github_discovered.get(cve, []))
                   if not repo:
                       continue
                   time.sleep(0.4)
@@ -599,7 +730,7 @@ jobs:
               "updatedAt": now_utc.isoformat().replace("+00:00", "Z"),
               "cadence": "3x daily",
               "proofPolicy": "verified working public pocs",
-              "sources": ["CISA KEV", "FIRST EPSS", "NVD", "GitHub Search", *[name for name, _ in RSS_SOURCES]],
+              "sources": ["CISA KEV", "FIRST EPSS", "NVD", "GitHub Search", "GitHub Fresh PoC Discovery", *[name for name, _ in RSS_SOURCES]],
               "vulns": entries,
           }
           OUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
