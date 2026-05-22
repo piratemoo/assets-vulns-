@@ -20,6 +20,7 @@
     { label: "All", section: "all" },
     { label: "Windows", section: "windows" },
     { label: "Linux", section: "linux" },
+    { label: "Web", section: "web" },
     { label: "Mobile", section: "mobile", children: [
       { label: "Android", section: "android" },
       { label: "iOS", section: "ios" }
@@ -39,6 +40,19 @@
     { name: "chompie", lane: "kernel exploit dev", url: "https://x.com/chompie1337", weight: 94 },
     { name: "Maddie Stone", lane: "0-day exploit analysis", url: "https://x.com/maddiestone", weight: 92 },
     { name: "Natalie Silvanovich", lane: "mobile/browser research", url: "https://x.com/natashenka", weight: 91 },
+    { name: "alisa esage", lane: "mobile exploit research", url: "https://x.com/alisaesage", weight: 88 },
+    { name: "zerodayalpha", lane: "mobile exploit research", url: "https://x.com/zerodayalpha", weight: 88 },
+    { name: "pkqzy888", lane: "mobile exploit research", url: "https://x.com/pkqzy888", weight: 88 },
+    { name: "scwuaptx", lane: "mobile exploit research", url: "https://x.com/scwuaptx", weight: 88 },
+    { name: "terrynini38514", lane: "mobile exploit research", url: "https://x.com/terrynini38514", weight: 86 },
+    { name: "0xkol", lane: "mobile exploit research", url: "https://x.com/0xkol", weight: 86 },
+    { name: "AndroidAuth", lane: "android auth research", url: "https://x.com/AndroidAuth", weight: 86 },
+    { name: "androidmalware2", lane: "android malware research", url: "https://x.com/androidmalware2", weight: 84 },
+    { name: "tiraniddo", lane: "windows internals research", url: "https://x.com/tiraniddo", weight: 90 },
+    { name: "33y0re", lane: "exploit research", url: "https://x.com/33y0re", weight: 86 },
+    { name: "0xfluxsec", lane: "windows exploit research", url: "https://x.com/0xfluxsec", weight: 86 },
+    { name: "Dinosn", lane: "exploit research", url: "https://x.com/Dinosn", weight: 86 },
+    { name: "binitamshah", lane: "exploit research", url: "https://x.com/binitamshah", weight: 86 },
     { name: "Google TAG", lane: "0-day threat intel", url: "https://blog.google/threat-analysis-group/", weight: 90 },
     { name: "watchTowr Labs", lane: "weaponizable research", url: "https://labs.watchtowr.com/", weight: 94 },
     { name: "Horizon3 Attack Team", lane: "exploit validation", url: "https://horizon3.ai/attack-research/", weight: 90 },
@@ -55,6 +69,7 @@
     { name: "Exodus Intelligence", lane: "exploit research", url: "https://blog.exodusintel.com/", weight: 82 },
     { name: "Bishop Fox", lane: "operator research", url: "https://bishopfox.com/blog", weight: 82 },
     { name: "Assetnote", lane: "edge and web research", url: "https://www.assetnote.io/resources/research", weight: 88 },
+    { name: "PortSwigger Research", lane: "web app exploit research", url: "https://portswigger.net/research", weight: 88 },
     { name: "SonarSource", lane: "code-level research", url: "https://www.sonarsource.com/blog/", weight: 80 },
     { name: "Wiz Research", lane: "cloud research", url: "https://www.wiz.io/blog", weight: 82 },
     { name: "Aqua Nautilus", lane: "containers and cloud", url: "https://www.aquasec.com/blog/", weight: 78 },
@@ -625,7 +640,7 @@
   function normalizeVuln(item) {
     const rawTags = Array.isArray(item.tags) ? item.tags : [];
     const tags = rawTags.map((tag) => cleanInlineText(tag, 32)).filter(Boolean).slice(0, MAX_TAGS_PER_CARD);
-    const tagEcosystem = tags.map((tag) => tag.toLowerCase()).find((tag) => ["windows", "linux", "android", "ios", "cloud"].includes(tag));
+    const tagEcosystem = tags.map((tag) => tag.toLowerCase()).find((tag) => ["windows", "linux", "web", "android", "ios", "cloud"].includes(tag));
     const ecosystem = cleanSlug(item.ecosystem || tagEcosystem || "research", "research");
     const severity = cleanSlug(item.severity || "high", "high");
     const chainValue = Array.isArray(item.chains)
@@ -633,7 +648,7 @@
       : cleanBlockText(item.chains || "Use as a chain primitive with initial access, credential access, lateral movement, or persistence.", 500);
     return {
       cve: cleanInlineText(item.cve || "NO-CVE", 64),
-      title: cleanInlineText(item.title || "Untitled vulnerability signal", 180),
+      title: cleanTitle(item.title || "Untitled vulnerability signal", item.cve),
       ecosystem,
       category: cleanSlug(item.category || "research", "research"),
       severity: ["critical", "high", "medium"].includes(severity) ? severity : "high",
@@ -645,7 +660,7 @@
       difficulty: cleanInlineText(difficultyFor(item), 32),
       added: cleanAdded(item.firstSeenAt || item.added, liveFeedUpdatedAt),
       language: cleanLanguage(item.language),
-      summary: cleanBlockText(item.summary || "", 520),
+      summary: cleanSummary(item.summary, item.cve, item.title),
       technicalSummary: cleanBlockText(item.technicalSummary || "", 520),
       breakdown: cleanBlockText(item.breakdown || item.summary || "", 800),
       exploitSyntax: cleanCodeText(item.exploitSyntax || "", 1200),
@@ -716,6 +731,29 @@
       .slice(0, maxLength);
   }
 
+  function cleanTitle(value, cve) {
+    const escapedCve = String(cve || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const cvePattern = escapedCve
+      ? new RegExp(`^\\s*${escapedCve}\\s*[:\\-â€“â€”]?\\s*`, "i")
+      : /^\s*CVE-\d{4}-\d{4,7}\s*[:\-â€“â€”]?\s*/i;
+    return cleanInlineText(value || "Untitled vulnerability signal", 180)
+      .replace(cvePattern, "")
+      .replace(/^\s*CVE-\d{4}-\d{4,7}\s*[:\-â€“â€”]?\s*/i, "")
+      .trim() || "Untitled vulnerability signal";
+  }
+
+  function cleanSummary(value, cve, title) {
+    const text = cleanBlockText(value || "", 520)
+      .replace(new RegExp(`^\\s*${String(cve || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*[:\\-â€“â€”]?\\s*`, "i"), "")
+      .replace(/^\s*CVE-\d{4}-\d{4,7}\s*[:\-â€“â€”]?\s*/i, "")
+      .trim();
+    if (!text || text.toLowerCase() === String(cve || "").toLowerCase()) {
+      const cleanedTitle = cleanTitle(title || "", cve);
+      return cleanedTitle === "Untitled vulnerability signal" ? "Public exploit tooling is available, but the upstream metadata did not provide a useful summary yet." : cleanedTitle;
+    }
+    return text;
+  }
+
   function cleanBlockText(value, maxLength = 800) {
     return String(value || "")
       .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, " ")
@@ -778,8 +816,9 @@
     const tags = item.tags.map((tag) => tag.toLowerCase());
     return state.section === "all"
       || item.ecosystem === state.section
+      || (state.section === "web" && (item.ecosystem === "web" || item.category === "webstack" || tags.includes("webstack") || tags.includes("web")))
       || (state.section === "mobile" && (item.ecosystem === "android" || item.ecosystem === "ios"))
-      || (state.section === "research" && item.links.some(([label]) => label.toLowerCase().includes("technical") || label.toLowerCase().includes("writeup")));
+      || (state.section === "research" && (item.ecosystem === "research" || item.category === "research" || tags.includes("research")));
   }
 
   function filteredItems() {
