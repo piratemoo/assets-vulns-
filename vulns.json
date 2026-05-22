@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-22T01:18:17Z",
+  "updatedAt": "2026-05-22T01:25:01Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -50,7 +50,7 @@
     {
       "cve": "CVE-2026-41940",
       "title": "WebPros cPanel & WHM and WP2 (WordPress Squared) Missing Authentication for Critical Function Vulnerability",
-      "ecosystem": "cloud",
+      "ecosystem": "web",
       "category": "webstack",
       "severity": "critical",
       "proof": "working public poc",
@@ -77,7 +77,7 @@
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Cloud",
+        "Web",
         "Webstack",
         "Auth Bypass",
         "KEV"
@@ -248,7 +248,7 @@
     },
     {
       "cve": "CVE-2026-46333",
-      "title": "CVE-2026-46333: Local Root Privilege Escalation and Credential Disclosure in the Linux Kernel ptrace Path",
+      "title": "Local Root Privilege Escalation and Credential Disclosure in the Linux Kernel ptrace Path",
       "ecosystem": "linux",
       "category": "kernel",
       "severity": "medium",
@@ -298,8 +298,8 @@
     },
     {
       "cve": "CVE-2026-9082",
-      "title": "CVE-2026-9082 | Drupal SQL Injection Vulnerability",
-      "ecosystem": "cloud",
+      "title": "| Drupal SQL Injection Vulnerability",
+      "ecosystem": "web",
       "category": "webstack",
       "severity": "high",
       "proof": "working public poc",
@@ -324,7 +324,7 @@
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Cloud",
+        "Web",
         "Webstack",
         "SQLi"
       ],
@@ -348,7 +348,7 @@
     },
     {
       "cve": "CVE-2026-0908",
-      "title": "CVE-2026-0908",
+      "title": "Untitled vulnerability signal",
       "ecosystem": "cloud",
       "category": "kernel",
       "severity": "high",
@@ -394,7 +394,7 @@
     },
     {
       "cve": "CVE-2026-43284",
-      "title": "CVE-2026-43284",
+      "title": "Untitled vulnerability signal",
       "ecosystem": "linux",
       "category": "kernel",
       "severity": "high",
@@ -440,7 +440,7 @@
     },
     {
       "cve": "CVE-2026-31635",
-      "title": "CVE-2026-31635",
+      "title": "Untitled vulnerability signal",
       "ecosystem": "linux",
       "category": "kernel",
       "severity": "medium",
@@ -486,7 +486,7 @@
     },
     {
       "cve": "CVE-2026-46300",
-      "title": "CVE-2026-46300",
+      "title": "Untitled vulnerability signal",
       "ecosystem": "linux",
       "category": "kernel",
       "severity": "medium",
@@ -528,7 +528,7 @@
     },
     {
       "cve": "CVE-2026-34622",
-      "title": "CVE-2026-34622",
+      "title": "Untitled vulnerability signal",
       "ecosystem": "cloud",
       "category": "webstack",
       "severity": "high",
@@ -576,7 +576,7 @@
     },
     {
       "cve": "CVE-2026-34626",
-      "title": "CVE-2026-34626",
+      "title": "Untitled vulnerability signal",
       "ecosystem": "cloud",
       "category": "webstack",
       "severity": "medium",
@@ -622,10 +622,10 @@
     },
     {
       "cve": "CVE-2026-33824",
-      "title": "CVE-2026-33824",
+      "title": "Untitled vulnerability signal",
       "ecosystem": "windows",
       "category": "webstack",
-      "severity": "critical",
+      "severity": "high",
       "proof": "working public poc",
       "reliability": "reliable exploit",
       "researcher": "EpSiLoNPoInTOrI",
@@ -635,16 +635,14 @@
       "added": "8:02 PM CDT",
       "firstSeenAt": "2026-05-22T01:02:56Z",
       "language": "C++",
-      "summary": "Double free in Windows IKE Extension allows an unauthorized attacker to execute code over a network.",
-      "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
-      "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
-      "whatBroke": "Double free in Windows IKE Extension allows an unauthorized attacker to execute code over a network.",
+      "summary": "CVE-2026-33824",
+      "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
+      "whatBroke": "CVE-2026-33824",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at EpSiLoNPoInTOrI/IKEV2-POC.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/EpSiLoNPoInTOrI/IKEV2-POC\ncd IKEV2-POC\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
         "initial access through exposed the affected product",
-        "credential access from service context",
-        "webshell or command execution follow-up",
         "internal pivot from an internet-facing control point",
         "lateral movement if secrets or management access are recovered"
       ],
@@ -652,7 +650,7 @@
       "tags": [
         "Windows",
         "Webstack",
-        "RCE"
+        "Exploit"
       ],
       "confidence": 98,
       "weaponization": 73,
@@ -661,18 +659,14 @@
         [
           "GitHub",
           "https://github.com/EpSiLoNPoInTOrI/IKEV2-POC"
-        ],
-        [
-          "Vendor Advisory",
-          "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-33824"
         ]
       ]
     },
     {
       "cve": "CVE-2026-45250",
-      "title": "CVE-2026-45250",
-      "ecosystem": "linux",
-      "category": "kernel",
+      "title": "Untitled vulnerability signal",
+      "ecosystem": "cloud",
+      "category": "webstack",
       "severity": "high",
       "proof": "working public poc",
       "reliability": "reliable exploit",
@@ -683,21 +677,21 @@
       "added": "8:02 PM CDT",
       "firstSeenAt": "2026-05-22T01:02:56Z",
       "language": "C",
-      "summary": "The setcred(2) system call is only available to privileged users. However, before the privilege level of the caller is checked, the user-supplied list of supplementary groups is copied into a fixed-size kernel stack buffer.",
+      "summary": "CVE-2026-45250",
       "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches local lpe handling that should require stricter validation, authentication, or state checks.",
       "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches local lpe handling that should require stricter validation, authentication, or state checks.",
-      "whatBroke": "The setcred(2) system call is only available to privileged users. However, before the privilege level of the caller is checked, the user-supplied list of supplementary groups is copied into a fixed-size kernel stack buffer without first.",
+      "whatBroke": "CVE-2026-45250",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at venglin/setcred.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/venglin/setcred\ncd setcred\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
         "initial access through exposed the affected product",
-        "local privilege escalation after a foothold",
+        "internal pivot from an internet-facing control point",
         "lateral movement if secrets or management access are recovered"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Linux",
-        "Kernel",
+        "Cloud",
+        "Webstack",
         "Local LPE"
       ],
       "confidence": 98,
@@ -707,16 +701,12 @@
         [
           "GitHub",
           "https://github.com/venglin/setcred"
-        ],
-        [
-          "Vendor Advisory",
-          "https://security.freebsd.org/advisories/FreeBSD-SA-26:18.setcred.asc"
         ]
       ]
     },
     {
       "cve": "CVE-2026-46529",
-      "title": "CVE-2026-46529",
+      "title": "Untitled vulnerability signal",
       "ecosystem": "cloud",
       "category": "webstack",
       "severity": "critical",
@@ -760,7 +750,7 @@
     },
     {
       "cve": "CVE-2026-4885",
-      "title": "CVE-2026-4885",
+      "title": "Untitled vulnerability signal",
       "ecosystem": "cloud",
       "category": "webstack",
       "severity": "critical",
@@ -773,10 +763,10 @@
       "added": "8:02 PM CDT",
       "firstSeenAt": "2026-05-22T01:02:56Z",
       "language": "Python",
-      "summary": "The Piotnet Addons for Elementor Pro plugin for WordPress is vulnerable to arbitrary file upload due to missing file type validation in the 'pafe_ajax_form_builder' function in all versions up to, and including, 7.1.70. The.",
+      "summary": "CVE-2026-4885",
       "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
       "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
-      "whatBroke": "The Piotnet Addons for Elementor Pro plugin for WordPress is vulnerable to arbitrary file upload due to missing file type validation in the 'pafe_ajax_form_builder' function in all versions up to, and including, 7.1.70. The plugin uses an.",
+      "whatBroke": "CVE-2026-4885",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at xShadow-Here/CVE-2026-4885.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/xShadow-Here/CVE-2026-4885\ncd CVE-2026-4885\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
@@ -799,16 +789,12 @@
         [
           "GitHub",
           "https://github.com/xShadow-Here/CVE-2026-4885"
-        ],
-        [
-          "Vendor Advisory",
-          "https://pafe.piotnet.com/"
         ]
       ]
     },
     {
       "cve": "CVE-2026-23734",
-      "title": "CVE-2026-23734 | XWiki Path Traversal Vulnerability",
+      "title": "| XWiki Path Traversal Vulnerability",
       "ecosystem": "cloud",
       "category": "webstack",
       "severity": "high",
@@ -821,10 +807,10 @@
       "added": "7:59 PM CDT",
       "firstSeenAt": "2026-05-22T00:59:08Z",
       "language": "Unknown",
-      "summary": "<p>CVE-2026-23734 is a Critical path traversal vulnerability affecting XWiki\u2019s xwiki-commons-classloader-api component. The vulnerability affects the ssx and jsx endpoints, where a crafted resource parameter beginning with a.",
+      "summary": "XWiki Platform is a generic wiki platform. Versions prior to 18.1.0-rc-1, 17.10.3, 17.4.9, and 16.10.17 allow access to read configuration files by using URLs such as.",
       "technicalSummary": "CVE-2026-23734 is a Critical path traversal vulnerability affecting XWiki\u2019s xwiki-commons-classloader-api component. The vulnerability affects the ssx and jsx endpoints, where a crafted resource parameter beginning with a leading slash can bypass path.",
       "breakdown": "CVE-2026-23734 is a Critical path traversal vulnerability affecting XWiki\u2019s xwiki-commons-classloader-api component. The vulnerability affects the ssx and jsx endpoints, where a crafted resource parameter beginning with a leading slash can bypass path.",
-      "whatBroke": "<p>CVE-2026-23734 is a Critical path traversal vulnerability affecting XWiki\u2019s xwiki-commons-classloader-api component. The vulnerability affects the ssx and jsx endpoints, where a crafted resource parameter beginning with a leading slash.",
+      "whatBroke": "XWiki Platform is a generic wiki platform. Versions prior to 18.1.0-rc-1, 17.10.3, 17.4.9, and 16.10.17 allow access to read configuration files by using URLs such as.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Horizon3 Attack Team/CVE-2026-23734.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://horizon3.ai/attack-research/vulnerabilities/cve-2026-23734/\ncd CVE-2026-23734\n# use the repo README invocation against https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
@@ -850,15 +836,19 @@
         [
           "Technical Paper",
           "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-23734/"
+        ],
+        [
+          "Vendor Advisory",
+          "https://github.com/xwiki/xwiki-commons/commit/a979cafd89f6a9c9c0b9ab19744d672df64429bf"
         ]
       ]
     },
     {
       "cve": "CVE-2026-28289",
-      "title": "CVE-2026-28289",
-      "ecosystem": "cloud",
+      "title": "Untitled vulnerability signal",
+      "ecosystem": "web",
       "category": "webstack",
-      "severity": "high",
+      "severity": "critical",
       "proof": "working public poc",
       "reliability": "reliable exploit",
       "researcher": "exploitintel",
@@ -868,22 +858,24 @@
       "added": "8:18 PM CDT",
       "firstSeenAt": "2026-05-22T01:18:17Z",
       "language": "C",
-      "summary": "CVE-2026-28289",
-      "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
-      "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
-      "whatBroke": "CVE-2026-28289",
+      "summary": "FreeScout is a free help desk and shared inbox built with PHP's Laravel framework. A patch bypass vulnerability for CVE-2026-27636 in FreeScout 1.8.206 and earlier allows any authenticated user with file upload permissions to.",
+      "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
+      "whatBroke": "FreeScout is a free help desk and shared inbox built with PHP's Laravel framework. A patch bypass vulnerability for CVE-2026-27636 in FreeScout 1.8.206 and earlier allows any authenticated user with file upload permissions to achieve.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at exploitintel/eip-pocs-and-cves.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/exploitintel/eip-pocs-and-cves\ncd eip-pocs-and-cves\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
         "initial access through exposed the affected product",
+        "credential access from service context",
+        "webshell or command execution follow-up",
         "internal pivot from an internet-facing control point",
         "lateral movement if secrets or management access are recovered"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Cloud",
+        "Web",
         "Webstack",
-        "Exploit"
+        "RCE"
       ],
       "confidence": 98,
       "weaponization": 89,
@@ -892,6 +884,10 @@
         [
           "GitHub",
           "https://github.com/exploitintel/eip-pocs-and-cves"
+        ],
+        [
+          "Vendor Advisory",
+          "https://github.com/freescout-help-desk/freescout/commit/f7bc16c56a6b13c06da52ad51fd666546b40818f"
         ]
       ]
     }
