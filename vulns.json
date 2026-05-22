@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-22T00:59:08Z",
+  "updatedAt": "2026-05-22T01:02:56Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -8,6 +8,16 @@
     "NVD",
     "GitHub Search",
     "GitHub Fresh PoC Discovery",
+    "Mobile researcher watchlist: @natashenka",
+    "Mobile researcher watchlist: @alisaesage",
+    "Mobile researcher watchlist: @zerodayalpha",
+    "Mobile researcher watchlist: @pkqzy888",
+    "Mobile researcher watchlist: @scwuaptx",
+    "Mobile researcher watchlist: @terrynini38514",
+    "Mobile researcher watchlist: @0xkol",
+    "Mobile researcher watchlist: @AndroidAuth",
+    "Mobile researcher watchlist: @androidmalware2",
+    "Mobile researcher watchlist: @ProjectZero",
     "Google Security Blog",
     "Project Zero Current",
     "Project Zero",
@@ -33,28 +43,28 @@
   ],
   "vulns": [
     {
-      "cve": "CVE-2026-0300",
-      "title": "Palo Alto Networks PAN-OS Out-of-bounds Write Vulnerability with public poc signal",
+      "cve": "CVE-2026-41940",
+      "title": "WebPros cPanel & WHM and WP2 (WordPress Squared) Missing Authentication for Critical.",
       "ecosystem": "cloud",
-      "category": "vpn-edge",
+      "category": "webstack",
       "severity": "critical",
       "proof": "working public poc",
       "reliability": "partial exploit",
-      "researcher": "Horizon3 Attack Team",
-      "researcherUrl": "https://x.com/Horizon3Attack",
+      "researcher": "XZ1r0",
+      "researcherUrl": "https://github.com/XZ1r0",
       "pocWorks": "Yes",
       "difficulty": "needs validation",
-      "added": "7:59 PM CDT",
-      "firstSeenAt": "2026-05-22T00:59:08Z",
+      "added": "8:02 PM CDT",
+      "firstSeenAt": "2026-05-22T01:02:56Z",
       "language": "Python",
-      "summary": "Palo Alto Networks PAN-OS contains an out-of-bounds write vulnerability in the User-ID Authentication Portal (aka Captive Portal) service that can allow an unauthenticated attacker to execute arbitrary code with root privileges.",
-      "technicalSummary": "A critical buffer overflow vulnerability has been identified in Palo Alto Networks PAN-OS in the User-ID captive portal functionality that could lead to remote code execution. Tracked as CVE-2026-0300 and rated CVSS 9.3, the flaw stems from improper.",
-      "breakdown": "A critical buffer overflow vulnerability has been identified in Palo Alto Networks PAN-OS in the User-ID captive portal functionality that could lead to remote code execution. Tracked as CVE-2026-0300 and rated CVSS 9.3, the flaw stems from improper.",
-      "whatBroke": "Palo Alto Networks PAN-OS contains an out-of-bounds write vulnerability in the User-ID Authentication Portal (aka Captive Portal) service that can allow an unauthenticated attacker to execute arbitrary code with root privileges on the.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at zulloper/cve-poc.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/zulloper/cve-poc\ncd cve-poc\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "summary": "WebPros cPanel & WHM (WebHost Manager) and WP2 (WordPress Squared) contain an authentication bypass vulnerability in the login flow that allows unauthenticated remote attackers to gain unauthorized access to the control panel.",
+      "technicalSummary": "The exploit path abuses a trust boundary in cPanel & WHM and WP2 (WordPress Squared): attacker-controlled input reaches auth bypass handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in cPanel & WHM and WP2 (WordPress Squared): attacker-controlled input reaches auth bypass handling that should require stricter validation, authentication, or state checks.",
+      "whatBroke": "WebPros cPanel & WHM (WebHost Manager) and WP2 (WordPress Squared) contain an authentication bypass vulnerability in the login flow that allows unauthenticated remote attackers to gain unauthorized access to the control panel.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at XZ1r0/cve-2026-poc-collection.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/XZ1r0/cve-2026-poc-collection\ncd cve-2026-poc-collection\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed PAN-OS",
+        "initial access through exposed cPanel & WHM and WP2 (WordPress Squared)",
         "credential access from service context",
         "webshell or command execution follow-up",
         "internal pivot from an internet-facing control point",
@@ -63,25 +73,21 @@
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
         "Cloud",
-        "VPN Edge",
-        "RCE",
+        "Webstack",
+        "Auth Bypass",
         "KEV"
       ],
-      "confidence": 98,
-      "weaponization": 84,
+      "confidence": 96,
+      "weaponization": 99,
       "dayOffset": 0,
       "links": [
         [
           "GitHub",
-          "https://github.com/zulloper/cve-poc"
-        ],
-        [
-          "Technical Paper",
-          "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-0300/"
+          "https://github.com/XZ1r0/cve-2026-poc-collection"
         ],
         [
           "Vendor Advisory",
-          "https://security.paloaltonetworks.com/CVE-2026-0300"
+          "https://support.cpanel.net/hc/en-us/articles/40073787579671-cPanel-WHM-Security-Update-04-28-2026"
         ]
       ]
     },
@@ -129,6 +135,59 @@
         [
           "Vendor Advisory",
           "https://lore.kernel.org/linux-cve-announce/2026042214-CVE-2026-31431-3d65@gregkh/;"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-0300",
+      "title": "Palo Alto Networks PAN-OS Out-of-bounds Write Vulnerability with public poc signal",
+      "ecosystem": "cloud",
+      "category": "vpn-edge",
+      "severity": "critical",
+      "proof": "working public poc",
+      "reliability": "reliable exploit",
+      "researcher": "Horizon3 Attack Team",
+      "researcherUrl": "https://x.com/Horizon3Attack",
+      "pocWorks": "Yes",
+      "difficulty": "easy",
+      "added": "7:59 PM CDT",
+      "firstSeenAt": "2026-05-22T00:59:08Z",
+      "language": "Unknown",
+      "summary": "Palo Alto Networks PAN-OS contains an out-of-bounds write vulnerability in the User-ID Authentication Portal (aka Captive Portal) service that can allow an unauthenticated attacker to execute arbitrary code with root privileges.",
+      "technicalSummary": "A critical buffer overflow vulnerability has been identified in Palo Alto Networks PAN-OS in the User-ID captive portal functionality that could lead to remote code execution. Tracked as CVE-2026-0300 and rated CVSS 9.3, the flaw stems from improper.",
+      "breakdown": "A critical buffer overflow vulnerability has been identified in Palo Alto Networks PAN-OS in the User-ID captive portal functionality that could lead to remote code execution. Tracked as CVE-2026-0300 and rated CVSS 9.3, the flaw stems from improper.",
+      "whatBroke": "Palo Alto Networks PAN-OS contains an out-of-bounds write vulnerability in the User-ID Authentication Portal (aka Captive Portal) service that can allow an unauthenticated attacker to execute arbitrary code with root privileges on the.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Horizon3 Attack Team/CVE-2026-0300.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://horizon3.ai/attack-research/vulnerabilities/cve-2026-0300/\ncd CVE-2026-0300\n# use the repo README invocation against https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed PAN-OS",
+        "credential access from service context",
+        "webshell or command execution follow-up",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Cloud",
+        "VPN Edge",
+        "RCE",
+        "KEV"
+      ],
+      "confidence": 98,
+      "weaponization": 84,
+      "dayOffset": 0,
+      "links": [
+        [
+          "PoC",
+          "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-0300/"
+        ],
+        [
+          "Technical Paper",
+          "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-0300/"
+        ],
+        [
+          "Vendor Advisory",
+          "https://security.paloaltonetworks.com/CVE-2026-0300"
         ]
       ]
     },
@@ -230,28 +289,122 @@
       ]
     },
     {
-      "cve": "CVE-2026-33017",
-      "title": "Langflow Code Injection Vulnerability with public poc signal",
-      "ecosystem": "cloud",
+      "cve": "CVE-2026-33825",
+      "title": "Microsoft Defender Insufficient Granularity of Access Control Vulnerability with public.",
+      "ecosystem": "windows",
+      "category": "webstack",
+      "severity": "high",
+      "proof": "working public poc",
+      "reliability": "reliable exploit",
+      "researcher": "0xBlackash",
+      "researcherUrl": "https://github.com/0xBlackash",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "8:02 PM CDT",
+      "firstSeenAt": "2026-05-22T01:02:56Z",
+      "language": "C",
+      "summary": "Microsoft Defender contains an insufficient granularity of access control vulnerability that could allow an authorized attacker to escalate privileges locally.",
+      "technicalSummary": "The exploit path abuses a trust boundary in Defender: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in Defender: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
+      "whatBroke": "Microsoft Defender contains an insufficient granularity of access control vulnerability that could allow an authorized attacker to escalate privileges locally.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at 0xBlackash/CVE-2026-33825.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/0xBlackash/CVE-2026-33825\ncd CVE-2026-33825\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed Defender",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Windows",
+        "Webstack",
+        "Exploit",
+        "KEV"
+      ],
+      "confidence": 98,
+      "weaponization": 78,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/0xBlackash/CVE-2026-33825"
+        ],
+        [
+          "Vendor Advisory",
+          "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-33825"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-21509",
+      "title": "Microsoft Office Security Feature Bypass Vulnerability with public poc signal",
+      "ecosystem": "windows",
       "category": "webstack",
       "severity": "high",
       "proof": "working public poc",
       "reliability": "partial exploit",
-      "researcher": "zulloper",
-      "researcherUrl": "https://github.com/zulloper",
+      "researcher": "XZ1r0",
+      "researcherUrl": "https://github.com/XZ1r0",
       "pocWorks": "Yes",
       "difficulty": "needs validation",
+      "added": "8:02 PM CDT",
+      "firstSeenAt": "2026-05-22T01:02:56Z",
+      "language": "Python",
+      "summary": "Microsoft Office contains a security feature bypass vulnerability in which reliance on untrusted inputs in a security decision in Microsoft Office could allow an unauthorized attacker to bypass a security feature locally. Some.",
+      "technicalSummary": "The exploit path abuses a trust boundary in Office: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in Office: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
+      "whatBroke": "Microsoft Office contains a security feature bypass vulnerability in which reliance on untrusted inputs in a security decision in Microsoft Office could allow an unauthorized attacker to bypass a security feature locally. Some of the.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at XZ1r0/cve-2026-poc-collection.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/XZ1r0/cve-2026-poc-collection\ncd cve-2026-poc-collection\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed Office",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Windows",
+        "Webstack",
+        "Exploit",
+        "KEV"
+      ],
+      "confidence": 96,
+      "weaponization": 84,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/XZ1r0/cve-2026-poc-collection"
+        ],
+        [
+          "Vendor Advisory",
+          "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-21509"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-9082",
+      "title": "CVE-2026-9082 | Drupal SQL Injection Vulnerability with public poc signal",
+      "ecosystem": "cloud",
+      "category": "webstack",
+      "severity": "high",
+      "proof": "working public poc",
+      "reliability": "reliable exploit",
+      "researcher": "Horizon3 Attack Team",
+      "researcherUrl": "https://x.com/Horizon3Attack",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
       "added": "7:59 PM CDT",
       "firstSeenAt": "2026-05-22T00:59:08Z",
       "language": "Python",
-      "summary": "Langflow contains a code injection vulnerability that could allow building public flows without requiring authentication.",
-      "technicalSummary": "The exploit path abuses a trust boundary in Langflow: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
-      "breakdown": "The exploit path abuses a trust boundary in Langflow: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
-      "whatBroke": "Langflow contains a code injection vulnerability that could allow building public flows without requiring authentication.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at zulloper/cve-poc.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/zulloper/cve-poc\ncd cve-poc\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "summary": "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Drupal Drupal core allows SQL Injection. This issue affects Drupal core: from 8.9.0 before 10.4.10, from 10.5.0 before.",
+      "technicalSummary": "CVE-2026-9082 is a highly critical SQL injection vulnerability affecting Drupal core sites configured to use PostgreSQL as the backend database. The vulnerability exists in Drupal\u2019s database abstraction API, where specially crafted requests can bypass.",
+      "breakdown": "CVE-2026-9082 is a highly critical SQL injection vulnerability affecting Drupal core sites configured to use PostgreSQL as the backend database. The vulnerability exists in Drupal\u2019s database abstraction API, where specially crafted requests can bypass.",
+      "whatBroke": "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Drupal Drupal core allows SQL Injection. This issue affects Drupal core: from 8.9.0 before 10.4.10, from 10.5.0 before 10.5.10, from.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at 7h30th3r0n3/CVE-2026-9082-Drupal-PoC.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/7h30th3r0n3/CVE-2026-9082-Drupal-PoC\ncd CVE-2026-9082-Drupal-PoC\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed Langflow",
+        "initial access through exposed the affected product",
         "internal pivot from an internet-facing control point",
         "lateral movement if secrets or management access are recovered"
       ],
@@ -259,20 +412,23 @@
       "tags": [
         "Cloud",
         "Webstack",
-        "Exploit",
-        "KEV"
+        "SQLi"
       ],
-      "confidence": 95,
-      "weaponization": 99,
+      "confidence": 98,
+      "weaponization": 73,
       "dayOffset": 0,
       "links": [
         [
           "GitHub",
-          "https://github.com/zulloper/cve-poc"
+          "https://github.com/7h30th3r0n3/CVE-2026-9082-Drupal-PoC"
+        ],
+        [
+          "Technical Paper",
+          "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-9082/"
         ],
         [
           "Vendor Advisory",
-          "https://github.com/langflow-ai/langflow/security/advisories/GHSA-vwmf-pq79-vjvx"
+          "https://www.drupal.org/sa-core-2026-004"
         ]
       ]
     },
@@ -291,10 +447,10 @@
       "added": "7:59 PM CDT",
       "firstSeenAt": "2026-05-22T00:59:08Z",
       "language": "Python",
-      "summary": "CVE-2026-0908",
+      "summary": "Use after free in ANGLE in Google Chrome prior to 144.0.7559.59 allowed a remote attacker to potentially exploit heap corruption via a crafted HTML page. (Chromium security severity: Low)",
       "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
       "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
-      "whatBroke": "CVE-2026-0908",
+      "whatBroke": "Use after free in ANGLE in Google Chrome prior to 144.0.7559.59 allowed a remote attacker to potentially exploit heap corruption via a crafted HTML page. (Chromium security severity: Low)",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at lylzjnqe/CVE-2026-0908-Chrome-0-day-RCE.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/lylzjnqe/CVE-2026-0908-Chrome-0-day-RCE\ncd CVE-2026-0908-Chrome-0-day-RCE\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
@@ -315,6 +471,10 @@
         [
           "GitHub",
           "https://github.com/lylzjnqe/CVE-2026-0908-Chrome-0-day-RCE"
+        ],
+        [
+          "Vendor Advisory",
+          "https://chromereleases.googleblog.com/2026/01/stable-channel-update-for-desktop_13.html"
         ]
       ]
     },
@@ -323,22 +483,22 @@
       "title": "CVE-2026-43284 with public poc signal",
       "ecosystem": "linux",
       "category": "kernel",
-      "severity": "medium",
+      "severity": "high",
       "proof": "working public poc",
-      "reliability": "partial exploit",
-      "researcher": "portbuster1337",
-      "researcherUrl": "https://github.com/portbuster1337",
+      "reliability": "reliable exploit",
+      "researcher": "kuniyal08",
+      "researcherUrl": "https://github.com/kuniyal08",
       "pocWorks": "Yes",
-      "difficulty": "situational",
+      "difficulty": "moderate",
       "added": "7:59 PM CDT",
       "firstSeenAt": "2026-05-22T00:59:08Z",
-      "language": "C",
-      "summary": "CVE-2026-43284",
+      "language": "Unknown",
+      "summary": "In the Linux kernel, the following vulnerability has been resolved: xfrm: esp: avoid in-place decrypt on shared skb frags MSG_SPLICE_PAGES can attach pages from a pipe directly to an skb. TCP marks such skbs with.",
       "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches local lpe handling that should require stricter validation, authentication, or state checks.",
       "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches local lpe handling that should require stricter validation, authentication, or state checks.",
-      "whatBroke": "CVE-2026-43284",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "whatBroke": "In the Linux kernel, the following vulnerability has been resolved: xfrm: esp: avoid in-place decrypt on shared skb frags MSG_SPLICE_PAGES can attach pages from a pipe directly to an skb. TCP marks such skbs with SKBFL_SHARED_FRAG after.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at kuniyal08/Dirty-Frag-CVE-2026-43284.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/kuniyal08/Dirty-Frag-CVE-2026-43284\ncd Dirty-Frag-CVE-2026-43284\n# use the repo README invocation against https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
         "initial access through exposed the affected product",
         "local privilege escalation after a foothold",
@@ -350,13 +510,17 @@
         "Kernel",
         "Local LPE"
       ],
-      "confidence": 95,
+      "confidence": 98,
       "weaponization": 75,
       "dayOffset": 0,
       "links": [
         [
           "GitHub",
-          "https://github.com/portbuster1337/lpe-toolkit"
+          "https://github.com/kuniyal08/Dirty-Frag-CVE-2026-43284"
+        ],
+        [
+          "Vendor Advisory",
+          "https://git.kernel.org/stable/c/50ed1e7873100f77abad20fd31c51029bc49cd03"
         ]
       ]
     },
@@ -365,22 +529,22 @@
       "title": "CVE-2026-31635 with public poc signal",
       "ecosystem": "linux",
       "category": "kernel",
-      "severity": "medium",
+      "severity": "high",
       "proof": "working public poc",
-      "reliability": "partial exploit",
-      "researcher": "portbuster1337",
-      "researcherUrl": "https://github.com/portbuster1337",
+      "reliability": "reliable exploit",
+      "researcher": "0xFuffM3",
+      "researcherUrl": "https://github.com/0xFuffM3",
       "pocWorks": "Yes",
-      "difficulty": "situational",
+      "difficulty": "moderate",
       "added": "7:59 PM CDT",
       "firstSeenAt": "2026-05-22T00:59:08Z",
       "language": "C",
-      "summary": "CVE-2026-31635",
-      "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches local lpe handling that should require stricter validation, authentication, or state checks.",
-      "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches local lpe handling that should require stricter validation, authentication, or state checks.",
-      "whatBroke": "CVE-2026-31635",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "summary": "In the Linux kernel, the following vulnerability has been resolved: rxrpc: fix oversized RESPONSE authenticator length check rxgk_verify_response() decodes auth_len from the packet and is supposed to verify that it fits in the.",
+      "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
+      "whatBroke": "In the Linux kernel, the following vulnerability has been resolved: rxrpc: fix oversized RESPONSE authenticator length check rxgk_verify_response() decodes auth_len from the packet and is supposed to verify that it fits in the remaining.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at 0xFuffM3/CVE-2026-31635-DirtyDecrypt.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/0xFuffM3/CVE-2026-31635-DirtyDecrypt\ncd CVE-2026-31635-DirtyDecrypt\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
         "initial access through exposed the affected product",
         "local privilege escalation after a foothold",
@@ -390,39 +554,181 @@
       "tags": [
         "Linux",
         "Kernel",
-        "Local LPE"
+        "Exploit"
       ],
-      "confidence": 95,
+      "confidence": 98,
       "weaponization": 73,
       "dayOffset": 0,
       "links": [
         [
           "GitHub",
-          "https://github.com/portbuster1337/lpe-toolkit"
+          "https://github.com/0xFuffM3/CVE-2026-31635-DirtyDecrypt"
+        ],
+        [
+          "Vendor Advisory",
+          "https://git.kernel.org/stable/c/a2567217ade970ecc458144b6be469bc015b23e5"
         ]
       ]
     },
     {
       "cve": "CVE-2026-46300",
       "title": "CVE-2026-46300 with public poc signal",
-      "ecosystem": "linux",
-      "category": "kernel",
-      "severity": "medium",
+      "ecosystem": "cloud",
+      "category": "webstack",
+      "severity": "high",
       "proof": "working public poc",
-      "reliability": "partial exploit",
-      "researcher": "portbuster1337",
-      "researcherUrl": "https://github.com/portbuster1337",
+      "reliability": "reliable exploit",
+      "researcher": "Maxime288",
+      "researcherUrl": "https://github.com/Maxime288",
       "pocWorks": "Yes",
-      "difficulty": "situational",
+      "difficulty": "moderate",
       "added": "7:59 PM CDT",
       "firstSeenAt": "2026-05-22T00:59:08Z",
-      "language": "C",
+      "language": "Unknown",
       "summary": "CVE-2026-46300",
+      "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches exploit handling that should require stricter validation, authentication, or state checks.",
+      "whatBroke": "CVE-2026-46300",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Maxime288/Fragnesia-CVE-2026-46300.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/Maxime288/Fragnesia-CVE-2026-46300\ncd Fragnesia-CVE-2026-46300\n# use the repo README invocation against https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Cloud",
+        "Webstack",
+        "Exploit"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/Maxime288/Fragnesia-CVE-2026-46300"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-33824",
+      "title": "CVE-2026-33824 with public poc signal",
+      "ecosystem": "windows",
+      "category": "webstack",
+      "severity": "critical",
+      "proof": "working public poc",
+      "reliability": "reliable exploit",
+      "researcher": "EpSiLoNPoInTOrI",
+      "researcherUrl": "https://github.com/EpSiLoNPoInTOrI",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "8:02 PM CDT",
+      "firstSeenAt": "2026-05-22T01:02:56Z",
+      "language": "C++",
+      "summary": "Double free in Windows IKE Extension allows an unauthorized attacker to execute code over a network.",
+      "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
+      "whatBroke": "Double free in Windows IKE Extension allows an unauthorized attacker to execute code over a network.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at EpSiLoNPoInTOrI/IKEV2-POC.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/EpSiLoNPoInTOrI/IKEV2-POC\ncd IKEV2-POC\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "credential access from service context",
+        "webshell or command execution follow-up",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Windows",
+        "Webstack",
+        "RCE"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/EpSiLoNPoInTOrI/IKEV2-POC"
+        ],
+        [
+          "Vendor Advisory",
+          "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-33824"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-2587",
+      "title": "CVE-2026-2587 with public poc signal",
+      "ecosystem": "cloud",
+      "category": "webstack",
+      "severity": "critical",
+      "proof": "working public poc",
+      "reliability": "reliable exploit",
+      "researcher": "Bhanunamikaze",
+      "researcherUrl": "https://github.com/Bhanunamikaze",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "8:02 PM CDT",
+      "firstSeenAt": "2026-05-22T01:02:56Z",
+      "language": "Python",
+      "summary": "A critical Remote Code Execution (RCE) vulnerability was identified in the server-side template rendering mechanism used by the Glassfish gadget handler. The application processes .xml files and evaluates user-supplied values.",
+      "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
+      "whatBroke": "A critical Remote Code Execution (RCE) vulnerability was identified in the server-side template rendering mechanism used by the Glassfish gadget handler. The application processes .xml files and evaluates user-supplied values within a.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Bhanunamikaze/CVE-2026-2587-Exploit-POC.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/Bhanunamikaze/CVE-2026-2587-Exploit-POC\ncd CVE-2026-2587-Exploit-POC\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "credential access from service context",
+        "webshell or command execution follow-up",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Cloud",
+        "Webstack",
+        "RCE"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/Bhanunamikaze/CVE-2026-2587-Exploit-POC"
+        ],
+        [
+          "Vendor Advisory",
+          "https://gitlab.eclipse.org/security/cve-assignment/-/issues/86"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-45250",
+      "title": "CVE-2026-45250 with public poc signal",
+      "ecosystem": "linux",
+      "category": "kernel",
+      "severity": "high",
+      "proof": "working public poc",
+      "reliability": "reliable exploit",
+      "researcher": "venglin",
+      "researcherUrl": "https://github.com/venglin",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "8:02 PM CDT",
+      "firstSeenAt": "2026-05-22T01:02:56Z",
+      "language": "C",
+      "summary": "The setcred(2) system call is only available to privileged users. However, before the privilege level of the caller is checked, the user-supplied list of supplementary groups is copied into a fixed-size kernel stack buffer.",
       "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches local lpe handling that should require stricter validation, authentication, or state checks.",
       "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches local lpe handling that should require stricter validation, authentication, or state checks.",
-      "whatBroke": "CVE-2026-46300",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "whatBroke": "The setcred(2) system call is only available to privileged users. However, before the privilege level of the caller is checked, the user-supplied list of supplementary groups is copied into a fixed-size kernel stack buffer without first.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at venglin/setcred.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/venglin/setcred\ncd setcred\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
         "initial access through exposed the affected product",
         "local privilege escalation after a foothold",
@@ -434,13 +740,109 @@
         "Kernel",
         "Local LPE"
       ],
-      "confidence": 95,
+      "confidence": 98,
       "weaponization": 73,
       "dayOffset": 0,
       "links": [
         [
           "GitHub",
-          "https://github.com/portbuster1337/lpe-toolkit"
+          "https://github.com/venglin/setcred"
+        ],
+        [
+          "Vendor Advisory",
+          "https://security.freebsd.org/advisories/FreeBSD-SA-26:18.setcred.asc"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-46529",
+      "title": "CVE-2026-46529 with public poc signal",
+      "ecosystem": "cloud",
+      "category": "webstack",
+      "severity": "critical",
+      "proof": "working public poc",
+      "reliability": "reliable exploit",
+      "researcher": "N1et",
+      "researcherUrl": "https://github.com/N1et",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "8:02 PM CDT",
+      "firstSeenAt": "2026-05-22T01:02:56Z",
+      "language": "Python",
+      "summary": "CVE-2026-46529",
+      "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
+      "whatBroke": "CVE-2026-46529",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at N1et/CVE-2026-46529.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/N1et/CVE-2026-46529\ncd CVE-2026-46529\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "credential access from service context",
+        "webshell or command execution follow-up",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Cloud",
+        "Webstack",
+        "RCE"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/N1et/CVE-2026-46529"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-4885",
+      "title": "CVE-2026-4885 with public poc signal",
+      "ecosystem": "cloud",
+      "category": "webstack",
+      "severity": "critical",
+      "proof": "working public poc",
+      "reliability": "reliable exploit",
+      "researcher": "xShadow-Here",
+      "researcherUrl": "https://github.com/xShadow-Here",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "8:02 PM CDT",
+      "firstSeenAt": "2026-05-22T01:02:56Z",
+      "language": "Python",
+      "summary": "The Piotnet Addons for Elementor Pro plugin for WordPress is vulnerable to arbitrary file upload due to missing file type validation in the 'pafe_ajax_form_builder' function in all versions up to, and including, 7.1.70. The.",
+      "technicalSummary": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
+      "breakdown": "The exploit path abuses a trust boundary in the affected component: attacker-controlled input reaches rce handling that should require stricter validation, authentication, or state checks.",
+      "whatBroke": "The Piotnet Addons for Elementor Pro plugin for WordPress is vulnerable to arbitrary file upload due to missing file type validation in the 'pafe_ajax_form_builder' function in all versions up to, and including, 7.1.70. The plugin uses an.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at xShadow-Here/CVE-2026-4885.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/xShadow-Here/CVE-2026-4885\ncd CVE-2026-4885\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "credential access from service context",
+        "webshell or command execution follow-up",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Cloud",
+        "Webstack",
+        "RCE"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/xShadow-Here/CVE-2026-4885"
+        ],
+        [
+          "Vendor Advisory",
+          "https://pafe.piotnet.com/"
         ]
       ]
     },
@@ -491,144 +893,6 @@
         [
           "Vendor Advisory",
           "https://github.com/xwiki/xwiki-commons/commit/a979cafd89f6a9c9c0b9ab19744d672df64429bf"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-9082",
-      "title": "CVE-2026-9082 | Drupal SQL Injection Vulnerability with public poc signal",
-      "ecosystem": "cloud",
-      "category": "webstack",
-      "severity": "high",
-      "proof": "working public poc",
-      "reliability": "reliable exploit",
-      "researcher": "Horizon3 Attack Team",
-      "researcherUrl": "https://x.com/Horizon3Attack",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "7:59 PM CDT",
-      "firstSeenAt": "2026-05-22T00:59:08Z",
-      "language": "Unknown",
-      "summary": "<p>CVE-2026-9082 is a highly critical SQL injection vulnerability affecting Drupal core sites configured to use PostgreSQL as the backend database. The vulnerability exists in Drupal\u2019s database abstraction API, where specially.",
-      "technicalSummary": "CVE-2026-9082 is a highly critical SQL injection vulnerability affecting Drupal core sites configured to use PostgreSQL as the backend database. The vulnerability exists in Drupal\u2019s database abstraction API, where specially crafted requests can bypass.",
-      "breakdown": "CVE-2026-9082 is a highly critical SQL injection vulnerability affecting Drupal core sites configured to use PostgreSQL as the backend database. The vulnerability exists in Drupal\u2019s database abstraction API, where specially crafted requests can bypass.",
-      "whatBroke": "<p>CVE-2026-9082 is a highly critical SQL injection vulnerability affecting Drupal core sites configured to use PostgreSQL as the backend database. The vulnerability exists in Drupal\u2019s database abstraction API, where specially crafted.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Horizon3 Attack Team/CVE-2026-9082.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://horizon3.ai/attack-research/vulnerabilities/cve-2026-9082/\ncd CVE-2026-9082\n# use the repo README invocation against https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Cloud",
-        "Webstack",
-        "SQLi"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 0,
-      "links": [
-        [
-          "PoC",
-          "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-9082/"
-        ],
-        [
-          "Technical Paper",
-          "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-9082/"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-44578",
-      "title": "CVE-2026-44578 | Next.js Server-Side Request Forgery Vulnerability with public poc signal",
-      "ecosystem": "cloud",
-      "category": "webstack",
-      "severity": "high",
-      "proof": "working public poc",
-      "reliability": "reliable exploit",
-      "researcher": "Horizon3 Attack Team",
-      "researcherUrl": "https://x.com/Horizon3Attack",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "7:59 PM CDT",
-      "firstSeenAt": "2026-05-22T00:59:08Z",
-      "language": "Unknown",
-      "summary": "<p>CVE-2026-44578 is a High-severity server-side request forgery vulnerability affecting self-hosted Next.js applications that use the built-in Node.js server. The vulnerability exists in WebSocket upgrade request handling,.",
-      "technicalSummary": "CVE-2026-44578 is a High-severity server-side request forgery vulnerability affecting self-hosted Next.js applications that use the built-in Node.js server. The vulnerability exists in WebSocket upgrade request handling, where crafted requests can cause.",
-      "breakdown": "CVE-2026-44578 is a High-severity server-side request forgery vulnerability affecting self-hosted Next.js applications that use the built-in Node.js server. The vulnerability exists in WebSocket upgrade request handling, where crafted requests can cause.",
-      "whatBroke": "<p>CVE-2026-44578 is a High-severity server-side request forgery vulnerability affecting self-hosted Next.js applications that use the built-in Node.js server. The vulnerability exists in WebSocket upgrade request handling, where crafted.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Horizon3 Attack Team/CVE-2026-44578.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://horizon3.ai/attack-research/vulnerabilities/cve-2026-44578/\ncd CVE-2026-44578\n# use the repo README invocation against https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Cloud",
-        "Webstack",
-        "Exploit"
-      ],
-      "confidence": 98,
-      "weaponization": 76,
-      "dayOffset": 0,
-      "links": [
-        [
-          "PoC",
-          "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-44578/"
-        ],
-        [
-          "Technical Paper",
-          "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-44578/"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-3102",
-      "title": "How an image could compromise your Mac: understanding an ExifTool vulnerability.",
-      "ecosystem": "cloud",
-      "category": "webstack",
-      "severity": "high",
-      "proof": "working public poc",
-      "reliability": "reliable exploit",
-      "researcher": "Kaspersky GReAT",
-      "researcherUrl": "https://securelist.com/",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "7:59 PM CDT",
-      "firstSeenAt": "2026-05-22T00:59:08Z",
-      "language": "Unknown",
-      "summary": "How an image could compromise your Mac: understanding an ExifTool vulnerability (CVE-2026-3102)",
-      "technicalSummary": "How an image could compromise your Mac: understanding an ExifTool vulnerability (CVE-2026-3102). The relevant takeaway is the vulnerable input path, required target shape, and how the public code validates the bug.",
-      "breakdown": "How an image could compromise your Mac: understanding an ExifTool vulnerability (CVE-2026-3102). The relevant takeaway is the vulnerable input path, required target shape, and how the public code validates the bug.",
-      "whatBroke": "How an image could compromise your Mac: understanding an ExifTool vulnerability (CVE-2026-3102)",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Kaspersky GReAT/CVE-2026-3102.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://securelist.com/exiftool-compromise-mac/119866/\ncd CVE-2026-3102\n# use the repo README invocation against https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Cloud",
-        "Webstack",
-        "Exploit"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 0,
-      "links": [
-        [
-          "PoC",
-          "https://securelist.com/exiftool-compromise-mac/119866/"
-        ],
-        [
-          "Technical Paper",
-          "https://securelist.com/exiftool-compromise-mac/119866/"
         ]
       ]
     }
