@@ -59,9 +59,11 @@ jobs:
           CVE_RE = re.compile(r"CVE-\d{4}-\d{4,7}", re.I)
           LOCAL_TZ = ZoneInfo("America/Chicago")
           LOOKBACK_DAYS = 7
+          CURRENT_CVE_YEAR = dt.datetime.now(dt.timezone.utc).year
 
           RSS_SOURCES = [
               ("Google Security Blog", "https://security.googleblog.com/feeds/posts/default"),
+              ("Project Zero Current", "https://projectzero.google/feed.xml"),
               ("Project Zero", "https://googleprojectzero.blogspot.com/feeds/posts/default"),
               ("watchTowr Labs", "https://labs.watchtowr.com/rss/"),
               ("Horizon3 Attack Team", "https://www.horizon3.ai/feed/"),
@@ -86,6 +88,7 @@ jobs:
 
           SOURCE_PROFILES = {
               "Google Security Blog": ("Google Security Blog", "https://blog.google/security/"),
+              "Project Zero Current": ("Project Zero", "https://projectzero.google/"),
               "Project Zero": ("Project Zero", "https://x.com/ProjectZeroBugs"),
               "watchTowr Labs": ("watchTowr Labs", "https://x.com/watchtowrcyber"),
               "Horizon3 Attack Team": ("Horizon3 Attack Team", "https://x.com/Horizon3Attack"),
@@ -124,6 +127,7 @@ jobs:
               "palo alto", "pan-os", "pixel", "rdp", "relay", "saml", "sccm", "screenconnect",
               "sharepoint", "teamcity", "webkit", "windows", "winrm", "wordpress", "vmware",
               "vpn", "zero-click", "zeroclick",
+              "baseband", "binder", "dolby", "media framework", "pixel", "qualcomm", "sandbox",
           }
 
           PRIMITIVES = {
@@ -157,6 +161,11 @@ jobs:
               "CVE exploit PoC Kubernetes",
               "CVE exploit PoC Android",
               "CVE exploit PoC iOS",
+              "CVE exploit PoC Pixel",
+              "CVE exploit PoC WebKit",
+              "CVE exploit PoC Safari",
+              "CVE exploit PoC baseband",
+              "CVE exploit PoC sandbox escape",
               "CVE auth bypass exploit",
               "CVE command injection exploit",
               "CVE privilege escalation exploit",
@@ -227,19 +236,28 @@ jobs:
                   return text
               return text[: limit - 1].rsplit(" ", 1)[0] + "."
 
-          def tag_value(text: str, rules: list[tuple[str, list[str]]], fallback: str) -> str:
+          def term_in_text(text: str, term: str) -> bool:
               lower = text.lower()
+              term = term.lower()
+              if len(term) <= 3 or re.fullmatch(r"[a-z0-9-]+", term):
+                  pattern = r"(?<![a-z0-9])" + re.escape(term).replace(r"\-", r"[-\s]") + r"(?![a-z0-9])"
+                  return re.search(pattern, lower) is not None
+              return term in lower
+
+          def contains_any(text: str, terms) -> bool:
+              return any(term_in_text(text, term) for term in terms)
+
+          def tag_value(text: str, rules: list[tuple[str, list[str]]], fallback: str) -> str:
               for value, terms in rules:
-                  if any(term in lower for term in terms):
+                  if contains_any(text, terms):
                       return value
               return fallback
 
           def primitive(text: str) -> str:
-              lower = text.lower()
               for label, terms in PRIMITIVES.values():
-                  if any(term in lower for term in terms):
+                  if contains_any(text, terms):
                       return label
-              return "RCE" if "execute" in lower else "Exploit"
+              return "RCE" if term_in_text(text, "execute") else "Exploit"
 
           def labelize(value: str) -> str:
               return {
@@ -312,6 +330,7 @@ jobs:
                               "title": compact(fields["title"], 140),
                               "summary": compact(fields["summary"], 260),
                               "url": fields["link"] or url,
+                              "urls": list(dict.fromkeys(extract_urls(fields["summary"]) + ([fields["link"]] if fields["link"] else [])))[:8],
                               "publishedAt": published.isoformat().replace("+00:00", "Z"),
                           })
               return mentions
@@ -362,7 +381,36 @@ jobs:
                           cvss = row.get("cvssData", {}) if isinstance(row.get("cvssData", {}), dict) else {}
                           severity = cvss.get("baseSeverity") or row.get("baseSeverity", "")
                           break
-              return {"description": desc, "references": refs, "severity": severity}
+              return {
+                  "description": desc,
+                  "references": refs,
+                  "severity": severity,
+                  "published": cve_data.get("published", ""),
+                  "lastModified": cve_data.get("lastModified", ""),
+              }
+
+          def cve_year(cve: str) -> int:
+              match = re.match(r"^CVE-(\d{4})-", cve or "", re.I)
+              return int(match.group(1)) if match else 0
+
+          def recent_date(value: str, now_utc: dt.datetime, days: int = LOOKBACK_DAYS) -> bool:
+              parsed = parse_date(value)
+              if parsed.year == 1970:
+                  return False
+              return parsed >= now_utc - dt.timedelta(days=days)
+
+          def is_recent_release(cve: str, item: dict | None, mention: dict | None, repo: dict | None, nvd: dict, now_utc: dt.datetime) -> bool:
+              if item and recent_date(item.get("dateAdded", ""), now_utc):
+                  return True
+              if mention and recent_date(mention.get("publishedAt", ""), now_utc):
+                  return True
+              if recent_date(nvd.get("published", ""), now_utc):
+                  return True
+              if cve_year(cve) >= CURRENT_CVE_YEAR and recent_date(nvd.get("lastModified", ""), now_utc) and recent_date((repo or {}).get("pushed_at", ""), now_utc):
+                  return True
+              if cve_year(cve) >= CURRENT_CVE_YEAR and repo and recent_date(repo.get("created_at", ""), now_utc):
+                  return True
+              return False
 
           def repo_score(repo: dict, cve: str) -> int:
               text = " ".join([
@@ -373,9 +421,9 @@ jobs:
               score = 0
               if cve.lower() in text:
                   score += 35
-              if any(term in text for term in ["exploit", "poc", "proof-of-concept", "rce", "bypass", "lpe", "checker"]):
+              if contains_any(text, ["exploit", "poc", "proof-of-concept", "rce", "bypass", "lpe", "checker"]):
                   score += 25
-              if any(term in text for term in SPAM_TERMS):
+              if contains_any(text, SPAM_TERMS):
                   score -= 80
               if repo.get("fork"):
                   score -= 18
@@ -398,7 +446,34 @@ jobs:
                   "name": repo.get("full_name", ""),
                   "description": repo.get("description") or "",
                   "language": repo.get("language") or "",
+                  "created_at": repo.get("created_at") or "",
                   "pushed_at": repo.get("pushed_at") or "",
+              }
+
+          def mention_candidate(cve: str, mention: dict | None) -> dict | None:
+              if not mention:
+                  return None
+              urls = list(dict.fromkeys((mention.get("urls") or []) + [mention.get("url", "")]))
+              chosen = ""
+              for url in urls:
+                  lower = str(url).lower()
+                  if "github.com/" in lower or "issues.chromium.org" in lower or "projectzero.google" in lower:
+                      chosen = url
+                      break
+              chosen = chosen or mention.get("url", "")
+              if not chosen:
+                  return None
+              return {
+                  "score": 74,
+                  "url": chosen,
+                  "owner": mention.get("source", "public research"),
+                  "owner_url": mention.get("profileUrl", "") or mention.get("url", ""),
+                  "name": f"{mention.get('source', 'research')}/{cve}",
+                  "description": mention.get("title") or mention.get("summary") or "",
+                  "language": "Unknown",
+                  "created_at": mention.get("publishedAt", ""),
+                  "pushed_at": mention.get("publishedAt", ""),
+                  "artifact_type": "research artifact",
               }
 
           def github_readme_text(full_name: str) -> str:
@@ -587,7 +662,8 @@ jobs:
                   technical_summary = compact(re.sub(r"<[^>]+>", " ", mention["summary"]), 300)
               elif mention and mention.get("title"):
                   technical_summary = compact(f"{mention['title']}. The relevant takeaway is the vulnerable input path, required target shape, and how the public code validates the bug.", 300)
-              links = [["GitHub", repo["url"]]]
+              primary_label = "GitHub" if "github.com/" in repo.get("url", "").lower() else "PoC"
+              links = [[primary_label, repo["url"]]]
               if mention:
                   links.append(["Technical Paper", mention["url"]])
               vendor_links = [url for url in extract_urls(notes) + nvd.get("references", []) if "nvd.nist.gov" not in url.lower()]
@@ -648,7 +724,17 @@ jobs:
               for item in kev
               if CVE_RE.fullmatch(item.get("cveID", ""))
           }
-          candidate_cves = sorted(set(kev_by_cve) | set(rss) | set(github_discovered))
+          recent_kev = {
+              cve
+              for cve, item in kev_by_cve.items()
+              if recent_date(item.get("dateAdded", ""), now_utc)
+          }
+          current_year_github = {
+              cve
+              for cve in github_discovered
+              if cve_year(cve) >= CURRENT_CVE_YEAR
+          }
+          candidate_cves = sorted(set(rss) | recent_kev | current_year_github)
           epss = epss_scores(candidate_cves)
 
           def synthetic_item(cve: str, nvd: dict, mention: dict | None) -> dict:
@@ -682,9 +768,9 @@ jobs:
               signal += 38 if mention else 0
               signal += 42 if repo_hint else 0
               signal += min(25, int(repo_hint.get("score", 0)) // 3) if repo_hint else 0
-              signal += 45 if any(term in text for term in HIGH_SIGNAL) else 0
-              signal += 20 if any(term in text for terms in PRIMITIVES.values() for term in terms[1]) else 0
-              signal += 12 if any(term in text for term in ["windows", "exchange", "sharepoint", "adcs", "kerberos", "ntlm", "rce", "lpe"]) else 0
+              signal += 45 if contains_any(text, HIGH_SIGNAL) else 0
+              signal += 20 if any(contains_any(text, terms[1]) for terms in PRIMITIVES.values()) else 0
+              signal += 12 if contains_any(text, ["windows", "exchange", "sharepoint", "adcs", "kerberos", "ntlm", "rce", "lpe", "android", "ios", "pixel", "webkit", "zero-click", "zeroclick"]) else 0
               signal += int((epss.get(cve, 0) or 0) * 70)
               if item:
                   signal += max(0, 60 - min(60, (now_utc - parse_date(item.get("dateAdded", ""))).days // 7))
@@ -701,11 +787,15 @@ jobs:
                   continue
               try:
                   repo = github_candidate(cve, github_discovered.get(cve, []))
+                  mention = rss.get(cve, [None])[0]
+                  if not repo:
+                      repo = mention_candidate(cve, mention)
                   if not repo:
                       continue
                   time.sleep(0.4)
                   nvd = nvd_lookup(cve)
-                  mention = rss.get(cve, [None])[0]
+                  if not is_recent_release(cve, kev_by_cve.get(cve), mention, repo, nvd, now_utc):
+                      continue
                   item = kev_by_cve.get(cve) or synthetic_item(cve, nvd, mention)
                   first_seen_at = existing_first_seen.get(cve) or now_utc.isoformat().replace("+00:00", "Z")
                   day_offset = archive_day_offset(first_seen_at, now_utc)
