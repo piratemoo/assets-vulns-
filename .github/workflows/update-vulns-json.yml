@@ -3,8 +3,9 @@ name: Update Threat Tide live vuln feed
 on:
   workflow_dispatch:
   schedule:
-    # GitHub cron is UTC. This targets 8:00 AM, 2:00 PM, and 9:00 PM US Central during daylight time.
-    - cron: "0 2,13,19 * * *"
+    # GitHub cron is UTC. This targets about 8:07 AM, 2:07 PM, and 9:07 PM US Central during daylight time.
+    # Non-zero minutes avoid the top-of-hour Actions queue, where scheduled workflows are more often delayed.
+    - cron: "7 2,13,19 * * *"
 
 permissions:
   contents: write
@@ -41,6 +42,7 @@ jobs:
           import os
           import re
           import time
+          import unicodedata
           import urllib.error
           import urllib.parse
           import urllib.request
@@ -79,6 +81,8 @@ jobs:
               ("SSD Disclosure", "https://ssd-disclosure.com/feed/"),
               ("Rapid7 Blog", "https://www.rapid7.com/blog/rss.xml"),
               ("Qualys Research", "https://blog.qualys.com/feed"),
+              ("PortSwigger Research", "https://portswigger.net/research/rss"),
+              ("Assetnote Research", "https://www.assetnote.io/resources/research/rss.xml"),
               ("SonarSource", "https://www.sonarsource.com/blog/rss.xml"),
               ("GitLab Releases", "https://about.gitlab.com/releases.xml"),
               ("ProjectDiscovery", "https://projectdiscovery.io/blog/rss.xml"),
@@ -104,6 +108,8 @@ jobs:
               "SSD Disclosure": ("SSD Disclosure", "https://ssd-disclosure.com/"),
               "Rapid7 Blog": ("Rapid7", "https://github.com/rapid7"),
               "Qualys Research": ("Qualys Research", "https://blog.qualys.com/"),
+              "PortSwigger Research": ("PortSwigger Research", "https://portswigger.net/research"),
+              "Assetnote Research": ("Assetnote", "https://www.assetnote.io/resources/research"),
               "SonarSource": ("SonarSource", "https://x.com/SonarSource"),
               "GitLab Releases": ("GitLab", "https://about.gitlab.com/releases/"),
               "ProjectDiscovery": ("ProjectDiscovery", "https://github.com/projectdiscovery"),
@@ -143,9 +149,19 @@ jobs:
                   RSS_SOURCES.append((name, url))
                   SOURCE_PROFILES.setdefault(name, (name, url))
 
+          RESEARCH_SOURCE_NAMES = {
+              "Google Security Blog", "Project Zero Current", "Project Zero", "watchTowr Labs",
+              "Horizon3 Attack Team", "Dirkjan Mollema", "ZDI", "NCC Group Research",
+              "Bishop Fox", "Elastic Security Labs", "GitHub Security Lab", "Aqua Nautilus",
+              "Synacktiv", "SSD Disclosure", "Rapid7 Blog", "Qualys Research",
+              "PortSwigger Research", "Assetnote Research", "SonarSource",
+              "Kaspersky Securelist", "Exodus Intelligence", "The GitHub Blog Security",
+          }
+
           HIGH_SIGNAL = {
               "active directory", "ad cs", "adcs", "android", "apache", "apple", "atlassian", "azure",
               "chrome", "chromium", "citrix", "confluence", "connectwise", "container", "cisco",
+              "api", "graphql", "rest api", "web app", "web application", "appsec",
               "domain controller", "exchange", "esxi", "entra", "fortinet", "gitlab", "jenkins",
               "kerberos", "kubernetes", "ldap", "linux", "microsoft", "ntlm", "oauth", "openssh",
               "palo alto", "pan-os", "pixel", "rdp", "relay", "saml", "sccm", "screenconnect",
@@ -184,6 +200,16 @@ jobs:
               "CVE exploit PoC Jenkins",
               "CVE exploit PoC GitLab",
               "CVE exploit PoC Kubernetes",
+              "CVE exploit PoC web app",
+              "CVE exploit PoC web application",
+              "CVE exploit PoC API",
+              "CVE exploit PoC GraphQL",
+              "CVE exploit PoC SSRF",
+              "CVE exploit PoC SQL injection",
+              "CVE exploit PoC deserialization",
+              "CVE exploit PoC path traversal",
+              "CVE exploit PoC file upload",
+              "CVE exploit PoC wordpress plugin",
               "CVE exploit PoC Android",
               "CVE exploit PoC iOS",
               "CVE exploit PoC Pixel",
@@ -217,7 +243,7 @@ jobs:
               ("ios", ["ios", "ipados", "iphone", "webkit", "safari", "imessage", "apple"]),
               ("windows", ["windows", "microsoft", "exchange", "sharepoint", "active directory", "ad cs", "adcs", "ntlm", "kerberos", "sccm", "hyper-v", "winrm", "rdp"]),
               ("linux", ["linux", "openssh", "sudo", "systemd", "ubuntu", "debian", "kernel"]),
-              ("web", ["apache", "php", "confluence", "jira", "wordpress", "drupal", "coldfusion", "geoserver", "cpanel", "whm", "webpros", "webstack"]),
+              ("web", ["apache", "nginx", "tomcat", "iis", "php", "java servlet", "spring", "struts", "rails", "django", "laravel", "nodejs", "express", "confluence", "jira", "wordpress", "wordpress plugin", "woocommerce", "drupal", "coldfusion", "geoserver", "cpanel", "whm", "webpros", "webstack", "web app", "webapp", "web application", "appsec", "api", "rest api", "graphql", "oauth", "saml", "openid", "session", "cookie", "xss", "csrf", "ssrf", "sqli", "sql injection", "deserialization", "path traversal", "file upload", "template injection", "ssti", "xxe"]),
               ("cloud", ["citrix", "fortinet", "palo alto", "pan-os", "ivanti", "vmware", "esxi", "kubernetes", "jenkins", "gitlab", "teamcity", "confluence", "atlassian", "connectwise", "vpn", "cloud"]),
           ]
 
@@ -234,7 +260,7 @@ jobs:
               ("kernel", ["kernel", "use-after-free", "uaf"]),
               ("kubernetes", ["kubernetes", "container", "docker"]),
               ("ssh", ["openssh", "ssh"]),
-              ("webstack", ["apache", "php", "confluence", "jira", "wordpress", "coldfusion", "geoserver", "web"]),
+              ("webstack", ["apache", "nginx", "tomcat", "iis", "php", "spring", "struts", "rails", "django", "laravel", "nodejs", "express", "confluence", "jira", "wordpress", "wordpress plugin", "woocommerce", "drupal", "coldfusion", "geoserver", "cpanel", "whm", "webpros", "web", "web app", "webapp", "web application", "api", "rest api", "graphql", "oauth", "saml", "openid", "session", "cookie", "xss", "csrf", "ssrf", "sqli", "sql injection", "deserialization", "path traversal", "file upload", "template injection", "ssti", "xxe"]),
               ("framework", ["android", "framework", "packageinstaller"]),
           ]
 
@@ -251,6 +277,7 @@ jobs:
               "exploit", "poc", "proof-of-concept", "rce", "lpe", "privilege escalation",
               "auth bypass", "command injection", "weaponized", "reverse shell", "shell",
               "payload", "scanner and exploit", "trigger", "reproduce", "reproducer",
+              "usage", "rhost", "target", "callback", "listener",
           ]
 
           DEFENSE_ONLY_TERMS = [
@@ -258,6 +285,41 @@ jobs:
               "osquery", "splunk", "sentinel", "kql", "ioc", "iocs", "threat hunting",
               "blue team", "mitigation", "patch guidance", "hardening", "advisory",
               "monitoring", "scanner-only",
+          ]
+
+          RESEARCH_SIGNAL_TERMS = [
+              "vulnerability", "vulnerabilities", "exploit", "exploitation", "poc",
+              "proof of concept", "proof-of-concept", "rce", "lpe", "privilege escalation",
+              "auth bypass", "authentication bypass", "command injection", "sql injection",
+              "ssrf", "deserialization", "path traversal", "sandbox escape", "zero-click",
+              "zeroclick", "kernel bug", "memory corruption", "use-after-free", "uaf",
+              "double free", "heap overflow", "remote code execution",
+          ]
+
+          POC_CODE_EXTENSIONS = {
+              ".py", ".go", ".rb", ".js", ".ts", ".java", ".c", ".cc", ".cpp", ".cs",
+              ".php", ".sh", ".ps1", ".rs", ".pl", ".lua", ".nse", ".yaml", ".yml",
+          }
+
+          POC_FILE_TERMS = [
+              "exploit", "poc", "proof", "trigger", "exp", "rce", "lpe", "payload",
+              "shell", "scanner", "check", "verify", "reproduce", "reproducer",
+          ]
+
+          POC_USAGE_TERMS = [
+              "usage", "how to run", "python ", "python3 ", "go run", "ruby ",
+              "node ", "curl ", "target", "rhost", "lhost", "callback", "--url",
+              "--target", "-u ", "make", "gcc ", "exploit.py", "poc.py",
+          ]
+
+          NON_ENGLISH_HINTS = [
+              "vulnerabilite", "vulnerabilidad", "vulnerabilidade", "schwachstelle",
+              "explotacion", "exploracion", "exploracao", "ausnutzung",
+              "ejecucion", "execucao", "execution de code", "execucion de codigo",
+              "codigo", "seguridad", "seguranca", "angreifer", "sicherheitslucke",
+              "ciblant", "developpe", "regroupe", "contournement", "fausses signatures",
+              "memoire", "chaine", "chaines", "ce projet", "le projet", "permettant",
+              "prueba de concepto", "preuve de concept", "prova de conceito",
           ]
 
           def request(url: str, accept: str = "application/json") -> bytes:
@@ -294,8 +356,41 @@ jobs:
                   return text
               return text[: limit - 1].rsplit(" ", 1)[0] + "."
 
-          def clean_title(text: str, cve: str, limit: int = 110) -> str:
+          def strip_cve_prefix(text: str, cve: str) -> str:
               text = norm(text)
+              text = re.sub(rf"^\s*{re.escape(cve)}\s*[:\-Ã¢â‚¬â€œÃ¢â‚¬â€]?\s*", "", text, flags=re.I)
+              text = re.sub(r"^\s*CVE-\d{4}-\d{4,7}\s*[:\-Ã¢â‚¬â€œÃ¢â‚¬â€]?\s*", "", text, flags=re.I)
+              return text.strip()
+
+          def remove_cve_refs(text: str, cve: str) -> str:
+              text = strip_cve_prefix(text, cve)
+              if cve:
+                  text = re.sub(rf"\b{re.escape(cve)}\b\s*[,;:\-]?\s*", "", text, flags=re.I)
+              return norm(re.sub(r"\s+([,.;:])", r"\1", text))
+
+          def keyword_soup(text: str) -> bool:
+              text = norm(text)
+              if not text:
+                  return False
+              return len(re.split(r"[,;]", text)) >= 5 and len(text.split()) <= 36
+
+          def ascii_fold(text: str) -> str:
+              return unicodedata.normalize("NFKD", norm(text)).encode("ascii", "ignore").decode("ascii").lower()
+
+          def looks_non_english(text: str) -> bool:
+              raw = norm(text)
+              if not raw:
+                  return False
+              lower = raw.lower()
+              if re.search(r"[\u0370-\u03FF\u0400-\u04FF\u0590-\u05FF\u0600-\u06FF\u3040-\u30FF\u3400-\u9FFF\uAC00-\uD7AF]", lower):
+                  return True
+              folded = ascii_fold(raw)
+              hits = sum(1 for term in NON_ENGLISH_HINTS if term in folded)
+              accent_count = sum(1 for char in raw if ord(char) > 127)
+              return hits >= 2 or (accent_count >= 2 and hits >= 1)
+
+          def clean_title(text: str, cve: str, limit: int = 110) -> str:
+              text = strip_cve_prefix(text, cve)
               text = re.sub(rf"^\s*{re.escape(cve)}\s*[:\-â€“â€”]?\s*", "", text, flags=re.I)
               text = re.sub(r"^\s*CVE-\d{4}-\d{4,7}\s*[:\-â€“â€”]?\s*", "", text, flags=re.I)
               text = re.sub(r"\s+with public poc signal\s*$", "", text, flags=re.I)
@@ -312,6 +407,8 @@ jobs:
               if lower in {"cve", "poc", "exploit", "vulnerability", "proof of concept"}:
                   return ""
               if len(re.sub(r"[^a-z0-9]", "", lower)) < 8:
+                  return ""
+              if looks_non_english(title):
                   return ""
               return title
 
@@ -371,6 +468,8 @@ jobs:
               text = norm(desc)
               if not text:
                   return ""
+              if looks_non_english(text):
+                  return exploit_phrase_title(text, cve)
               lower = text.lower()
               if "vulnerability has been resolved:" in lower:
                   fragment = re.split(r"vulnerability has been resolved:\s*", text, flags=re.I, maxsplit=1)[-1]
@@ -380,29 +479,64 @@ jobs:
               first_sentence = re.split(r"(?<=[.!?])\s+", text)[0]
               return meaningful_title(first_sentence, cve)
 
-          def clean_summary(desc: str, repo: dict, cve: str, vendor: str, product: str, prim: str, limit: int = 230) -> str:
-              candidates = [desc, repo.get("description", "")]
+          def primitive_copy(prim: str) -> str:
+              mapping = {
+                  "RCE": "remote code execution",
+                  "LPE": "local privilege escalation",
+                  "Auth Bypass": "authentication bypass",
+                  "Command Injection": "command injection",
+                  "SQLi": "SQL injection",
+                  "File Read": "file read",
+                  "Memory Corruption": "memory corruption",
+              }
+              return mapping.get(prim, (prim or "exploit").lower())
+
+          def english_problem_summary(desc: str, repo: dict, cve: str, vendor: str, product: str, prim: str, limit: int = 230) -> str:
+              candidates = [repo.get("description", ""), desc]
               for candidate in candidates:
-                  text = norm(candidate)
+                  text = remove_cve_refs(candidate, cve)
+                  if not text or looks_non_english(text) or keyword_soup(text):
+                      continue
+                  if meaningful_title(text, cve, 60):
+                      return compact(text, limit)
+              signal_text = " ".join([repo.get("description", ""), desc, repo.get("name", "")])
+              phrase = exploit_phrase_title(signal_text, cve)
+              subject = " ".join(part for part in [vendor, product] if part).strip() or "The affected component"
+              if phrase:
+                  return compact(f"{phrase} targeting {subject}. The root issue is a {primitive_copy(prim)} path that public tooling attempts to turn into code execution or privileged access.", limit)
+              return compact(f"{subject} exposes a {primitive_copy(prim)} path with recent public exploit tooling signal.", limit)
+
+          def clean_summary(desc: str, repo: dict, cve: str, vendor: str, product: str, prim: str, limit: int = 230) -> str:
+              candidates = [repo.get("description", ""), desc]
+              for candidate in candidates:
+                  text = remove_cve_refs(candidate, cve)
+                  if looks_non_english(text) or keyword_soup(text):
+                      continue
                   text = re.sub(rf"^\s*{re.escape(cve)}\s*[:\-â€“â€”]?\s*", "", text, flags=re.I)
                   text = re.sub(r"^\s*CVE-\d{4}-\d{4,7}\s*[:\-â€“â€”]?\s*", "", text, flags=re.I)
                   if meaningful_title(text, cve, 60):
                       return compact(text, limit)
-              subject = " ".join(part for part in [vendor, product] if part).strip() or "The affected component"
-              return compact(f"{subject} exposes a {prim.lower()} path with public exploit tooling signal.", limit)
+              return english_problem_summary(desc, repo, cve, vendor, product, prim, limit)
 
           def derived_title(cve: str, vendor: str, product: str, name: str, desc: str, repo: dict, mention: dict | None, prim: str) -> str:
               repo_desc_title = exploit_phrase_title(repo.get("description", ""), cve)
-              candidates = [
+              early_candidates = [
                   repo_desc_title,
                   name,
                   (mention or {}).get("title", ""),
                   repo.get("description", ""),
-                  readme_title(repo, cve),
-                  repo_name_title(repo, cve),
-                  description_title(desc, cve, vendor, product),
               ]
-              for candidate in candidates:
+              late_candidates = [
+                  lambda: readme_title(repo, cve),
+                  lambda: repo_name_title(repo, cve),
+                  lambda: description_title(desc, cve, vendor, product),
+              ]
+              for candidate in early_candidates:
+                  title = meaningful_title(candidate, cve)
+                  if title:
+                      return title
+              for candidate_factory in late_candidates:
+                  candidate = candidate_factory()
                   title = meaningful_title(candidate, cve)
                   if title:
                       return title
@@ -511,6 +645,65 @@ jobs:
                               "publishedAt": published.isoformat().replace("+00:00", "Z"),
                           })
               return mentions
+
+          def rss_research_items(now_utc: dt.datetime) -> list[dict]:
+              research: list[dict] = []
+              cutoff = now_utc - dt.timedelta(hours=24)
+              seen_urls: set[str] = set()
+              for source, url in RSS_SOURCES:
+                  if source not in RESEARCH_SOURCE_NAMES:
+                      continue
+                  xml = fetch_text(url)
+                  if not xml:
+                      continue
+                  try:
+                      root = ET.fromstring(xml)
+                  except ET.ParseError:
+                      continue
+                  entries = [node for node in root.iter() if node.tag.split("}")[-1] in {"item", "entry"}]
+                  for entry in entries[:15]:
+                      fields = {"title": "", "summary": "", "link": "", "published": ""}
+                      for child in list(entry):
+                          tag = child.tag.split("}")[-1]
+                          if tag in {"title", "description", "summary", "content", "encoded"}:
+                              fields["title" if tag == "title" else "summary"] = norm(child.text or "")
+                          if tag == "link":
+                              fields["link"] = child.attrib.get("href") or norm(child.text or "")
+                          if tag in {"pubDate", "published", "updated", "date"}:
+                              fields["published"] = norm(child.text or "")
+                      published = parse_date(fields["published"])
+                      if published < cutoff:
+                          continue
+                      link = fields["link"] or url
+                      if not link or link in seen_urls:
+                          continue
+                      text = norm(re.sub(r"<[^>]+>", " ", f"{fields['title']} {fields['summary']}"))
+                      cves = sorted({match.upper() for match in CVE_RE.findall(text)})
+                      if not cves and not contains_any(text, RESEARCH_SIGNAL_TERMS):
+                          continue
+                      if contains_any(text, DEFENSE_ONLY_TERMS) and not contains_any(text, ["exploit", "vulnerability", "cve", "poc"]):
+                          continue
+                      profile_name, profile_url = SOURCE_PROFILES.get(source, (source, url))
+                      category = tag_value(text, CATEGORY_RULES, "")
+                      ecosystem = tag_value(text, ECOSYSTEM_RULES, "")
+                      prim = primitive(text)
+                      tags = []
+                      for value in [ecosystem, category, prim]:
+                          if value and value != "Exploit":
+                              tags.append(labelize(value))
+                      seen_urls.add(link)
+                      research.append({
+                          "title": compact(fields["title"], 160),
+                          "source": profile_name,
+                          "sourceUrl": profile_url,
+                          "url": link,
+                          "summary": compact(re.sub(r"<[^>]+>", " ", fields["summary"]), 260),
+                          "publishedAt": published.isoformat().replace("+00:00", "Z"),
+                          "cves": cves[:5],
+                          "tags": list(dict.fromkeys(tags))[:6],
+                      })
+              research.sort(key=lambda item: parse_date(item.get("publishedAt", "")), reverse=True)
+              return research[:12]
 
           def kev_items() -> list[dict]:
               data = fetch_json(CISA_KEV)
@@ -634,9 +827,82 @@ jobs:
                   return False
               return contains_any(text, ATTACK_READY_TERMS) and term_in_text(text, cve)
 
-          def repo_to_candidate(repo: dict, cve: str, bonus: int = 0) -> dict:
+          def file_extension(path: str) -> str:
+              match = re.search(r"(\.[a-z0-9]+)$", path.lower())
+              return match.group(1) if match else ""
+
+          def language_from_paths(paths: list[str]) -> str:
+              counts: dict[str, int] = {}
+              mapping = {
+                  ".py": "Python", ".go": "Go", ".rb": "Ruby", ".js": "JavaScript",
+                  ".ts": "TypeScript", ".java": "Java", ".c": "C", ".cc": "C++",
+                  ".cpp": "C++", ".cs": "C#", ".php": "PHP", ".sh": "Shell",
+                  ".ps1": "PowerShell", ".rs": "Rust", ".pl": "Perl", ".lua": "Lua",
+                  ".nse": "Lua", ".yaml": "YAML", ".yml": "YAML",
+              }
+              for path in paths:
+                  language = mapping.get(file_extension(path))
+                  if language:
+                      counts[language] = counts.get(language, 0) + 1
+              if not counts:
+                  return ""
+              return sorted(counts.items(), key=lambda item: item[1], reverse=True)[0][0]
+
+          def github_tree_paths(repo: dict) -> list[str]:
+              full_name = repo.get("full_name") or repo.get("name", "")
+              branch = repo.get("default_branch") or "main"
+              if not full_name or "/" not in full_name:
+                  return []
+              safe_name = urllib.parse.quote(full_name, safe="/")
+              safe_branch = urllib.parse.quote(branch, safe="")
+              data = fetch_json(f"https://api.github.com/repos/{safe_name}/git/trees/{safe_branch}?recursive=1")
+              tree = data.get("tree", []) if isinstance(data.get("tree"), list) else []
+              return [
+                  item.get("path", "")
+                  for item in tree
+                  if isinstance(item, dict) and item.get("type") == "blob" and item.get("path")
+              ][:500]
+
+          def poc_evidence(repo: dict, cve: str, readme: str = "") -> dict:
+              full_name = repo.get("full_name") or repo.get("name", "")
+              desc = repo.get("description") or ""
+              paths = github_tree_paths(repo)
+              code_paths = [
+                  path for path in paths
+                  if file_extension(path) in POC_CODE_EXTENSIONS
+                  and not re.search(r"(^|/)(test|tests|docs?|examples?|screenshots?)/", path.lower())
+              ]
+              attack_paths = [
+                  path for path in code_paths
+                  if contains_any(path, POC_FILE_TERMS) or cve.lower() in path.lower()
+              ]
+              text = " ".join([full_name, repo.get("name", ""), desc, readme])
+              has_cve = term_in_text(text, cve) or any(cve.lower() in path.lower() for path in paths)
+              attack_text = contains_any(text, ATTACK_READY_TERMS)
+              usage_text = contains_any(readme, POC_USAGE_TERMS)
+              noisy = contains_any(text, DEFENSE_ONLY_TERMS) or contains_any(text, SPAM_TERMS)
+              score = 0
+              score += 2 if has_cve else -4
+              score += 2 if attack_text else -3
+              score += 2 if code_paths else -4
+              score += 2 if attack_paths else 0
+              score += 1 if usage_text else 0
+              score += 1 if repo.get("language") or language_from_paths(code_paths) else 0
+              score -= 6 if noisy else 0
+              valid = score >= 3 and has_cve and attack_text and bool(code_paths) and not noisy
+              return {
+                  "valid": valid,
+                  "score": score,
+                  "codeFiles": code_paths[:8],
+                  "attackFiles": attack_paths[:8],
+                  "hasUsage": usage_text,
+                  "language": repo.get("language") or language_from_paths(code_paths) or "",
+              }
+
+          def repo_to_candidate(repo: dict, cve: str, bonus: int = 0, evidence: dict | None = None) -> dict:
               owner = repo.get("owner", {}) if isinstance(repo.get("owner"), dict) else {}
-              score = repo_score(repo, cve) + bonus
+              evidence = evidence or {}
+              score = repo_score(repo, cve) + bonus + int(evidence.get("score", 0) or 0) * 6
               return {
                   "score": score,
                   "url": repo.get("html_url", ""),
@@ -644,10 +910,31 @@ jobs:
                   "owner_url": owner.get("html_url") or "",
                   "name": repo.get("full_name", ""),
                   "description": repo.get("description") or "",
-                  "language": repo.get("language") or "",
+                  "language": evidence.get("language") or repo.get("language") or "",
                   "created_at": repo.get("created_at") or "",
                   "pushed_at": repo.get("pushed_at") or "",
+                  "validatedPoc": bool(evidence.get("valid")),
+                  "pocEvidence": evidence,
               }
+
+          def github_full_name_from_url(url: str) -> str:
+              try:
+                  parsed = urllib.parse.urlparse(url)
+                  if parsed.netloc.lower() not in {"github.com", "www.github.com"}:
+                      return ""
+                  parts = [part for part in parsed.path.split("/") if part]
+                  if len(parts) < 2:
+                      return ""
+                  return f"{parts[0]}/{parts[1]}"
+              except Exception:
+                  return ""
+
+          def github_repo_metadata(full_name: str) -> dict:
+              if not full_name or "/" not in full_name:
+                  return {}
+              safe_name = urllib.parse.quote(full_name, safe="/")
+              data = fetch_json(f"https://api.github.com/repos/{safe_name}")
+              return data if isinstance(data, dict) and data.get("full_name") else {}
 
           def mention_candidate(cve: str, mention: dict | None) -> dict | None:
               if not mention:
@@ -656,24 +943,23 @@ jobs:
               chosen = ""
               for url in urls:
                   lower = str(url).lower()
-                  if "github.com/" in lower or "issues.chromium.org" in lower or "projectzero.google" in lower:
+                  if "github.com/" in lower:
                       chosen = url
                       break
-              chosen = chosen or mention.get("url", "")
               if not chosen:
                   return None
-              return {
-                  "score": 74,
-                  "url": chosen,
-                  "owner": mention.get("source", "public research"),
-                  "owner_url": mention.get("profileUrl", "") or mention.get("url", ""),
-                  "name": f"{mention.get('source', 'research')}/{cve}",
-                  "description": mention.get("title") or mention.get("summary") or "",
-                  "language": "Unknown",
-                  "created_at": mention.get("publishedAt", ""),
-                  "pushed_at": mention.get("publishedAt", ""),
-                  "artifact_type": "research artifact",
-              }
+              full_name = github_full_name_from_url(chosen)
+              repo = github_repo_metadata(full_name)
+              if not repo or not repo_is_new(repo, dt.datetime.now(dt.timezone.utc)):
+                  return None
+              readme = github_readme_text(full_name)
+              evidence = poc_evidence(repo, cve, readme)
+              if not evidence.get("valid"):
+                  return None
+              candidate = repo_to_candidate(repo, cve, bonus=20, evidence=evidence)
+              candidate["owner"] = mention.get("source") or candidate["owner"]
+              candidate["owner_url"] = mention.get("profileUrl", "") or candidate.get("owner_url", "")
+              return candidate
 
           def github_readme_text(full_name: str) -> str:
               if not full_name or "/" not in full_name:
@@ -695,7 +981,7 @@ jobs:
               created_after = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=LOOKBACK_DAYS)).date().isoformat()
               discovered: dict[str, list[dict]] = {}
               seen_repos: set[str] = set()
-              readme_budget = 24
+              readme_budget = 36
               for base_query in X_STYLE_DISCOVERY_QUERIES:
                   query = f"{base_query} in:name,description,readme created:>={created_after}"
                   url = GITHUB_SEARCH + "?" + urllib.parse.urlencode({
@@ -716,19 +1002,25 @@ jobs:
                       if not contains_any(" ".join([full_name, repo.get("name", ""), repo.get("description") or ""]), ATTACK_READY_TERMS):
                           continue
                       seen_repos.add(repo_url)
+                      readme = ""
+                      if readme_budget > 0:
+                          readme_budget -= 1
+                          readme = github_readme_text(full_name)
                       text = " ".join([
                           full_name,
                           repo.get("name", ""),
                           repo.get("description") or "",
+                          readme,
                       ])
                       cves = {match.upper() for match in CVE_RE.findall(text)}
-                      if not cves and readme_budget > 0:
-                          readme_budget -= 1
-                          readme = github_readme_text(full_name)
-                          cves = {match.upper() for match in CVE_RE.findall(readme)}
                       for cve in cves:
-                          candidate = repo_to_candidate(repo, cve, bonus=14)
-                          if candidate["score"] >= 42:
+                          if not allowed_cve_year(cve):
+                              continue
+                          evidence = poc_evidence(repo, cve, readme)
+                          if not evidence.get("valid"):
+                              continue
+                          candidate = repo_to_candidate(repo, cve, bonus=14, evidence=evidence)
+                          if candidate["score"] >= 55:
                               discovered.setdefault(cve, []).append(candidate)
                   time.sleep(0.25)
               return discovered
@@ -736,7 +1028,7 @@ jobs:
           def github_candidate(cve: str, seeded: list[dict] | None = None) -> dict | None:
               seeded_ranked = sorted(seeded or [], key=lambda repo: repo.get("score", 0), reverse=True)
               for repo in seeded_ranked:
-                  if repo.get("score", 0) >= 42 and repo.get("url") and recent_date(repo.get("created_at", ""), dt.datetime.now(dt.timezone.utc)):
+                  if repo.get("validatedPoc") and repo.get("score", 0) >= 55 and repo.get("url") and recent_date(repo.get("created_at", ""), dt.datetime.now(dt.timezone.utc)):
                       return repo
               created_after = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=LOOKBACK_DAYS)).date().isoformat()
               queries = [
@@ -756,7 +1048,10 @@ jobs:
                   ranked = sorted(((repo_score(repo, cve), repo) for repo in repos), key=lambda item: item[0], reverse=True)
                   for score, repo in ranked:
                       if score >= 45 and repo.get("html_url") and repo_is_new(repo, dt.datetime.now(dt.timezone.utc)) and attack_ready_repo(repo, cve):
-                          return repo_to_candidate(repo, cve)
+                          readme = github_readme_text(repo.get("full_name", ""))
+                          evidence = poc_evidence(repo, cve, readme)
+                          if evidence.get("valid"):
+                              return repo_to_candidate(repo, cve, evidence=evidence)
               return None
 
           def format_added(first_seen_at: str) -> str:
@@ -861,11 +1156,15 @@ jobs:
               weaponization = min(99, int(55 + epss * 80 + (18 if item else 0) + (10 if item.get("knownRansomwareCampaignUse") == "Known" else 0)))
               title = derived_title(cve, vendor, product, name, desc, repo, mention, prim)
               summary = clean_summary(desc, repo, cve, vendor, product, prim)
-              technical_summary = compact(f"The exploit path abuses a trust boundary in {product or vendor or 'the affected component'}: attacker-controlled input reaches {prim.lower()} handling that should require stricter validation, authentication, or state checks.", 280)
+              technical_summary = compact(summary, 280)
               if mention and mention.get("summary"):
-                  technical_summary = compact(re.sub(r"<[^>]+>", " ", mention["summary"]), 300)
+                  mention_summary = norm(re.sub(r"<[^>]+>", " ", mention["summary"]))
+                  if mention_summary and not looks_non_english(mention_summary):
+                      technical_summary = compact(mention_summary, 300)
               elif mention and mention.get("title"):
-                  technical_summary = compact(f"{mention['title']}. The relevant takeaway is the vulnerable input path, required target shape, and how the public code validates the bug.", 300)
+                  mention_title = norm(mention["title"])
+                  if mention_title and not looks_non_english(mention_title):
+                      technical_summary = compact(f"{mention_title}. The useful takeaway is the vulnerable input path and how the public code validates the bug.", 300)
               primary_label = "GitHub" if "github.com/" in repo.get("url", "").lower() else "PoC"
               links = [[primary_label, repo["url"]]]
               if mention:
@@ -887,6 +1186,7 @@ jobs:
                   "category": category,
                   "severity": severity,
                   "proof": "working public poc",
+                  "pocValidation": repo.get("pocEvidence", {}),
                   "reliability": "reliable exploit" if repo.get("score", 0) >= 60 else "partial exploit",
                   "researcher": mention["source"] if mention else repo.get("owner", "public research"),
                   "researcherUrl": mention.get("profileUrl", "") if mention else (repo.get("owner_url") or repo["url"]),
@@ -898,7 +1198,7 @@ jobs:
                   "summary": summary,
                   "technicalSummary": technical_summary,
                   "breakdown": technical_summary,
-                  "whatBroke": compact(desc or f"{vendor} {product} exposed a useful {prim.lower()} primitive.", 240),
+                  "whatBroke": compact(summary or f"{vendor} {product} exposed a useful {primitive_copy(prim)} primitive.", 240),
                   "reality": compact(f"Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at {repo.get('name')}.", 260),
                   "exploitSyntax": exploit_syntax(repo, language),
                   "chains": chain_items(vendor, product, category, prim),
@@ -924,6 +1224,7 @@ jobs:
 
           kev = kev_items()
           rss = rss_mentions()
+          research_items = rss_research_items(now_utc)
           github_discovered = github_recent_cve_repos()
           kev_by_cve = {
               item.get("cveID", "").upper(): item
@@ -1004,6 +1305,8 @@ jobs:
                       repo = mention_candidate(cve, mention)
                   if not repo:
                       continue
+                  if not repo.get("validatedPoc"):
+                      continue
                   time.sleep(0.4)
                   nvd = nvd_lookup(cve)
                   if not is_recent_release(cve, kev_by_cve.get(cve), mention, repo, nvd, now_utc):
@@ -1030,6 +1333,7 @@ jobs:
               "cadence": "3x daily",
               "proofPolicy": "verified working public pocs",
               "sources": ["CISA KEV", "FIRST EPSS", "NVD", "GitHub Search", "GitHub Fresh PoC Discovery", *mobile_researcher_sources(), *[name for name, _ in RSS_SOURCES]],
+              "research": research_items,
               "vulns": entries,
           }
           OUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
