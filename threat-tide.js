@@ -3,18 +3,19 @@
   if (!root || root.dataset.ready === "true") return;
   root.dataset.ready = "true";
 
-  const LIVE_FEED_URL = "https://raw.githubusercontent.com/piratemoo/vuln-feed/refs/heads/main/vulns.json";
-  const HERO_IMAGE_URL = "https://raw.githubusercontent.com/piratemoo/vuln-feed/refs/heads/main/yespls.png";
+  const LIVE_FEED_URL = "https://raw.githubusercontent.com/piratemoo/threat-tide/refs/heads/main/vulns.json";
+  const HERO_IMAGE_URL = "https://raw.githubusercontent.com/piratemoo/threat-tide/refs/heads/main/images/yespls.png";
   let liveFeedUpdatedAt = "";
 
   const severityIcons = {
-    critical: "https://raw.githubusercontent.com/piratemoo/vuln-feed/refs/heads/main/1.png",
-    high: "https://raw.githubusercontent.com/piratemoo/vuln-feed/refs/heads/main/2.png",
-    medium: "https://raw.githubusercontent.com/piratemoo/vuln-feed/refs/heads/main/3.png"
+    critical: "https://raw.githubusercontent.com/piratemoo/threat-tide/refs/heads/main/images/1.png",
+    high: "https://raw.githubusercontent.com/piratemoo/threat-tide/refs/heads/main/images/2.png",
+    medium: "https://raw.githubusercontent.com/piratemoo/threat-tide/refs/heads/main/images/3.png"
   };
 
   const MAX_LINKS_PER_CARD = 8;
   const MAX_TAGS_PER_CARD = 8;
+  const EMPTY_MESSAGE = "Nothing to see here today.";
 
   const menuItems = [
     { label: "All", section: "all" },
@@ -97,7 +98,7 @@
     <div class="pm-wrap">
       <main class="pm-main">
         <section class="pm-panel pm-hero-image" aria-label="Threat Tide social art">
-          <img src="${HERO_IMAGE_URL}" alt="Threat Tide daily vuln feed" loading="eager" decoding="async">
+          <img src="${HERO_IMAGE_URL}" alt="Threat Tide daily public poc feed" loading="eager" decoding="async">
         </section>
 
         <section class="pm-panel pm-tide-header" aria-label="Threat Tide status">
@@ -574,6 +575,7 @@
   ];
 
   let vulns = fallbackVulns.map(normalizeVuln);
+  let researchItems = [];
 
   function numberOr(value, fallback) {
     const parsed = Number(value);
@@ -637,6 +639,25 @@
       .slice(0, MAX_LINKS_PER_CARD);
   }
 
+  function normalizeResearchItem(item) {
+    const tags = Array.isArray(item.tags)
+      ? item.tags.map((tag) => cleanInlineText(tag, 32)).filter(Boolean).slice(0, 6)
+      : [];
+    const cves = Array.isArray(item.cves)
+      ? item.cves.map((cve) => cleanInlineText(cve, 32)).filter(Boolean).slice(0, 5)
+      : [];
+    return {
+      title: cleanInlineText(item.title || "Vulnerability research", 180),
+      source: cleanInlineText(item.source || "research", 80),
+      sourceUrl: safeUrl(item.sourceUrl),
+      url: safeUrl(item.url),
+      summary: cleanBlockText(item.summary || "", 340),
+      publishedAt: cleanInlineText(item.publishedAt || "", 64),
+      tags,
+      cves
+    };
+  }
+
   function normalizeVuln(item) {
     const rawTags = Array.isArray(item.tags) ? item.tags : [];
     const tags = rawTags.map((tag) => cleanInlineText(tag, 32)).filter(Boolean).slice(0, MAX_TAGS_PER_CARD);
@@ -684,11 +705,14 @@
       const items = Array.isArray(payload) ? payload : (Array.isArray(payload.vulns) ? payload.vulns : payload.items);
       if (!Array.isArray(items) || !items.length) throw new Error("empty feed");
       liveFeedUpdatedAt = payload && !Array.isArray(payload) ? String(payload.updatedAt || "") : "";
+      const research = payload && !Array.isArray(payload) && Array.isArray(payload.research) ? payload.research : [];
       vulns = items.map(normalizeVuln).filter((item) => item.cve && item.title);
+      researchItems = research.map(normalizeResearchItem).filter((item) => item.title && item.url);
       if (!vulns.length) throw new Error("empty normalized feed");
       root.dataset.feedSource = "github";
     } catch (error) {
       vulns = fallbackVulns.map(normalizeVuln);
+      researchItems = [];
       root.dataset.feedSource = "fallback";
     }
   }
@@ -817,8 +841,7 @@
     return state.section === "all"
       || item.ecosystem === state.section
       || (state.section === "web" && (item.ecosystem === "web" || item.category === "webstack" || tags.includes("webstack") || tags.includes("web")))
-      || (state.section === "mobile" && (item.ecosystem === "android" || item.ecosystem === "ios"))
-      || (state.section === "research" && (item.ecosystem === "research" || item.category === "research" || tags.includes("research")));
+      || (state.section === "mobile" && (item.ecosystem === "android" || item.ecosystem === "ios"));
   }
 
   function filteredItems() {
@@ -831,6 +854,17 @@
         && (state.severity === "all" || item.severity === state.severity)
         && (!query || haystack.includes(query))
         && (!tag || item.tags.some((itemTag) => itemTag.toLowerCase().includes(tag)));
+    });
+  }
+
+  function filteredResearchItems() {
+    if (state.day !== 0) return [];
+    const query = state.query.trim().toLowerCase();
+    const tag = state.tag.trim().toLowerCase();
+    return researchItems.filter((item) => {
+      const haystack = [item.title, item.source, item.summary, ...item.tags, ...item.cves].join(" ").toLowerCase();
+      return (!query || haystack.includes(query))
+        && (!tag || item.tags.some((itemTag) => itemTag.toLowerCase().includes(tag)) || item.cves.some((cve) => cve.toLowerCase().includes(tag)));
     });
   }
 
@@ -887,6 +921,7 @@
     root.querySelectorAll("[data-section]").forEach((button) => {
       button.addEventListener("click", () => {
         state.section = button.dataset.section;
+        if (state.section === "research") state.day = 0;
         render();
       });
     });
@@ -1101,6 +1136,26 @@
       </article>`;
   }
 
+  function researchCard(item) {
+    const tags = [...item.tags, ...item.cves].slice(0, 8).map(tagPill).join("");
+    const source = item.sourceUrl
+      ? `<a href="${safeHref(item.sourceUrl)}" ${safeExternalAttrs()}>${escapeHtml(item.source)}</a>`
+      : `<span>${escapeHtml(item.source)}</span>`;
+    return `
+      <article class="pm-panel pm-research-card">
+        <div class="pm-research-head">
+          <div>
+            <span class="pm-research-source">${source}</span>
+            <h2><a href="${safeHref(item.url)}" ${safeExternalAttrs()}>${escapeHtml(item.title)}</a></h2>
+          </div>
+          <time>${escapeHtml(formatLastCheck(item.publishedAt))}</time>
+        </div>
+        ${item.summary ? `<p class="pm-summary">${escapeHtml(item.summary)}</p>` : ""}
+        <div class="pm-cve-row">${tags}</div>
+        <div class="pm-actions"><a href="${safeHref(item.url)}" ${safeExternalAttrs()}>Read research</a></div>
+      </article>`;
+  }
+
   function updateStats(count) {
     const dateNode = root.querySelector("[data-pm-date]");
     const countNode = root.querySelector("[data-pm-count]");
@@ -1125,13 +1180,14 @@
   }
 
   function render() {
-    const items = filteredItems();
+    const showingResearch = state.section === "research";
+    const items = showingResearch ? filteredResearchItems() : filteredItems();
     updateStats(items.length);
     renderArchive();
     renderMenu();
     root.querySelector(".pm-feed").innerHTML = items.length
-      ? items.map(card).join("")
-      : '<div class="pm-panel pm-empty">No signal matched that filter. Try a broader ecosystem, severity, or tag.</div>';
+      ? (showingResearch ? items.map(researchCard).join("") : items.map(card).join(""))
+      : `<div class="pm-panel pm-empty">${EMPTY_MESSAGE}</div>`;
     root.querySelectorAll(".pm-toggle").forEach((button) => {
       button.addEventListener("click", () => {
         const detail = root.querySelector(`#${button.getAttribute("aria-controls")}`);
