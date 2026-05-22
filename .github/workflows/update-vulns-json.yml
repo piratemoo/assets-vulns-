@@ -1,17 +1,11 @@
-name: Update Threat Tide live vuln feed
-
+name: update-vulns-json
 on:
   workflow_dispatch:
   schedule:
-    # GitHub cron is UTC. This targets about 8:07 AM, 2:07 PM, and 9:07 PM US Central during daylight time.
-    # Non-zero minutes avoid the top-of-hour Actions queue, where scheduled workflows are more often delayed.
     - cron: "7 2,13,19 * * *"
 
 permissions:
   contents: write
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
   update-feed:
@@ -28,8 +22,8 @@ jobs:
 
       - name: Build live vuln feed
         env:
-          GITHUB_TOKEN: ${{ github.token }}
-          EXTRA_RSS_SOURCES: ${{ secrets.EXTRA_RSS_SOURCES }}
+          GITHUB_TOKEN: "${{ github.token }}"
+          EXTRA_RSS_SOURCES: "${{ secrets.EXTRA_RSS_SOURCES }}"
         run: python scripts/update_vulns.py
 
       - name: Commit updated feed
