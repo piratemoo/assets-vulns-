@@ -216,6 +216,7 @@ jobs:
               ("ios", ["ios", "ipados", "iphone", "webkit", "safari", "imessage", "apple"]),
               ("windows", ["windows", "microsoft", "exchange", "sharepoint", "active directory", "ad cs", "adcs", "ntlm", "kerberos", "sccm", "hyper-v", "winrm", "rdp"]),
               ("linux", ["linux", "openssh", "sudo", "systemd", "ubuntu", "debian", "kernel"]),
+              ("web", ["apache", "php", "confluence", "jira", "wordpress", "drupal", "coldfusion", "geoserver", "cpanel", "whm", "webpros", "webstack"]),
               ("cloud", ["citrix", "fortinet", "palo alto", "pan-os", "ivanti", "vmware", "esxi", "kubernetes", "jenkins", "gitlab", "teamcity", "confluence", "atlassian", "connectwise", "vpn", "cloud"]),
           ]
 
@@ -292,6 +293,13 @@ jobs:
                   return text
               return text[: limit - 1].rsplit(" ", 1)[0] + "."
 
+          def clean_title(text: str, cve: str, limit: int = 110) -> str:
+              text = norm(text)
+              text = re.sub(rf"^\s*{re.escape(cve)}\s*[:\-â€“â€”]?\s*", "", text, flags=re.I)
+              text = re.sub(r"^\s*CVE-\d{4}-\d{4,7}\s*[:\-â€“â€”]?\s*", "", text, flags=re.I)
+              text = re.sub(r"\s+with public poc signal\s*$", "", text, flags=re.I)
+              return compact(text.strip() or "Untitled vulnerability signal", limit)
+
           def term_in_text(text: str, term: str) -> bool:
               lower = text.lower()
               term = term.lower()
@@ -324,6 +332,7 @@ jobs:
                   "vpn-edge": "VPN Edge",
                   "devops": "DevOps",
                   "webstack": "Webstack",
+                  "web": "Web",
                   "rmm": "RMM",
                   "ssh": "SSH",
                   "sqli": "SQLi",
@@ -739,7 +748,7 @@ jobs:
               confidence = min(98, 70 + repo.get("score", 0) // 3 + (12 if mention else 0) + (8 if item else 0))
               weaponization = min(99, int(55 + epss * 80 + (18 if item else 0) + (10 if item.get("knownRansomwareCampaignUse") == "Known" else 0)))
               title_base = name or f"{vendor} {product} {prim}"
-              title = compact(title_base, 110)
+              title = clean_title(title_base, cve, 110)
               summary = compact(f"{vendor} {product} has a {prim.lower()} issue that matters when the affected system is exposed or reachable from an operator foothold.", 210)
               if desc:
                   summary = compact(desc, 230)
