@@ -298,7 +298,74 @@ jobs:
               text = re.sub(rf"^\s*{re.escape(cve)}\s*[:\-â€“â€”]?\s*", "", text, flags=re.I)
               text = re.sub(r"^\s*CVE-\d{4}-\d{4,7}\s*[:\-â€“â€”]?\s*", "", text, flags=re.I)
               text = re.sub(r"\s+with public poc signal\s*$", "", text, flags=re.I)
+              text = re.sub(r"^[\s|:;,\-â€“â€”]+", "", text)
               return compact(text.strip() or "Untitled vulnerability signal", limit)
+
+          def meaningful_title(text: str, cve: str, limit: int = 110) -> str:
+              title = clean_title(text, cve, limit)
+              lower = title.lower().strip()
+              if not title or lower == "untitled vulnerability signal":
+                  return ""
+              if CVE_RE.fullmatch(title):
+                  return ""
+              if lower in {"cve", "poc", "exploit", "vulnerability", "proof of concept"}:
+                  return ""
+              if len(re.sub(r"[^a-z0-9]", "", lower)) < 8:
+                  return ""
+              return title
+
+          def repo_name_title(repo: dict, cve: str) -> str:
+              raw = (repo.get("name", "").split("/")[-1] or "").strip()
+              raw = re.sub(r"[-_]+", " ", raw)
+              raw = re.sub(r"\b(exploit|poc|proof of concept|cve)\b", " ", raw, flags=re.I)
+              raw = re.sub(r"\s+", " ", raw).strip()
+              return meaningful_title(raw, cve)
+
+          def readme_title(repo: dict, cve: str) -> str:
+              if "github.com/" not in repo.get("url", "").lower():
+                  return ""
+              text = github_readme_text(repo.get("name", ""))
+              for line in text.splitlines()[:80]:
+                  match = re.match(r"^\s*#{1,2}\s+(.+?)\s*$", line)
+                  if not match:
+                      continue
+                  title = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", match.group(1))
+                  title = re.sub(r"\[[^\]]*\]\([^)]*\)", "", title)
+                  cleaned = meaningful_title(title, cve)
+                  if cleaned:
+                      return cleaned
+              return ""
+
+          def description_title(desc: str, cve: str, vendor: str, product: str) -> str:
+              text = norm(desc)
+              if not text:
+                  return ""
+              lower = text.lower()
+              if "vulnerability has been resolved:" in lower:
+                  fragment = re.split(r"vulnerability has been resolved:\s*", text, flags=re.I, maxsplit=1)[-1]
+                  fragment = fragment.split(".", 1)[0]
+                  prefix = f"{product or vendor} " if product or vendor else ""
+                  return meaningful_title(prefix + fragment, cve)
+              first_sentence = re.split(r"(?<=[.!?])\s+", text)[0]
+              return meaningful_title(first_sentence, cve)
+
+          def derived_title(cve: str, vendor: str, product: str, name: str, desc: str, repo: dict, mention: dict | None, prim: str) -> str:
+              candidates = [
+                  name,
+                  (mention or {}).get("title", ""),
+                  readme_title(repo, cve),
+                  repo.get("description", ""),
+                  repo_name_title(repo, cve),
+                  description_title(desc, cve, vendor, product),
+              ]
+              for candidate in candidates:
+                  title = meaningful_title(candidate, cve)
+                  if title:
+                      return title
+              subject = " ".join(part for part in [vendor, product] if part).strip()
+              if subject and prim != "Exploit":
+                  return compact(f"{subject} {prim}", 110)
+              return "Untitled vulnerability signal"
 
           def term_in_text(text: str, term: str) -> bool:
               lower = text.lower()
@@ -747,8 +814,7 @@ jobs:
               severity = operator_severity(nvd_sev, prim, ecosystem, category, epss, repo, is_kev, text)
               confidence = min(98, 70 + repo.get("score", 0) // 3 + (12 if mention else 0) + (8 if item else 0))
               weaponization = min(99, int(55 + epss * 80 + (18 if item else 0) + (10 if item.get("knownRansomwareCampaignUse") == "Known" else 0)))
-              title_base = name or f"{vendor} {product} {prim}"
-              title = clean_title(title_base, cve, 110)
+              title = derived_title(cve, vendor, product, name, desc, repo, mention, prim)
               summary = compact(f"{vendor} {product} has a {prim.lower()} issue that matters when the affected system is exposed or reachable from an operator foothold.", 210)
               if desc:
                   summary = compact(desc, 230)
