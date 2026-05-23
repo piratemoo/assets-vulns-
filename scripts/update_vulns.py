@@ -1423,11 +1423,16 @@ for signal, cve in scored[:45]:
         if not is_recent_release(cve, kev_by_cve.get(cve), mention, repo, nvd, now_utc):
             continue
         item = kev_by_cve.get(cve) or synthetic_item(cve, nvd, mention)
-        first_seen_at = existing_first_seen.get(cve) or now_utc.isoformat().replace("+00:00", "Z")
+        # Use repo creation date as anchor when first discovered so entries
+        # land in the correct archive day bucket (not always "Today")
+        repo_created = repo.get("created_at", "")
+        first_seen_at = (
+            existing_first_seen.get(cve)
+            or repo_created
+            or now_utc.isoformat().replace("+00:00", "Z")
+        )
         day_offset = archive_day_offset(first_seen_at, now_utc)
-        if day_offset >= LOOKBACK_DAYS:
-            first_seen_at = now_utc.isoformat().replace("+00:00", "Z")
-            day_offset = 0
+        day_offset = min(day_offset, LOOKBACK_DAYS - 1)
         entries.append(make_entry(item, epss.get(cve, 0), repo, mention, nvd, day_offset, first_seen_at))
         seen.add(cve)
     except Exception as exc:
