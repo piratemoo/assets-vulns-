@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-23T20:56:29Z",
-  "lastRunAt": "2026-05-23T20:56:29Z",
+  "updatedAt": "2026-05-23T21:02:02Z",
+  "lastRunAt": "2026-05-23T21:02:02Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -53,72 +53,6 @@
   ],
   "research": [],
   "vulns": [
-    {
-      "cve": "CVE-2026-9082",
-      "title": "Drupal Core SQL Injection Vulnerability",
-      "ecosystem": "web",
-      "category": "webstack",
-      "severity": "critical",
-      "proof": "working public poc",
-      "pocValidation": {
-        "valid": true,
-        "score": 9,
-        "codeFiles": [
-          "CVE-2026-9082.py",
-          "test-lab/docker-compose.yml"
-        ],
-        "attackFiles": [
-          "CVE-2026-9082.py"
-        ],
-        "hasUsage": false,
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "Horizon3 Attack Team",
-      "researcherUrl": "https://x.com/Horizon3Attack",
-      "pocWorks": "Yes",
-      "difficulty": "easy",
-      "added": "2:37 PM CDT",
-      "firstSeenAt": "2026-05-23T19:37:06Z",
-      "language": "Python",
-      "summary": "Drupal Core PostgreSQL SQL Injection PoC -. Ethical PoC for the Drupal vulnerability allowing anonymous SQL injection through the JSON:API module on PostgreSQL-backed sites.",
-      "technicalSummary": "CVE-2026-9082 is a highly critical SQL injection vulnerability affecting Drupal core sites configured to use PostgreSQL as the backend database. The vulnerability exists in Drupal\u2019s database abstraction API, where specially crafted requests can bypass.",
-      "breakdown": "CVE-2026-9082 is a highly critical SQL injection vulnerability affecting Drupal core sites configured to use PostgreSQL as the backend database. The vulnerability exists in Drupal\u2019s database abstraction API, where specially crafted requests can bypass.",
-      "whatBroke": "Drupal Core PostgreSQL SQL Injection PoC -. Ethical PoC for the Drupal vulnerability allowing anonymous SQL injection through the JSON:API module on PostgreSQL-backed sites.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at 7h30th3r0n3/CVE-2026-9082-Drupal-PoC.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/7h30th3r0n3/CVE-2026-9082-Drupal-PoC\ncd CVE-2026-9082-Drupal-PoC\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed Core",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Web",
-        "Webstack",
-        "RCE",
-        "KEV"
-      ],
-      "confidence": 98,
-      "weaponization": 83,
-      "dayOffset": 0,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/7h30th3r0n3/CVE-2026-9082-Drupal-PoC"
-        ],
-        [
-          "Technical Paper",
-          "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-9082/"
-        ],
-        [
-          "Vendor Advisory",
-          "https://www.drupal.org/sa-core-2026-004"
-        ]
-      ]
-    },
     {
       "cve": "CVE-2026-31431",
       "title": "Linux Kernel Incorrect Resource Transfer Between Spheres Vulnerability",
@@ -512,124 +446,6 @@
       ]
     },
     {
-      "cve": "CVE-2026-4885",
-      "title": "Piotnet Addons for Elementor Pro <= 7.1.70 - Unauthenticated Arbitrary File Upload \u2192 RCE",
-      "ecosystem": "web",
-      "category": "webstack",
-      "severity": "critical",
-      "proof": "working public poc",
-      "pocValidation": {
-        "valid": true,
-        "score": 7,
-        "codeFiles": [
-          "shadow.py"
-        ],
-        "attackFiles": [],
-        "hasUsage": false,
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "xShadow-Here",
-      "researcherUrl": "https://github.com/xShadow-Here",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "2:37 PM CDT",
-      "firstSeenAt": "2026-05-23T19:37:06Z",
-      "language": "Python",
-      "summary": "Piotnet Addons for Elementor Pro <= 7.1.70 - Unauthenticated Arbitrary File Upload \u2192 RCE",
-      "technicalSummary": "The Piotnet Addons for Elementor Pro plugin for WordPress is vulnerable to arbitrary file upload due to missing file type validation in the 'pafe_ajax_form_builder' function in all versions up to, and including, 7.1.70. The plugin uses an incomplete extension blacklist that only blocks php, phpt,.",
-      "breakdown": "The Piotnet Addons for Elementor Pro plugin for WordPress is vulnerable to arbitrary file upload due to missing file type validation in the 'pafe_ajax_form_builder' function in all versions up to, and including, 7.1.70. The plugin uses an incomplete extension blacklist that only blocks php, phpt,.",
-      "whatBroke": "Piotnet Addons for Elementor Pro <= 7.1.70 - Unauthenticated Arbitrary File Upload \u2192 RCE",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at xShadow-Here/CVE-2026-4885.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/xShadow-Here/CVE-2026-4885\ncd CVE-2026-4885\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Web",
-        "Webstack",
-        "RCE"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 0,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/xShadow-Here/CVE-2026-4885"
-        ],
-        [
-          "Vendor Advisory",
-          "https://pafe.piotnet.com/"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-5118",
-      "title": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "ecosystem": "web",
-      "category": "webstack",
-      "severity": "critical",
-      "proof": "working public poc",
-      "pocValidation": {
-        "valid": true,
-        "score": 9,
-        "codeFiles": [
-          "exploit.py"
-        ],
-        "attackFiles": [
-          "exploit.py"
-        ],
-        "hasUsage": false,
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "Yucaerin",
-      "researcherUrl": "https://github.com/Yucaerin",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "2:53 AM CDT",
-      "firstSeenAt": "2026-05-22T07:53:21Z",
-      "language": "Python",
-      "summary": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "technicalSummary": "The Divi Form Builder plugin for WordPress is vulnerable to privilege escalation in versions up to, and including, 5.1.2. This is due to the plugin accepting a user-controlled 'role' parameter from POST data during user registration without validating it against the form's configured.",
-      "breakdown": "The Divi Form Builder plugin for WordPress is vulnerable to privilege escalation in versions up to, and including, 5.1.2. This is due to the plugin accepting a user-controlled 'role' parameter from POST data during user registration without validating it against the form's configured.",
-      "whatBroke": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Yucaerin/CVE-2026-5118.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/Yucaerin/CVE-2026-5118\ncd CVE-2026-5118\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Web",
-        "Webstack",
-        "Auth Bypass"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 1,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/Yucaerin/CVE-2026-5118"
-        ],
-        [
-          "Vendor Advisory",
-          "https://diviengine.com/divi-form-builder-changelog/"
-        ]
-      ]
-    },
-    {
       "cve": "CVE-2026-45250",
       "title": "FreeBSD 14.x LPE",
       "ecosystem": "linux",
@@ -697,20 +513,20 @@
     {
       "cve": "CVE-2026-9018",
       "title": "Unauthenticated Privilege Escalation CVE-2026-9018: Easy Elements for Elementor",
-      "ecosystem": "cloud",
+      "ecosystem": "web",
       "category": "webstack",
       "severity": "high",
       "proof": "working public poc",
       "pocValidation": {
         "valid": true,
-        "score": 9,
+        "score": 10,
         "codeFiles": [
           "CVE-2026-9018.py"
         ],
         "attackFiles": [
           "CVE-2026-9018.py"
         ],
-        "hasUsage": false,
+        "hasUsage": true,
         "language": "Python"
       },
       "reliability": "reliable exploit",
@@ -721,10 +537,10 @@
       "added": "2:37 PM CDT",
       "firstSeenAt": "2026-05-23T19:37:06Z",
       "language": "Python",
-      "summary": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
-      "technicalSummary": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
-      "breakdown": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
-      "whatBroke": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
+      "summary": "The Easy Elements for Elementor \u2013 Addons & Website Templates plugin for WordPress is vulnerable to Privilege Escalation in all versions up to, and including, 1.4.5 via the `easyel_handle_register()` function. This is due to the.",
+      "technicalSummary": "The Easy Elements for Elementor \u2013 Addons & Website Templates plugin for WordPress is vulnerable to Privilege Escalation in all versions up to, and including, 1.4.5 via the `easyel_handle_register()` function. This is due to the `wp_ajax_nopriv_eel_register` AJAX handler iterating the.",
+      "breakdown": "The Easy Elements for Elementor \u2013 Addons & Website Templates plugin for WordPress is vulnerable to Privilege Escalation in all versions up to, and including, 1.4.5 via the `easyel_handle_register()` function. This is due to the `wp_ajax_nopriv_eel_register` AJAX handler iterating the.",
+      "whatBroke": "The Easy Elements for Elementor \u2013 Addons & Website Templates plugin for WordPress is vulnerable to Privilege Escalation in all versions up to, and including, 1.4.5 via the `easyel_handle_register()` function. This is due to the.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at xxconi/CVE-2026-9018.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/xxconi/CVE-2026-9018\ncd CVE-2026-9018\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
@@ -734,7 +550,7 @@
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Cloud",
+        "Web",
         "Webstack",
         "Exploit"
       ],
@@ -745,6 +561,10 @@
         [
           "GitHub",
           "https://github.com/xxconi/CVE-2026-9018"
+        ],
+        [
+          "Vendor Advisory",
+          "https://plugins.trac.wordpress.org/browser/easy-elements/tags/1.4.5/includes/Utils/Enqueue.php#L200"
         ]
       ]
     }
