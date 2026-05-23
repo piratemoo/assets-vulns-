@@ -395,7 +395,12 @@ def compact(text: str, limit: int = 190) -> str:
     text = norm(text)
     if len(text) <= limit:
         return text
-    return text[: limit - 1].rsplit(" ", 1)[0] + "."
+    # Prefer cutting at a sentence boundary
+    truncated = text[:limit]
+    sentence_end = max(truncated.rfind(". "), truncated.rfind("! "), truncated.rfind("? "))
+    if sentence_end > limit // 2:
+        return text[:sentence_end + 1]
+    return text[: limit - 1].rsplit(" ", 1)[0] + "..."
 
 def strip_cve_prefix(text: str, cve: str) -> str:
     text = norm(text)
