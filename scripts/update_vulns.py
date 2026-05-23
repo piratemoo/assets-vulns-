@@ -1445,14 +1445,16 @@ for signal, cve in scored[:45]:
         if not is_recent_release(cve, kev_by_cve.get(cve), mention, repo, nvd, now_utc):
             continue
         item = kev_by_cve.get(cve) or synthetic_item(cve, nvd, mention)
-        # Use repo creation date as anchor when first discovered so entries
-        # land in the correct archive day bucket (not always "Today")
+        # firstSeenAt = earliest of: repo creation date OR prior stored date
+        # This ensures repos from 2 days ago always show in "2 days ago"
+        # even if a previous script run incorrectly stored today's date
         repo_created = repo.get("created_at", "")
-        first_seen_at = (
-            existing_first_seen.get(cve)
-            or repo_created
-            or now_utc.isoformat().replace("+00:00", "Z")
-        )
+        prior_seen = existing_first_seen.get(cve, "")
+        if repo_created and prior_seen:
+            # Use whichever is earlier — the PoC was publicly available then
+            first_seen_at = repo_created if parse_date(repo_created) < parse_date(prior_seen) else prior_seen
+        else:
+            first_seen_at = prior_seen or repo_created or now_utc.isoformat().replace("+00:00", "Z")
         day_offset = archive_day_offset(first_seen_at, now_utc)
         day_offset = min(day_offset, LOOKBACK_DAYS - 1)
         entries.append(make_entry(item, epss.get(cve, 0), repo, mention, nvd, day_offset, first_seen_at))
