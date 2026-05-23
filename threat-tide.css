@@ -913,10 +913,20 @@ body.page-vulns .single-header {
     color: var(--pm-purple);
   }
 
+  #pm-vulns-app .pm-resource-row {
+    display: block;
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  #pm-vulns-app .pm-resource-row:last-child {
+    margin-bottom: 0;
+  }
+
   #pm-vulns-app .pm-resource-connection {
     color: var(--pm-muted);
-    font-size: 12px;
-    font-style: italic;
+    font-size: 13px;
+    font-style: normal;
   }
 
   #pm-vulns-app .pm-question code {
