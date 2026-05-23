@@ -1240,4 +1240,25 @@
   renderSourcePool();
   render();
   loadLiveFeed().then(render);
+
+  // Poll for feed updates every 15 minutes
+  // Only re-renders if lastRunAt changed — no flicker if nothing is new
+  let _lastRunAt = "";
+  setInterval(async () => {
+    try {
+      const response = await fetch(`${LIVE_FEED_URL}?t=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) return;
+      const payload = await response.json();
+      const newRunAt = payload?.lastRunAt || payload?.updatedAt || "";
+      if (!newRunAt || newRunAt === _lastRunAt) return;
+      _lastRunAt = newRunAt;
+      const items = Array.isArray(payload.vulns) ? payload.vulns : [];
+      const research = Array.isArray(payload.research) ? payload.research : [];
+      if (!items.length) return;
+      liveFeedUpdatedAt = String(payload.updatedAt || "");
+      vulns = items.map(normalizeVuln).filter((item) => item.cve && item.title);
+      researchItems = research.map(normalizeResearchItem).filter((item) => item.title && item.url);
+      render();
+    } catch (_) {}
+  }, 15 * 60 * 1000);
 })();
