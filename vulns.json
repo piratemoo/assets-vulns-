@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-23T02:34:25Z",
+  "updatedAt": "2026-05-23T02:53:29Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -48,38 +48,7 @@
     "Exodus Intelligence",
     "The GitHub Blog Security"
   ],
-  "research": [
-    {
-      "title": "Detecting CVE-2026-0265 at Scale: PAN-OS CAS Authentication Bypass",
-      "source": "Bishop Fox",
-      "sourceUrl": "https://x.com/BishopFox",
-      "url": "https://bishopfox.com/blog/detecting-cve-2026-0265-at-scale-pan-os-cas-authentication-bypass",
-      "summary": "CVE-2026-0265 lets unauthenticated attackers forge a JWT and log in as any trusted user on CAS-enabled PAN-OS deployments. Bishop Fox built a detection tool that returns a definitive verdict from a single anonymous request, and breaks down exactly how the.",
-      "publishedAt": "2026-05-22T13:00:00Z",
-      "cves": [
-        "CVE-2026-0265"
-      ],
-      "tags": [
-        "Cloud",
-        "VPN Edge",
-        "Auth Bypass"
-      ]
-    },
-    {
-      "title": "CVE-2026-27886: Unauthenticated Boolean-Oracle Exfiltration of Administrator Secrets in Strapi",
-      "source": "Bishop Fox",
-      "sourceUrl": "https://x.com/BishopFox",
-      "url": "https://bishopfox.com/blog/cve-2026-27886-unauthenticated-boolean-oracle-exfiltration-of-administrator-secrets-in-strapi",
-      "summary": "A sanitization bypass in Strapi 4.0.0 through 5.36.1 lets unauthenticated attackers extract an admin's password reset token character by character and take over the account. With over 20,000 internet-facing hosts exposed, Bishop Fox breaks down how the.",
-      "publishedAt": "2026-05-22T07:00:00Z",
-      "cves": [
-        "CVE-2026-27886"
-      ],
-      "tags": [
-        "Session Theft"
-      ]
-    }
-  ],
+  "research": [],
   "vulns": [
     {
       "cve": "CVE-2026-9082",
@@ -148,6 +117,67 @@
       ]
     },
     {
+      "cve": "CVE-2026-20182",
+      "title": "Cisco Catalyst SD-WAN Controller Authentication Bypass Vulnerability",
+      "ecosystem": "cloud",
+      "category": "vpn-edge",
+      "severity": "critical",
+      "proof": "working public poc",
+      "pocValidation": {
+        "valid": true,
+        "score": 9,
+        "codeFiles": [
+          "cve-2026-20182.py"
+        ],
+        "attackFiles": [
+          "cve-2026-20182.py"
+        ],
+        "hasUsage": false,
+        "language": "Python"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "portbuster1337",
+      "researcherUrl": "https://github.com/portbuster1337",
+      "pocWorks": "Yes",
+      "difficulty": "easy",
+      "added": "9:53 PM CDT",
+      "firstSeenAt": "2026-05-23T02:53:29Z",
+      "language": "Python",
+      "summary": "PoC - Cisco Catalyst SD-WAN Controller / Manager Authentication Bypass (CVSS 10.0)",
+      "technicalSummary": "PoC - Cisco Catalyst SD-WAN Controller / Manager Authentication Bypass (CVSS 10.0)",
+      "breakdown": "PoC - Cisco Catalyst SD-WAN Controller / Manager Authentication Bypass (CVSS 10.0)",
+      "whatBroke": "PoC - Cisco Catalyst SD-WAN Controller / Manager Authentication Bypass (CVSS 10.0)",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/CVE-2026-20182.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/CVE-2026-20182\ncd CVE-2026-20182\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed Catalyst SD-WAN",
+        "credential access from service context",
+        "webshell or command execution follow-up",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Cloud",
+        "VPN Edge",
+        "Auth Bypass",
+        "KEV"
+      ],
+      "confidence": 98,
+      "weaponization": 99,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/portbuster1337/CVE-2026-20182"
+        ],
+        [
+          "Vendor Advisory",
+          "https://www.cisa.gov/news-events/directives/ed-26-03-mitigate-vulnerabilities-cisco-sd-wan-systems"
+        ]
+      ]
+    },
+    {
       "cve": "CVE-2026-31431",
       "title": "Linux Kernel Incorrect Resource Transfer Between Spheres Vulnerability",
       "ecosystem": "linux",
@@ -197,7 +227,7 @@
       "tags": [
         "Linux",
         "Kernel",
-        "Local LPE",
+        "Exploit",
         "KEV"
       ],
       "confidence": 98,
@@ -264,7 +294,7 @@
       "tags": [
         "Linux",
         "Kernel",
-        "Local LPE"
+        "Session Theft"
       ],
       "confidence": 98,
       "weaponization": 73,
@@ -289,7 +319,7 @@
       "title": "Langflow Code Injection Vulnerability",
       "ecosystem": "cloud",
       "category": "webstack",
-      "severity": "high",
+      "severity": "critical",
       "proof": "working public poc",
       "pocValidation": {
         "valid": true,
@@ -307,7 +337,7 @@
       "researcher": "r3nsi15",
       "researcherUrl": "https://github.com/r3nsi15",
       "pocWorks": "Yes",
-      "difficulty": "moderate",
+      "difficulty": "easy",
       "added": "6:26 PM CDT",
       "firstSeenAt": "2026-05-22T23:26:30Z",
       "language": "Python",
@@ -319,6 +349,8 @@
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/r3nsi15/CVE-2026-33017-langflow-rce\ncd CVE-2026-33017-langflow-rce\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
         "initial access through exposed Langflow",
+        "credential access from service context",
+        "webshell or command execution follow-up",
         "internal pivot from an internet-facing control point",
         "lateral movement if secrets or management access are recovered"
       ],
@@ -326,7 +358,7 @@
       "tags": [
         "Cloud",
         "Webstack",
-        "Exploit",
+        "RCE",
         "KEV"
       ],
       "confidence": 98,
@@ -344,196 +376,73 @@
       ]
     },
     {
-      "cve": "CVE-2026-43284",
-      "title": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits..",
-      "ecosystem": "linux",
-      "category": "kernel",
+      "cve": "CVE-2026-44578",
+      "title": "Next.js Server-Side Request Forgery Vulnerability",
+      "ecosystem": "web",
+      "category": "webstack",
       "severity": "high",
       "proof": "working public poc",
       "pocValidation": {
         "valid": true,
-        "score": 10,
+        "score": 9,
         "codeFiles": [
-          "build-exploits.sh",
-          "embed_386.go",
-          "embed_amd64.go",
-          "embed_arm64.go",
-          "embed_mips.go",
-          "embed_mips64.go",
-          "embed_mips64le.go",
-          "embed_mipsle.go"
+          "exploit/curl_poc.sh",
+          "exploit/poc.py",
+          "exploit/test_vuln_vs_fixed.sh",
+          "lab/docker-compose.yml",
+          "lab/imds-mock/imds_server.py",
+          "lab/internal-api/internal_server.py",
+          "lab/setup.sh",
+          "lab/teardown.sh"
         ],
         "attackFiles": [
-          "exploits/cve_2023_0386_exp.c",
-          "exploits/cve_2024_1086/include/linux-lts-6.1.72/headers_check.pl"
+          "exploit/curl_poc.sh",
+          "exploit/poc.py",
+          "exploit/test_vuln_vs_fixed.sh"
         ],
-        "hasUsage": true,
-        "language": "C"
+        "hasUsage": false,
+        "language": "Python"
       },
       "reliability": "reliable exploit",
-      "researcher": "portbuster1337",
-      "researcherUrl": "https://github.com/portbuster1337",
+      "researcher": "Horizon3 Attack Team",
+      "researcherUrl": "https://x.com/Horizon3Attack",
       "pocWorks": "Yes",
       "difficulty": "moderate",
-      "added": "6:26 PM CDT",
-      "firstSeenAt": "2026-05-22T23:26:30Z",
-      "language": "C",
-      "summary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "technicalSummary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "breakdown": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "whatBroke": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "added": "9:53 PM CDT",
+      "firstSeenAt": "2026-05-23T02:53:29Z",
+      "language": "Python",
+      "summary": "Next.js WebSocket Upgrade SSRF \u2014 pre-auth credential theft via localhost:80. Lab + exploit + audit.",
+      "technicalSummary": "CVE-2026-44578 is a High-severity server-side request forgery vulnerability affecting self-hosted Next.js applications that use the built-in Node.js server. The vulnerability exists in WebSocket upgrade request handling, where crafted requests can cause.",
+      "breakdown": "CVE-2026-44578 is a High-severity server-side request forgery vulnerability affecting self-hosted Next.js applications that use the built-in Node.js server. The vulnerability exists in WebSocket upgrade request handling, where crafted requests can cause.",
+      "whatBroke": "Next.js WebSocket Upgrade SSRF \u2014 pre-auth credential theft via localhost:80. Lab + exploit + audit.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at dinosn/CVE-2026-44578.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/dinosn/CVE-2026-44578\ncd CVE-2026-44578\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
         "initial access through exposed the affected product",
-        "local privilege escalation after a foothold",
+        "internal pivot from an internet-facing control point",
         "lateral movement if secrets or management access are recovered"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Linux",
-        "Kernel",
-        "Local LPE"
+        "Web",
+        "Webstack",
+        "SSRF"
       ],
       "confidence": 98,
-      "weaponization": 74,
+      "weaponization": 77,
       "dayOffset": 0,
       "links": [
         [
           "GitHub",
-          "https://github.com/portbuster1337/lpe-toolkit"
+          "https://github.com/dinosn/CVE-2026-44578"
+        ],
+        [
+          "Technical Paper",
+          "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-44578/"
         ],
         [
           "Vendor Advisory",
-          "https://git.kernel.org/stable/c/50ed1e7873100f77abad20fd31c51029bc49cd03"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-31635",
-      "title": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits..",
-      "ecosystem": "linux",
-      "category": "kernel",
-      "severity": "high",
-      "proof": "working public poc",
-      "pocValidation": {
-        "valid": true,
-        "score": 10,
-        "codeFiles": [
-          "build-exploits.sh",
-          "embed_386.go",
-          "embed_amd64.go",
-          "embed_arm64.go",
-          "embed_mips.go",
-          "embed_mips64.go",
-          "embed_mips64le.go",
-          "embed_mipsle.go"
-        ],
-        "attackFiles": [
-          "exploits/cve_2023_0386_exp.c",
-          "exploits/cve_2024_1086/include/linux-lts-6.1.72/headers_check.pl"
-        ],
-        "hasUsage": true,
-        "language": "C"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "portbuster1337",
-      "researcherUrl": "https://github.com/portbuster1337",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "7:59 PM CDT",
-      "firstSeenAt": "2026-05-22T00:59:08Z",
-      "language": "C",
-      "summary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "technicalSummary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "breakdown": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "whatBroke": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "local privilege escalation after a foothold",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Linux",
-        "Kernel",
-        "Local LPE"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 1,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/portbuster1337/lpe-toolkit"
-        ],
-        [
-          "Vendor Advisory",
-          "https://git.kernel.org/stable/c/a2567217ade970ecc458144b6be469bc015b23e5"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-46300",
-      "title": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits..",
-      "ecosystem": "linux",
-      "category": "kernel",
-      "severity": "high",
-      "proof": "working public poc",
-      "pocValidation": {
-        "valid": true,
-        "score": 10,
-        "codeFiles": [
-          "build-exploits.sh",
-          "embed_386.go",
-          "embed_amd64.go",
-          "embed_arm64.go",
-          "embed_mips.go",
-          "embed_mips64.go",
-          "embed_mips64le.go",
-          "embed_mipsle.go"
-        ],
-        "attackFiles": [
-          "exploits/cve_2023_0386_exp.c",
-          "exploits/cve_2024_1086/include/linux-lts-6.1.72/headers_check.pl"
-        ],
-        "hasUsage": true,
-        "language": "C"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "portbuster1337",
-      "researcherUrl": "https://github.com/portbuster1337",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "7:59 PM CDT",
-      "firstSeenAt": "2026-05-22T00:59:08Z",
-      "language": "C",
-      "summary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "technicalSummary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "breakdown": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "whatBroke": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "local privilege escalation after a foothold",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Linux",
-        "Kernel",
-        "Local LPE"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 1,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/portbuster1337/lpe-toolkit"
+          "https://github.com/vercel/next.js/security/advisories/GHSA-c4j6-fc7j-m34r"
         ]
       ]
     },
@@ -638,7 +547,7 @@
       "tags": [
         "Cloud",
         "Kubernetes",
-        "Exploit"
+        "Container Escape"
       ],
       "confidence": 98,
       "weaponization": 73,
@@ -691,7 +600,7 @@
       "tags": [
         "Cloud",
         "Kubernetes",
-        "Exploit"
+        "Container Escape"
       ],
       "confidence": 98,
       "weaponization": 73,
@@ -704,43 +613,46 @@
       ]
     },
     {
-      "cve": "CVE-2026-45250",
-      "title": "FreeBSD 14.x LPE",
+      "cve": "CVE-2026-43284",
+      "title": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits..",
       "ecosystem": "linux",
       "category": "kernel",
       "severity": "high",
       "proof": "working public poc",
       "pocValidation": {
         "valid": true,
-        "score": 9,
+        "score": 10,
         "codeFiles": [
-          "exploits/exp2_lpe_no_smap.c",
-          "exploits/exp_setcred_smap_zfs.c",
-          "exploits/poc_dos.c",
-          "exploits/wrapper.c"
+          "build-exploits.sh",
+          "embed_386.go",
+          "embed_amd64.go",
+          "embed_arm64.go",
+          "embed_mips.go",
+          "embed_mips64.go",
+          "embed_mips64le.go",
+          "embed_mipsle.go"
         ],
         "attackFiles": [
-          "exploits/exp2_lpe_no_smap.c",
-          "exploits/exp_setcred_smap_zfs.c",
-          "exploits/poc_dos.c"
+          "exploits/cve_2023_0386_exp.c",
+          "exploits/cve_2024_1086/include/linux-lts-6.1.72/headers_check.pl"
         ],
-        "hasUsage": false,
+        "hasUsage": true,
         "language": "C"
       },
       "reliability": "reliable exploit",
-      "researcher": "venglin",
-      "researcherUrl": "https://github.com/venglin",
+      "researcher": "portbuster1337",
+      "researcherUrl": "https://github.com/portbuster1337",
       "pocWorks": "Yes",
       "difficulty": "moderate",
-      "added": "8:02 PM CDT",
-      "firstSeenAt": "2026-05-22T01:02:56Z",
+      "added": "6:26 PM CDT",
+      "firstSeenAt": "2026-05-22T23:26:30Z",
       "language": "C",
-      "summary": "FreeBSD 14.x LPE",
-      "technicalSummary": "FreeBSD 14.x LPE",
-      "breakdown": "FreeBSD 14.x LPE",
-      "whatBroke": "FreeBSD 14.x LPE",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at venglin/setcred.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/venglin/setcred\ncd setcred\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "summary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "technicalSummary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "breakdown": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "whatBroke": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
         "initial access through exposed the affected product",
         "local privilege escalation after a foothold",
@@ -750,7 +662,73 @@
       "tags": [
         "Linux",
         "Kernel",
-        "Local LPE"
+        "Exploit"
+      ],
+      "confidence": 98,
+      "weaponization": 74,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/portbuster1337/lpe-toolkit"
+        ],
+        [
+          "Vendor Advisory",
+          "https://git.kernel.org/stable/c/50ed1e7873100f77abad20fd31c51029bc49cd03"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-31635",
+      "title": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits..",
+      "ecosystem": "linux",
+      "category": "kernel",
+      "severity": "high",
+      "proof": "working public poc",
+      "pocValidation": {
+        "valid": true,
+        "score": 10,
+        "codeFiles": [
+          "build-exploits.sh",
+          "embed_386.go",
+          "embed_amd64.go",
+          "embed_arm64.go",
+          "embed_mips.go",
+          "embed_mips64.go",
+          "embed_mips64le.go",
+          "embed_mipsle.go"
+        ],
+        "attackFiles": [
+          "exploits/cve_2023_0386_exp.c",
+          "exploits/cve_2024_1086/include/linux-lts-6.1.72/headers_check.pl"
+        ],
+        "hasUsage": true,
+        "language": "C"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "portbuster1337",
+      "researcherUrl": "https://github.com/portbuster1337",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "7:59 PM CDT",
+      "firstSeenAt": "2026-05-22T00:59:08Z",
+      "language": "C",
+      "summary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "technicalSummary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "breakdown": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "whatBroke": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "local privilege escalation after a foothold",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Linux",
+        "Kernel",
+        "Exploit"
       ],
       "confidence": 98,
       "weaponization": 73,
@@ -758,11 +736,73 @@
       "links": [
         [
           "GitHub",
-          "https://github.com/venglin/setcred"
+          "https://github.com/portbuster1337/lpe-toolkit"
         ],
         [
           "Vendor Advisory",
-          "https://security.freebsd.org/advisories/FreeBSD-SA-26:18.setcred.asc"
+          "https://git.kernel.org/stable/c/a2567217ade970ecc458144b6be469bc015b23e5"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-46300",
+      "title": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits..",
+      "ecosystem": "linux",
+      "category": "kernel",
+      "severity": "high",
+      "proof": "working public poc",
+      "pocValidation": {
+        "valid": true,
+        "score": 10,
+        "codeFiles": [
+          "build-exploits.sh",
+          "embed_386.go",
+          "embed_amd64.go",
+          "embed_arm64.go",
+          "embed_mips.go",
+          "embed_mips64.go",
+          "embed_mips64le.go",
+          "embed_mipsle.go"
+        ],
+        "attackFiles": [
+          "exploits/cve_2023_0386_exp.c",
+          "exploits/cve_2024_1086/include/linux-lts-6.1.72/headers_check.pl"
+        ],
+        "hasUsage": true,
+        "language": "C"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "portbuster1337",
+      "researcherUrl": "https://github.com/portbuster1337",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "7:59 PM CDT",
+      "firstSeenAt": "2026-05-22T00:59:08Z",
+      "language": "C",
+      "summary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "technicalSummary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "breakdown": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "whatBroke": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "local privilege escalation after a foothold",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Linux",
+        "Kernel",
+        "Exploit"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 1,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/portbuster1337/lpe-toolkit"
         ]
       ]
     },
@@ -821,6 +861,131 @@
         [
           "Vendor Advisory",
           "https://pafe.piotnet.com/"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-5118",
+      "title": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
+      "ecosystem": "web",
+      "category": "webstack",
+      "severity": "critical",
+      "proof": "working public poc",
+      "pocValidation": {
+        "valid": true,
+        "score": 9,
+        "codeFiles": [
+          "exploit.py"
+        ],
+        "attackFiles": [
+          "exploit.py"
+        ],
+        "hasUsage": false,
+        "language": "Python"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "Yucaerin",
+      "researcherUrl": "https://github.com/Yucaerin",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "9:53 PM CDT",
+      "firstSeenAt": "2026-05-23T02:53:29Z",
+      "language": "Python",
+      "summary": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
+      "technicalSummary": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
+      "breakdown": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
+      "whatBroke": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Yucaerin/CVE-2026-5118.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/Yucaerin/CVE-2026-5118\ncd CVE-2026-5118\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "credential access from service context",
+        "webshell or command execution follow-up",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Web",
+        "Webstack",
+        "Auth Bypass"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/Yucaerin/CVE-2026-5118"
+        ],
+        [
+          "Vendor Advisory",
+          "https://diviengine.com/divi-form-builder-changelog/"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-45250",
+      "title": "FreeBSD 14.x LPE",
+      "ecosystem": "linux",
+      "category": "kernel",
+      "severity": "high",
+      "proof": "working public poc",
+      "pocValidation": {
+        "valid": true,
+        "score": 9,
+        "codeFiles": [
+          "exploits/exp2_lpe_no_smap.c",
+          "exploits/exp_setcred_smap_zfs.c",
+          "exploits/poc_dos.c",
+          "exploits/wrapper.c"
+        ],
+        "attackFiles": [
+          "exploits/exp2_lpe_no_smap.c",
+          "exploits/exp_setcred_smap_zfs.c",
+          "exploits/poc_dos.c"
+        ],
+        "hasUsage": false,
+        "language": "C"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "venglin",
+      "researcherUrl": "https://github.com/venglin",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "8:02 PM CDT",
+      "firstSeenAt": "2026-05-22T01:02:56Z",
+      "language": "C",
+      "summary": "FreeBSD 14.x LPE",
+      "technicalSummary": "FreeBSD 14.x LPE",
+      "breakdown": "FreeBSD 14.x LPE",
+      "whatBroke": "FreeBSD 14.x LPE",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at venglin/setcred.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/venglin/setcred\ncd setcred\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "credential access from service context",
+        "webshell or command execution follow-up",
+        "local privilege escalation after a foothold",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "BSD",
+        "Kernel",
+        "RCE"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 1,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/venglin/setcred"
+        ],
+        [
+          "Vendor Advisory",
+          "https://security.freebsd.org/advisories/FreeBSD-SA-26:18.setcred.asc"
         ]
       ]
     }
