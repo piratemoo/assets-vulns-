@@ -50,11 +50,26 @@
   ],
   "research": [
     {
+      "title": "CVE-2026-27886: Unauthenticated Boolean-Oracle Exfiltration of Administrator Secrets in Strapi",
+      "source": "Bishop Fox",
+      "sourceUrl": "https://x.com/BishopFox",
+      "url": "https://bishopfox.com/blog/cve-2026-27886-unauthenticated-boolean-oracle-exfiltration-of-administrator-secrets-in-strapi",
+      "summary": "A sanitization bypass in Strapi 4.0.0 through 5.36.1 lets unauthenticated attackers extract an admin's password reset token character by character and take over the account. With over 20,000 internet-facing hosts exposed, Bishop Fox breaks down how the boolean oracle technique works and the full exploitation chain.",
+      "publishedAt": "2026-05-22T07:00:00Z",
+      "cves": [
+        "CVE-2026-27886"
+      ],
+      "tags": [
+        "Webstack",
+        "Auth Bypass"
+      ]
+    },
+    {
       "title": "Detecting CVE-2026-0265 at Scale: PAN-OS CAS Authentication Bypass",
       "source": "Bishop Fox",
       "sourceUrl": "https://x.com/BishopFox",
       "url": "https://bishopfox.com/blog/detecting-cve-2026-0265-at-scale-pan-os-cas-authentication-bypass",
-      "summary": "CVE-2026-0265 lets unauthenticated attackers forge a JWT and log in as any trusted user on CAS-enabled PAN-OS deployments. Bishop Fox built a detection tool that returns a definitive verdict from a single anonymous request, and breaks down exactly how the.",
+      "summary": "CVE-2026-0265 lets unauthenticated attackers forge a JWT and log in as any trusted user on CAS-enabled PAN-OS deployments. Bishop Fox breaks down how the authentication logic fails and how a single anonymous request can yield a definitive verdict.",
       "publishedAt": "2026-05-22T13:00:00Z",
       "cves": [
         "CVE-2026-0265"
@@ -63,20 +78,6 @@
         "Cloud",
         "VPN Edge",
         "Auth Bypass"
-      ]
-    },
-    {
-      "title": "CVE-2026-27886: Unauthenticated Boolean-Oracle Exfiltration of Administrator Secrets in Strapi",
-      "source": "Bishop Fox",
-      "sourceUrl": "https://x.com/BishopFox",
-      "url": "https://bishopfox.com/blog/cve-2026-27886-unauthenticated-boolean-oracle-exfiltration-of-administrator-secrets-in-strapi",
-      "summary": "A sanitization bypass in Strapi 4.0.0 through 5.36.1 lets unauthenticated attackers extract an admin's password reset token character by character and take over the account. With over 20,000 internet-facing hosts exposed, Bishop Fox breaks down how the.",
-      "publishedAt": "2026-05-22T07:00:00Z",
-      "cves": [
-        "CVE-2026-27886"
-      ],
-      "tags": [
-        "Session Theft"
       ]
     }
   ],
@@ -109,24 +110,23 @@
       "added": "7:59 PM CDT",
       "firstSeenAt": "2026-05-22T00:59:08Z",
       "language": "Python",
-      "summary": "Drupal Core PostgreSQL SQL Injection PoC -. Ethical PoC for the Drupal vulnerability allowing anonymous SQL injection through the JSON:API module on PostgreSQL-backed sites.",
-      "technicalSummary": "CVE-2026-9082 is a highly critical SQL injection vulnerability affecting Drupal core sites configured to use PostgreSQL as the backend database. The vulnerability exists in Drupal\u2019s database abstraction API, where specially crafted requests can bypass.",
-      "breakdown": "CVE-2026-9082 is a highly critical SQL injection vulnerability affecting Drupal core sites configured to use PostgreSQL as the backend database. The vulnerability exists in Drupal\u2019s database abstraction API, where specially crafted requests can bypass.",
-      "whatBroke": "Drupal Core PostgreSQL SQL Injection PoC -. Ethical PoC for the Drupal vulnerability allowing anonymous SQL injection through the JSON:API module on PostgreSQL-backed sites.",
+      "summary": "Drupal Core PostgreSQL SQL Injection — anonymous SQL injection through the JSON:API module on PostgreSQL-backed sites, allowing unauthenticated data exfiltration.",
+      "technicalSummary": "CVE-2026-9082 is a highly critical SQL injection vulnerability affecting Drupal core sites configured to use PostgreSQL as the backend database. The vulnerability exists in Drupal's database abstraction API, where specially crafted requests can bypass parameterization and reach raw query execution.",
+      "breakdown": "CVE-2026-9082 is a highly critical SQL injection vulnerability affecting Drupal core sites configured to use PostgreSQL as the backend database. The vulnerability exists in Drupal's database abstraction API, where specially crafted requests can bypass parameterization and reach raw query execution.",
+      "whatBroke": "Drupal's database abstraction layer failed to fully sanitize attacker-controlled input passed through the JSON:API module on PostgreSQL backends, allowing unauthenticated SQL injection.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at 7h30th3r0n3/CVE-2026-9082-Drupal-PoC.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/7h30th3r0n3/CVE-2026-9082-Drupal-PoC\ncd CVE-2026-9082-Drupal-PoC\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed Core",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
+        "unauthenticated SQL injection via JSON:API module",
+        "credential and session data exfiltration from database",
+        "admin account takeover via extracted password hashes",
+        "webshell upload through authenticated file manager",
+        "lateral movement from compromised Drupal host"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Web",
         "Webstack",
-        "RCE",
+        "SQLi",
         "KEV"
       ],
       "confidence": 98,
@@ -151,7 +151,7 @@
       "cve": "CVE-2026-20182",
       "title": "Cisco Catalyst SD-WAN Controller Authentication Bypass Vulnerability",
       "ecosystem": "cloud",
-      "category": "webstack",
+      "category": "vpn-edge",
       "severity": "critical",
       "proof": "working public poc",
       "pocValidation": {
@@ -174,23 +174,23 @@
       "added": "6:32 PM CDT",
       "firstSeenAt": "2026-05-22T23:32:02Z",
       "language": "Python",
-      "summary": "PoC - Cisco Catalyst SD-WAN Controller / Manager Authentication Bypass (CVSS 10.0)",
-      "technicalSummary": "PoC - Cisco Catalyst SD-WAN Controller / Manager Authentication Bypass (CVSS 10.0)",
-      "breakdown": "PoC - Cisco Catalyst SD-WAN Controller / Manager Authentication Bypass (CVSS 10.0)",
-      "whatBroke": "PoC - Cisco Catalyst SD-WAN Controller / Manager Authentication Bypass (CVSS 10.0)",
+      "summary": "Cisco Catalyst SD-WAN Controller and Manager authentication bypass rated CVSS 10.0 — unauthenticated attackers can gain full control of the SD-WAN management plane.",
+      "technicalSummary": "An authentication bypass in the Cisco Catalyst SD-WAN Manager allows unauthenticated remote attackers to access the management interface without valid credentials. With a CVSS score of 10.0, exploitation gives direct control over SD-WAN policy, routing, and connected branch infrastructure.",
+      "breakdown": "An authentication bypass in the Cisco Catalyst SD-WAN Manager allows unauthenticated remote attackers to access the management interface without valid credentials. With a CVSS score of 10.0, exploitation gives direct control over SD-WAN policy, routing, and connected branch infrastructure.",
+      "whatBroke": "The Cisco Catalyst SD-WAN Controller and Manager failed to enforce authentication on a critical management interface, allowing unauthenticated access to the full SD-WAN control plane.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/CVE-2026-20182.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/CVE-2026-20182\ncd CVE-2026-20182\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed Catalyst SD-WAN",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
+        "unauthenticated access to SD-WAN management plane",
+        "SD-WAN policy and routing table manipulation",
+        "traffic interception or redirection across branch sites",
+        "credential access from management interface",
+        "lateral movement to connected branch infrastructure"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
         "Cloud",
-        "Webstack",
+        "VPN Edge",
         "Auth Bypass",
         "KEV"
       ],
@@ -250,8 +250,9 @@
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed Kernel",
-        "local privilege escalation after a foothold",
+        "initial access through exposed Linux host",
+        "local privilege escalation via kernel exploit",
+        "root access and credential harvesting",
         "lateral movement if secrets or management access are recovered"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
@@ -310,15 +311,16 @@
       "added": "7:59 PM CDT",
       "firstSeenAt": "2026-05-22T00:59:08Z",
       "language": "C",
-      "summary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "technicalSummary": "The Qualys Threat Research Unit (TRU) has discovered and published the full advisory for CVE-2026-46333, a logic flaw in the Linux kernel\u2019s __ptrace_may_access() function that permits an unprivileged local user to.",
-      "breakdown": "The Qualys Threat Research Unit (TRU) has discovered and published the full advisory for CVE-2026-46333, a logic flaw in the Linux kernel\u2019s __ptrace_may_access() function that permits an unprivileged local user to.",
-      "whatBroke": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "summary": "A logic flaw in the Linux kernel's __ptrace_may_access() function permits an unprivileged local user to escalate to root and disclose credential material from other processes.",
+      "technicalSummary": "The Qualys Threat Research Unit (TRU) has discovered and published the full advisory for CVE-2026-46333, a logic flaw in the Linux kernel's __ptrace_may_access() function that permits an unprivileged local user to read credential material and escalate privileges to root.",
+      "breakdown": "The Qualys Threat Research Unit (TRU) has discovered and published the full advisory for CVE-2026-46333, a logic flaw in the Linux kernel's __ptrace_may_access() function that permits an unprivileged local user to read credential material and escalate privileges to root.",
+      "whatBroke": "A logic flaw in Linux kernel's __ptrace_may_access() dumpability check allows an unprivileged local attacker to cross process trust boundaries and access credential material belonging to privileged processes.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed the affected product",
-        "local privilege escalation after a foothold",
+        "local foothold on Linux host",
+        "ptrace-based credential disclosure from privileged processes",
+        "local privilege escalation to root",
         "lateral movement if secrets or management access are recovered"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
@@ -347,7 +349,7 @@
     },
     {
       "cve": "CVE-2026-33017",
-      "title": "Langflow Code Injection Vulnerability",
+      "title": "Langflow Unauthenticated Code Injection Vulnerability",
       "ecosystem": "cloud",
       "category": "webstack",
       "severity": "high",
@@ -372,22 +374,24 @@
       "added": "6:26 PM CDT",
       "firstSeenAt": "2026-05-22T23:26:30Z",
       "language": "Python",
-      "summary": "Langflow contains a code injection vulnerability that could allow building public flows without requiring authentication.",
-      "technicalSummary": "Langflow contains a code injection vulnerability that could allow building public flows without requiring authentication.",
-      "breakdown": "Langflow contains a code injection vulnerability that could allow building public flows without requiring authentication.",
-      "whatBroke": "Langflow contains a code injection vulnerability that could allow building public flows without requiring authentication.",
+      "summary": "Langflow contains a code injection vulnerability that allows unauthenticated attackers to build and execute public flows, reaching remote code execution on the server.",
+      "technicalSummary": "Langflow contains a code injection vulnerability that allows unauthenticated attackers to build and execute public flows, reaching remote code execution on the server.",
+      "breakdown": "Langflow contains a code injection vulnerability that allows unauthenticated attackers to build and execute public flows, reaching remote code execution on the server.",
+      "whatBroke": "Langflow's flow execution engine accepted attacker-controlled code through the public flow API without requiring authentication, leading to server-side code execution.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at r3nsi15/CVE-2026-33017-langflow-rce.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/r3nsi15/CVE-2026-33017-langflow-rce\ncd CVE-2026-33017-langflow-rce\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed Langflow",
-        "internal pivot from an internet-facing control point",
+        "unauthenticated code injection via public flow API",
+        "server-side code execution in Langflow process context",
+        "access to LLM API keys and environment secrets",
+        "internal pivot from internet-facing AI infrastructure",
         "lateral movement if secrets or management access are recovered"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
         "Cloud",
         "Webstack",
-        "Exploit",
+        "RCE",
         "KEV"
       ],
       "confidence": 98,
@@ -406,7 +410,7 @@
     },
     {
       "cve": "CVE-2026-43284",
-      "title": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits..",
+      "title": "Linux Kernel Local Privilege Escalation",
       "ecosystem": "linux",
       "category": "kernel",
       "severity": "high",
@@ -442,12 +446,13 @@
       "summary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
       "technicalSummary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
       "breakdown": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "whatBroke": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "whatBroke": "A Linux kernel vulnerability allows a local unprivileged attacker to escalate to root via a publicly available multi-architecture exploit toolkit.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed the affected product",
-        "local privilege escalation after a foothold",
+        "initial access through exposed Linux host",
+        "local privilege escalation via kernel exploit",
+        "root access and credential harvesting",
         "lateral movement if secrets or management access are recovered"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
@@ -472,7 +477,7 @@
     },
     {
       "cve": "CVE-2026-31635",
-      "title": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits..",
+      "title": "Linux Kernel Local Privilege Escalation",
       "ecosystem": "linux",
       "category": "kernel",
       "severity": "high",
@@ -508,12 +513,13 @@
       "summary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
       "technicalSummary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
       "breakdown": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "whatBroke": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "whatBroke": "A Linux kernel vulnerability allows a local unprivileged attacker to escalate to root via a publicly available multi-architecture exploit toolkit.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed the affected product",
-        "local privilege escalation after a foothold",
+        "initial access through exposed Linux host",
+        "local privilege escalation via kernel exploit",
+        "root access and credential harvesting",
         "lateral movement if secrets or management access are recovered"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
@@ -538,7 +544,7 @@
     },
     {
       "cve": "CVE-2026-46300",
-      "title": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits..",
+      "title": "Linux Kernel Local Privilege Escalation",
       "ecosystem": "linux",
       "category": "kernel",
       "severity": "high",
@@ -574,12 +580,13 @@
       "summary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
       "technicalSummary": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
       "breakdown": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
-      "whatBroke": "Multi-architecture Linux privilege escalation toolkit with 18 pre-built and runtime-compilable exploits. Auto-detects kernel version, filters patched exploits, tries each until root.",
+      "whatBroke": "A Linux kernel vulnerability allows a local unprivileged attacker to escalate to root via a publicly available multi-architecture exploit toolkit.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/lpe-toolkit.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/lpe-toolkit\ncd lpe-toolkit\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed the affected product",
-        "local privilege escalation after a foothold",
+        "initial access through exposed Linux host",
+        "local privilege escalation via kernel exploit",
+        "root access and credential harvesting",
         "lateral movement if secrets or management access are recovered"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
@@ -600,7 +607,7 @@
     },
     {
       "cve": "CVE-2026-6433",
-      "title": "PoC for CVE-2026-6433: WordPress FlipperCode Custom CSS, JS & PHP (\u22642.0.7) \u2014 unauthenticated SQLi to RCE..",
+      "title": "WordPress FlipperCode Custom CSS, JS & PHP — Unauthenticated SQLi to RCE",
       "ecosystem": "web",
       "category": "webstack",
       "severity": "critical",
@@ -625,23 +632,23 @@
       "added": "6:26 PM CDT",
       "firstSeenAt": "2026-05-22T23:26:30Z",
       "language": "Python",
-      "summary": "PoC for WordPress FlipperCode Custom CSS, JS & PHP (\u22642.0.7) \u2014 unauthenticated SQLi to RCE. Python 3 stdlib; single target or bulk multi-threaded scanning. Authorized testing & research only.",
-      "technicalSummary": "PoC for WordPress FlipperCode Custom CSS, JS & PHP (\u22642.0.7) \u2014 unauthenticated SQLi to RCE. Python 3 stdlib; single target or bulk multi-threaded scanning. Authorized testing & research only.",
-      "breakdown": "PoC for WordPress FlipperCode Custom CSS, JS & PHP (\u22642.0.7) \u2014 unauthenticated SQLi to RCE. Python 3 stdlib; single target or bulk multi-threaded scanning. Authorized testing & research only.",
-      "whatBroke": "PoC for WordPress FlipperCode Custom CSS, JS & PHP (\u22642.0.7) \u2014 unauthenticated SQLi to RCE. Python 3 stdlib; single target or bulk multi-threaded scanning. Authorized testing & research only.",
+      "summary": "WordPress FlipperCode Custom CSS, JS & PHP (<=2.0.7) — unauthenticated SQL injection chains to remote code execution. Python 3 stdlib PoC supports single target or bulk multi-threaded scanning.",
+      "technicalSummary": "WordPress FlipperCode Custom CSS, JS & PHP (<=2.0.7) — unauthenticated SQL injection chains to remote code execution. Python 3 stdlib PoC supports single target or bulk multi-threaded scanning.",
+      "breakdown": "WordPress FlipperCode Custom CSS, JS & PHP (<=2.0.7) — unauthenticated SQL injection chains to remote code execution. Python 3 stdlib PoC supports single target or bulk multi-threaded scanning.",
+      "whatBroke": "The FlipperCode WordPress plugin failed to sanitize user input in a database query path, allowing unauthenticated SQL injection that chains to remote code execution.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at murrez/CVE-2026-6433.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/murrez/CVE-2026-6433\ncd CVE-2026-6433\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed the affected product",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
+        "unauthenticated SQL injection via plugin endpoint",
+        "database credential and content exfiltration",
+        "code execution via SQL-to-RCE chain",
+        "webshell upload and persistent access",
+        "lateral movement from compromised WordPress host"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Web",
         "Webstack",
+        "SQLi",
         "RCE"
       ],
       "confidence": 98,
@@ -660,7 +667,7 @@
     },
     {
       "cve": "CVE-2026-44578",
-      "title": "Next.js Server-Side Request Forgery Vulnerability",
+      "title": "Next.js Server-Side Request Forgery via WebSocket Upgrade",
       "ecosystem": "web",
       "category": "webstack",
       "severity": "high",
@@ -694,22 +701,22 @@
       "added": "6:32 PM CDT",
       "firstSeenAt": "2026-05-22T23:32:02Z",
       "language": "Python",
-      "summary": "Next.js WebSocket Upgrade SSRF \u2014 pre-auth credential theft via localhost:80. Lab + exploit + audit.",
-      "technicalSummary": "CVE-2026-44578 is a High-severity server-side request forgery vulnerability affecting self-hosted Next.js applications that use the built-in Node.js server. The vulnerability exists in WebSocket upgrade request handling, where crafted requests can cause.",
-      "breakdown": "CVE-2026-44578 is a High-severity server-side request forgery vulnerability affecting self-hosted Next.js applications that use the built-in Node.js server. The vulnerability exists in WebSocket upgrade request handling, where crafted requests can cause.",
-      "whatBroke": "Next.js WebSocket Upgrade SSRF \u2014 pre-auth credential theft via localhost:80. Lab + exploit + audit.",
+      "summary": "Next.js WebSocket upgrade handling SSRF — crafted requests cause the server to forward connections to localhost:80, enabling pre-auth credential theft from internal services and cloud metadata endpoints.",
+      "technicalSummary": "CVE-2026-44578 is a server-side request forgery vulnerability in self-hosted Next.js applications using the built-in Node.js server. Crafted WebSocket upgrade requests cause the server to forward the connection to localhost:80, giving unauthenticated access to internal APIs and cloud metadata services.",
+      "breakdown": "CVE-2026-44578 is a server-side request forgery vulnerability in self-hosted Next.js applications using the built-in Node.js server. Crafted WebSocket upgrade requests cause the server to forward the connection to localhost:80, giving unauthenticated access to internal APIs and cloud metadata services.",
+      "whatBroke": "Next.js WebSocket upgrade request handling failed to validate the target host, allowing attacker-controlled upgrade requests to reach localhost-bound services including cloud metadata endpoints.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at dinosn/CVE-2026-44578.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/dinosn/CVE-2026-44578\ncd CVE-2026-44578\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed the affected product",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
+        "unauthenticated SSRF via crafted WebSocket upgrade request",
+        "access to cloud metadata endpoint (AWS IMDSv1, GCP, Azure)",
+        "credential theft from metadata service or internal API",
+        "lateral movement using stolen cloud credentials or service tokens"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Web",
         "Webstack",
-        "Exploit"
+        "SSRF"
       ],
       "confidence": 98,
       "weaponization": 77,
@@ -731,7 +738,7 @@
     },
     {
       "cve": "CVE-2026-5817",
-      "title": "Docker Container Escape POC via mlx-metal importlib",
+      "title": "Docker Container Escape via mlx-metal importlib",
       "ecosystem": "cloud",
       "category": "kubernetes",
       "severity": "high",
@@ -756,21 +763,24 @@
       "added": "6:26 PM CDT",
       "firstSeenAt": "2026-05-22T23:26:30Z",
       "language": "Python",
-      "summary": "Docker Container Escape POC via mlx-metal importlib",
-      "technicalSummary": "Docker Container Escape POC via mlx-metal importlib",
-      "breakdown": "Docker Container Escape POC via mlx-metal importlib",
-      "whatBroke": "Docker Container Escape POC via mlx-metal importlib",
+      "summary": "Docker container escape via mlx-metal importlib path abuse — allows a process inside a container to break out to the host and access co-located workloads.",
+      "technicalSummary": "Docker container escape via mlx-metal importlib path abuse — allows a process inside a container to break out to the host and access co-located workloads.",
+      "breakdown": "Docker container escape via mlx-metal importlib path abuse — allows a process inside a container to break out to the host and access co-located workloads.",
+      "whatBroke": "A path abuse vulnerability in mlx-metal's Python importlib handling allows attacker-controlled code running inside a Docker container to escape the container boundary and gain access to the host.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at davidrxchester/CVE-2026-5843.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/davidrxchester/CVE-2026-5843\ncd CVE-2026-5843\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed the affected product",
-        "lateral movement if secrets or management access are recovered"
+        "initial code execution inside container",
+        "container boundary escape to host via importlib abuse",
+        "access to host filesystem and co-located container data",
+        "credential theft from mounted secrets or environment variables",
+        "lateral movement to cluster infrastructure or other pods"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
         "Cloud",
         "Kubernetes",
-        "Exploit"
+        "Container Escape"
       ],
       "confidence": 98,
       "weaponization": 73,
@@ -784,7 +794,7 @@
     },
     {
       "cve": "CVE-2026-5843",
-      "title": "Docker Container Escape POC via mlx-metal importlib",
+      "title": "Docker Container Escape via mlx-metal importlib",
       "ecosystem": "cloud",
       "category": "kubernetes",
       "severity": "high",
@@ -809,21 +819,24 @@
       "added": "6:26 PM CDT",
       "firstSeenAt": "2026-05-22T23:26:30Z",
       "language": "Python",
-      "summary": "Docker Container Escape POC via mlx-metal importlib",
-      "technicalSummary": "Docker Container Escape POC via mlx-metal importlib",
-      "breakdown": "Docker Container Escape POC via mlx-metal importlib",
-      "whatBroke": "Docker Container Escape POC via mlx-metal importlib",
+      "summary": "Docker container escape via mlx-metal importlib path abuse — allows a process inside a container to break out to the host and access co-located workloads.",
+      "technicalSummary": "Docker container escape via mlx-metal importlib path abuse — allows a process inside a container to break out to the host and access co-located workloads.",
+      "breakdown": "Docker container escape via mlx-metal importlib path abuse — allows a process inside a container to break out to the host and access co-located workloads.",
+      "whatBroke": "A path abuse vulnerability in mlx-metal's Python importlib handling allows attacker-controlled code running inside a Docker container to escape the container boundary and gain access to the host.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at davidrxchester/CVE-2026-5843.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/davidrxchester/CVE-2026-5843\ncd CVE-2026-5843\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed the affected product",
-        "lateral movement if secrets or management access are recovered"
+        "initial code execution inside container",
+        "container boundary escape to host via importlib abuse",
+        "access to host filesystem and co-located container data",
+        "credential theft from mounted secrets or environment variables",
+        "lateral movement to cluster infrastructure or other pods"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
         "Cloud",
         "Kubernetes",
-        "Exploit"
+        "Container Escape"
       ],
       "confidence": 98,
       "weaponization": 73,
@@ -837,7 +850,7 @@
     },
     {
       "cve": "CVE-2026-45250",
-      "title": "FreeBSD 14.x LPE",
+      "title": "FreeBSD 14.x setcred Local Privilege Escalation",
       "ecosystem": "linux",
       "category": "kernel",
       "severity": "high",
@@ -867,20 +880,21 @@
       "added": "8:02 PM CDT",
       "firstSeenAt": "2026-05-22T01:02:56Z",
       "language": "C",
-      "summary": "FreeBSD 14.x LPE",
-      "technicalSummary": "FreeBSD 14.x LPE",
-      "breakdown": "FreeBSD 14.x LPE",
-      "whatBroke": "FreeBSD 14.x LPE",
+      "summary": "FreeBSD 14.x setcred(2) stack buffer overflow — the kernel copies user-supplied supplementary groups into a fixed-size stack buffer before checking caller privileges, enabling local privilege escalation to root.",
+      "technicalSummary": "The setcred(2) system call on FreeBSD 14.x copies a user-supplied list of supplementary groups into a fixed-size kernel stack buffer before checking whether the caller is privileged. This allows an unprivileged local attacker to overflow the buffer and gain root.",
+      "breakdown": "The setcred(2) system call on FreeBSD 14.x copies a user-supplied list of supplementary groups into a fixed-size kernel stack buffer before checking whether the caller is privileged. This allows an unprivileged local attacker to overflow the buffer and gain root.",
+      "whatBroke": "FreeBSD's setcred(2) syscall performed a bounds-unchecked copy of attacker-controlled supplementary group data into a kernel stack buffer before privilege validation, creating a stack overflow LPE path.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at venglin/setcred.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/venglin/setcred\ncd setcred\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed the affected product",
-        "local privilege escalation after a foothold",
+        "local foothold on FreeBSD 14.x host",
+        "setcred stack overflow to kernel privilege escalation",
+        "root access and credential harvesting",
         "lateral movement if secrets or management access are recovered"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Linux",
+        "BSD",
         "Kernel",
         "Local LPE"
       ],
@@ -900,7 +914,7 @@
     },
     {
       "cve": "CVE-2026-4885",
-      "title": "Piotnet Addons for Elementor Pro <= 7.1.70 - Unauthenticated Arbitrary File Upload \u2192 RCE",
+      "title": "Piotnet Addons for Elementor Pro <= 7.1.70 — Unauthenticated Arbitrary File Upload to RCE",
       "ecosystem": "web",
       "category": "webstack",
       "severity": "critical",
@@ -923,23 +937,23 @@
       "added": "8:02 PM CDT",
       "firstSeenAt": "2026-05-22T01:02:56Z",
       "language": "Python",
-      "summary": "Piotnet Addons for Elementor Pro <= 7.1.70 - Unauthenticated Arbitrary File Upload \u2192 RCE",
-      "technicalSummary": "Piotnet Addons for Elementor Pro <= 7.1.70 - Unauthenticated Arbitrary File Upload \u2192 RCE",
-      "breakdown": "Piotnet Addons for Elementor Pro <= 7.1.70 - Unauthenticated Arbitrary File Upload \u2192 RCE",
-      "whatBroke": "Piotnet Addons for Elementor Pro <= 7.1.70 - Unauthenticated Arbitrary File Upload \u2192 RCE",
+      "summary": "Piotnet Addons for Elementor Pro (<=7.1.70) missing file type validation allows unauthenticated arbitrary file upload leading to remote code execution on the WordPress host.",
+      "technicalSummary": "Piotnet Addons for Elementor Pro (<=7.1.70) missing file type validation allows unauthenticated arbitrary file upload leading to remote code execution on the WordPress host.",
+      "breakdown": "Piotnet Addons for Elementor Pro (<=7.1.70) missing file type validation allows unauthenticated arbitrary file upload leading to remote code execution on the WordPress host.",
+      "whatBroke": "The pafe_ajax_form_builder function in Piotnet Addons for Elementor Pro failed to validate uploaded file types, allowing unauthenticated attackers to upload executable files and achieve remote code execution.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at xShadow-Here/CVE-2026-4885.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/xShadow-Here/CVE-2026-4885\ncd CVE-2026-4885\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed the affected product",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
+        "unauthenticated file upload via pafe_ajax_form_builder",
+        "webshell deployment to WordPress webroot",
+        "remote code execution as web server process",
+        "credential theft from wp-config.php and database",
+        "lateral movement from compromised WordPress host"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Web",
         "Webstack",
+        "File Upload",
         "RCE"
       ],
       "confidence": 98,
@@ -958,7 +972,7 @@
     },
     {
       "cve": "CVE-2026-5118",
-      "title": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
+      "title": "Divi Form Builder <= 5.1.2 — Unauthenticated Privilege Escalation via Role Injection",
       "ecosystem": "web",
       "category": "webstack",
       "severity": "high",
@@ -983,22 +997,23 @@
       "added": "6:32 PM CDT",
       "firstSeenAt": "2026-05-22T23:32:02Z",
       "language": "Python",
-      "summary": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "technicalSummary": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "breakdown": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "whatBroke": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
+      "summary": "Divi Form Builder (<=5.1.2) allows unauthenticated attackers to inject arbitrary WordPress roles during form submission, escalating to administrator without valid credentials.",
+      "technicalSummary": "Divi Form Builder (<=5.1.2) allows unauthenticated attackers to inject arbitrary WordPress roles during form submission, escalating to administrator without valid credentials.",
+      "breakdown": "Divi Form Builder (<=5.1.2) allows unauthenticated attackers to inject arbitrary WordPress roles during form submission, escalating to administrator without valid credentials.",
+      "whatBroke": "Divi Form Builder failed to sanitize user-supplied role parameters during form submission, allowing unauthenticated attackers to assign themselves administrator role on the WordPress site.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Yucaerin/CVE-2026-5118.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/Yucaerin/CVE-2026-5118\ncd CVE-2026-5118\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
-        "initial access through exposed the affected product",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
+        "unauthenticated role injection via Divi form submission",
+        "administrator account creation without credentials",
+        "plugin installation or theme editor access",
+        "webshell upload and remote code execution",
+        "full WordPress site compromise"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Web",
         "Webstack",
-        "Local LPE"
+        "Auth Bypass"
       ],
       "confidence": 98,
       "weaponization": 73,
