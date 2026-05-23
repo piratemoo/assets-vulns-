@@ -228,6 +228,14 @@ X_STYLE_DISCOVERY_QUERIES = [
     "CVE command injection exploit",
     "CVE privilege escalation exploit",
     "CVE weaponized exploit",
+    # Windows / AD / Exchange specific
+    "CVE exploit PoC NTLM relay",
+    "CVE exploit PoC DLL hijacking Windows",
+    "CVE exploit PoC Windows LPE kernel",
+    "CVE exploit PoC Windows SMB",
+    "CVE exploit PoC Azure Active Directory",
+    "CVE exploit PoC Outlook Exchange RCE",
+    "CVE exploit PoC tiraniddo Windows",
 ]
 
 ECOSYSTEM_RULES = [
@@ -340,6 +348,8 @@ OFFENSIVE_REJECT_TITLE_RE = re.compile(
 POC_CODE_EXTENSIONS = {
     ".py", ".go", ".rb", ".js", ".ts", ".java", ".c", ".cc", ".cpp", ".cs",
     ".php", ".sh", ".ps1", ".rs", ".pl", ".lua", ".nse", ".yaml", ".yml",
+    # Windows-specific exploit formats
+    ".bat", ".cmd", ".vbs", ".hta", ".lnk", ".dll", ".exe", ".reg",
 }
 
 POC_FILE_TERMS = [
