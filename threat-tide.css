@@ -929,7 +929,8 @@ body.page-vulns .single-header {
     font-style: normal;
   }
 
-  #pm-vulns-app .pm-question code {
+  #pm-vulns-app .pm-question code,
+  #pm-vulns-app .pm-summary code {
     display: inline;
     background: rgba(177, 83, 255, 0.15);
     border: 1px solid rgba(177, 83, 255, 0.28);
