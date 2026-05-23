@@ -2,6 +2,14 @@ body.page-vulns .single-header {
     display: none !important;
   }
 
+  /* ── overflow fix: prevent Ghost ancestor from clipping left border ── */
+  .gh-content.gh-canvas,
+  .post-content,
+  .article-body,
+  .kg-card.kg-html-card:has(#pm-vulns-app) {
+    overflow: visible !important;
+  }
+
   #pm-vulns-app {
     --pm-panel: rgba(7, 10, 20, 0.88);
     --pm-panel-strong: rgba(9, 13, 26, 0.96);
@@ -53,7 +61,8 @@ body.page-vulns .single-header {
 
   #pm-vulns-app .pm-wrap {
     display: block;
-    padding: 0 0 22px;
+    /* 1px side padding prevents ancestor overflow:hidden clipping the panel borders */
+    padding: 0 1px 22px;
   }
 
   #pm-vulns-app .pm-panel {
@@ -378,6 +387,94 @@ body.page-vulns .single-header {
     display: grid;
     gap: 12px;
   }
+
+  /* ── Research cards ─────────────────────────────────────────────────── */
+
+  #pm-vulns-app .pm-research-card {
+    display: grid;
+    gap: 10px;
+    padding: 16px 18px;
+    background: rgba(5, 8, 17, 0.74);
+  }
+
+  #pm-vulns-app .pm-research-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  #pm-vulns-app .pm-research-head > div {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  #pm-vulns-app .pm-research-head time {
+    flex: 0 0 auto;
+    color: var(--pm-muted);
+    font-size: 13px;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+
+  #pm-vulns-app .pm-research-source {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--pm-muted);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  #pm-vulns-app .pm-research-source a {
+    color: var(--pm-gold);
+  }
+
+  #pm-vulns-app .pm-research-source a:hover {
+    color: var(--pm-lilac);
+  }
+
+  #pm-vulns-app .pm-research-card h2 {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  #pm-vulns-app .pm-research-card h2 a {
+    color: var(--pm-purple);
+  }
+
+  #pm-vulns-app .pm-research-card h2 a:hover {
+    color: var(--pm-lilac);
+  }
+
+  #pm-vulns-app .pm-research-card .pm-summary {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--pm-muted);
+  }
+
+  #pm-vulns-app .pm-research-card .pm-cve-row {
+    margin: 0;
+  }
+
+  #pm-vulns-app .pm-research-card .pm-actions {
+    margin: 0;
+  }
+
+  #pm-vulns-app .pm-research-card .pm-actions a {
+    color: var(--pm-lilac);
+    font-size: 14px;
+  }
+
+  #pm-vulns-app .pm-research-card .pm-actions a:hover {
+    color: var(--pm-gold);
+  }
+
+  /* ── PoC cards ──────────────────────────────────────────────────────── */
 
   #pm-vulns-app .pm-archive {
     padding: 10px;
@@ -791,6 +888,8 @@ body.page-vulns .single-header {
     color: var(--pm-muted);
   }
 
+  /* ── Responsive ─────────────────────────────────────────────────────── */
+
   @media (max-width: 900px) {
     #pm-vulns-app .pm-source-list {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -846,6 +945,15 @@ body.page-vulns .single-header {
 
     #pm-vulns-app .pm-detail {
       padding: 12px 14px 14px;
+    }
+
+    #pm-vulns-app .pm-research-head {
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    #pm-vulns-app .pm-research-head time {
+      order: -1;
     }
   }
 
@@ -921,5 +1029,9 @@ body.page-vulns .single-header {
 
     #pm-vulns-app .pm-detail {
       padding: 12px 14px 14px;
+    }
+
+    #pm-vulns-app .pm-research-card {
+      padding: 14px;
     }
   }
