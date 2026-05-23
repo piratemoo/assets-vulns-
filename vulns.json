@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-23T02:53:29Z",
+  "updatedAt": "2026-05-23T03:04:59Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -113,67 +113,6 @@
         [
           "Vendor Advisory",
           "https://www.drupal.org/sa-core-2026-004"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-20182",
-      "title": "Cisco Catalyst SD-WAN Controller Authentication Bypass Vulnerability",
-      "ecosystem": "cloud",
-      "category": "vpn-edge",
-      "severity": "critical",
-      "proof": "working public poc",
-      "pocValidation": {
-        "valid": true,
-        "score": 9,
-        "codeFiles": [
-          "cve-2026-20182.py"
-        ],
-        "attackFiles": [
-          "cve-2026-20182.py"
-        ],
-        "hasUsage": false,
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "portbuster1337",
-      "researcherUrl": "https://github.com/portbuster1337",
-      "pocWorks": "Yes",
-      "difficulty": "easy",
-      "added": "9:53 PM CDT",
-      "firstSeenAt": "2026-05-23T02:53:29Z",
-      "language": "Python",
-      "summary": "PoC - Cisco Catalyst SD-WAN Controller / Manager Authentication Bypass (CVSS 10.0)",
-      "technicalSummary": "PoC - Cisco Catalyst SD-WAN Controller / Manager Authentication Bypass (CVSS 10.0)",
-      "breakdown": "PoC - Cisco Catalyst SD-WAN Controller / Manager Authentication Bypass (CVSS 10.0)",
-      "whatBroke": "PoC - Cisco Catalyst SD-WAN Controller / Manager Authentication Bypass (CVSS 10.0)",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at portbuster1337/CVE-2026-20182.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/portbuster1337/CVE-2026-20182\ncd CVE-2026-20182\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed Catalyst SD-WAN",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Cloud",
-        "VPN Edge",
-        "Auth Bypass",
-        "KEV"
-      ],
-      "confidence": 98,
-      "weaponization": 99,
-      "dayOffset": 0,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/portbuster1337/CVE-2026-20182"
-        ],
-        [
-          "Vendor Advisory",
-          "https://www.cisa.gov/news-events/directives/ed-26-03-mitigate-vulnerabilities-cisco-sd-wan-systems"
         ]
       ]
     },
@@ -372,77 +311,6 @@
         [
           "Vendor Advisory",
           "https://github.com/langflow-ai/langflow/security/advisories/GHSA-vwmf-pq79-vjvx"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-44578",
-      "title": "Next.js Server-Side Request Forgery Vulnerability",
-      "ecosystem": "web",
-      "category": "webstack",
-      "severity": "high",
-      "proof": "working public poc",
-      "pocValidation": {
-        "valid": true,
-        "score": 9,
-        "codeFiles": [
-          "exploit/curl_poc.sh",
-          "exploit/poc.py",
-          "exploit/test_vuln_vs_fixed.sh",
-          "lab/docker-compose.yml",
-          "lab/imds-mock/imds_server.py",
-          "lab/internal-api/internal_server.py",
-          "lab/setup.sh",
-          "lab/teardown.sh"
-        ],
-        "attackFiles": [
-          "exploit/curl_poc.sh",
-          "exploit/poc.py",
-          "exploit/test_vuln_vs_fixed.sh"
-        ],
-        "hasUsage": false,
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "Horizon3 Attack Team",
-      "researcherUrl": "https://x.com/Horizon3Attack",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "9:53 PM CDT",
-      "firstSeenAt": "2026-05-23T02:53:29Z",
-      "language": "Python",
-      "summary": "Next.js WebSocket Upgrade SSRF \u2014 pre-auth credential theft via localhost:80. Lab + exploit + audit.",
-      "technicalSummary": "CVE-2026-44578 is a High-severity server-side request forgery vulnerability affecting self-hosted Next.js applications that use the built-in Node.js server. The vulnerability exists in WebSocket upgrade request handling, where crafted requests can cause.",
-      "breakdown": "CVE-2026-44578 is a High-severity server-side request forgery vulnerability affecting self-hosted Next.js applications that use the built-in Node.js server. The vulnerability exists in WebSocket upgrade request handling, where crafted requests can cause.",
-      "whatBroke": "Next.js WebSocket Upgrade SSRF \u2014 pre-auth credential theft via localhost:80. Lab + exploit + audit.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at dinosn/CVE-2026-44578.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/dinosn/CVE-2026-44578\ncd CVE-2026-44578\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Web",
-        "Webstack",
-        "SSRF"
-      ],
-      "confidence": 98,
-      "weaponization": 77,
-      "dayOffset": 0,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/dinosn/CVE-2026-44578"
-        ],
-        [
-          "Technical Paper",
-          "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-44578/"
-        ],
-        [
-          "Vendor Advisory",
-          "https://github.com/vercel/next.js/security/advisories/GHSA-c4j6-fc7j-m34r"
         ]
       ]
     },
@@ -861,66 +729,6 @@
         [
           "Vendor Advisory",
           "https://pafe.piotnet.com/"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-5118",
-      "title": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "ecosystem": "web",
-      "category": "webstack",
-      "severity": "critical",
-      "proof": "working public poc",
-      "pocValidation": {
-        "valid": true,
-        "score": 9,
-        "codeFiles": [
-          "exploit.py"
-        ],
-        "attackFiles": [
-          "exploit.py"
-        ],
-        "hasUsage": false,
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "Yucaerin",
-      "researcherUrl": "https://github.com/Yucaerin",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "9:53 PM CDT",
-      "firstSeenAt": "2026-05-23T02:53:29Z",
-      "language": "Python",
-      "summary": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "technicalSummary": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "breakdown": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "whatBroke": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Yucaerin/CVE-2026-5118.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/Yucaerin/CVE-2026-5118\ncd CVE-2026-5118\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Web",
-        "Webstack",
-        "Auth Bypass"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 0,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/Yucaerin/CVE-2026-5118"
-        ],
-        [
-          "Vendor Advisory",
-          "https://diviengine.com/divi-form-builder-changelog/"
         ]
       ]
     },
