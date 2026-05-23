@@ -888,6 +888,47 @@ body.page-vulns .single-header {
     color: var(--pm-muted);
   }
 
+
+  #pm-vulns-app .pm-detail-sub {
+    margin: 8px 0 0;
+    color: var(--pm-muted);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  #pm-vulns-app .pm-detail-sub strong {
+    color: var(--pm-text);
+    font-weight: 600;
+  }
+
+  #pm-vulns-app .pm-chains {
+    margin: 4px 0 0 18px;
+    padding: 0;
+    color: var(--pm-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  #pm-vulns-app .pm-chains li::marker {
+    color: var(--pm-purple);
+  }
+
+  #pm-vulns-app .pm-resource-connection {
+    color: var(--pm-muted);
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  #pm-vulns-app .pm-question code {
+    display: inline;
+    background: rgba(177, 83, 255, 0.15);
+    border: 1px solid rgba(177, 83, 255, 0.28);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    color: #d8a1ff;
+  }
   /* ── Responsive ─────────────────────────────────────────────────────── */
 
   @media (max-width: 900px) {
