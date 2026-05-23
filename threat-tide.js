@@ -1137,7 +1137,7 @@
         <div class="pm-card-main">
           <div class="pm-cve-row"><span class="pm-cve pm-mono">${escapeHtml(item.cve)}</span>${tags}</div>
           <h2>${escapeHtml(item.title)}</h2>
-          <p class="pm-summary">${escapeHtml(item.summary)}</p>
+          <p class="pm-summary">${renderWithCode(item.summary)}</p>
           <div class="pm-actions">${actionLinks(item)}<button class="pm-toggle" type="button" aria-expanded="false" aria-controls="${detailId}">Summary</button></div>
         </div>
         <aside class="pm-card-meta" aria-label="Vulnerability metadata">
@@ -1153,11 +1153,9 @@
             <div class="pm-question pm-syntax">
               <h3>Summary</h3>
               <p>${renderWithCode(technicalSummary(item))}</p>
-              ${item.whatBroke && item.whatBroke !== item.summary ? `<p class="pm-detail-sub"><strong>What broke:</strong> ${renderWithCode(item.whatBroke)}</p>` : ""}
-              ${item.reality ? `<p class="pm-detail-sub"><strong>Reality check:</strong> ${renderWithCode(item.reality)}</p>` : ""}
-              ${Array.isArray(item.chains) && item.chains.length ? `<p class="pm-detail-sub"><strong>Attack chain:</strong></p><ol class="pm-chains">${item.chains.map((c) => `<li>${escapeHtml(c)}</li>`).join("")}</ol>` : ""}
+              ${item.whatBroke && item.whatBroke !== item.summary && item.whatBroke !== item.technicalSummary ? `<p class="pm-detail-sub"><strong>What broke:</strong> ${renderWithCode(item.whatBroke)}</p>` : ""}
             </div>
-            <div class="pm-question pm-syntax"><h3>Similar vulnerabilities</h3><div class="pm-resource-list">${relatedResources(item).map((resource) => `<a href="${safeHref(resource.url)}" ${safeExternalAttrs()}>${escapeHtml(resource.label)}</a>${resource.connection ? ` <span class="pm-resource-connection">(${escapeHtml(resource.connection)})</span>` : ""}`).join("")}</div></div>
+            <div class="pm-question pm-syntax"><h3>Similar vulnerabilities</h3><div class="pm-resource-list">${relatedResources(item).map((resource) => `<div class="pm-resource-row"><a href="${safeHref(resource.url)}" ${safeExternalAttrs()}>${escapeHtml(resource.label)}</a>${resource.connection ? ` <span class="pm-resource-connection">(${escapeHtml(resource.connection)})</span>` : ""}</div>`).join("")}</div></div>
           </div>
         </div>
       </article>`;
@@ -1178,7 +1176,7 @@
           </div>
           <time>${escapeHtml(formatResearchDate(item.publishedAt))}</time>
         </div>
-        ${item.summary ? `<p class="pm-summary">${escapeHtml(item.summary)}</p>` : ""}
+        ${item.summary ? `<p class="pm-summary">${renderWithCode(item.summary)}</p>` : ""}
         <div class="pm-cve-row">${tags}</div>
         <div class="pm-actions"><a href="${safeHref(item.url)}" ${safeExternalAttrs()}>Read research</a></div>
       </article>`;
