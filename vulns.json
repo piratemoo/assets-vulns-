@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-23T14:08:10Z",
+  "updatedAt": "2026-05-23T14:34:18Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -689,5 +689,6 @@
         ]
       ]
     }
-  ]
+  ],
+  "lastRunAt": "2026-05-23T14:34:18Z"
 }
