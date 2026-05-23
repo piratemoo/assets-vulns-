@@ -10,7 +10,7 @@ permissions:
 jobs:
   update-feed:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 20
     steps:
       - name: Check out feed repository
         uses: actions/checkout@v4
@@ -26,12 +26,13 @@ jobs:
           EXTRA_RSS_SOURCES: "${{ secrets.EXTRA_RSS_SOURCES }}"
         run: python scripts/update_vulns.py
 
-- name: Commit updated feed
+      - name: Commit updated feed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add vulns.json
-          git diff --cached --quiet && echo "No changes." || (git commit -m "Update Threat Tide live vuln feed" && git push)
+          if git diff --cached --quiet; then
+            echo "No feed changes to commit."
           else
             git commit -m "Update Threat Tide live vuln feed"
             git push
