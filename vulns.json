@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-24T14:41:37Z",
-  "lastRunAt": "2026-05-24T14:41:37Z",
+  "updatedAt": "2026-05-24T16:39:51Z",
+  "lastRunAt": "2026-05-24T16:39:51Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -175,59 +175,6 @@
         [
           "Vendor Advisory",
           "https://git.kernel.org/stable/c/01363cb3fbd0238ffdeb09f53e9039c9edf8a730"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-33017",
-      "title": "Langflow Code Injection Vulnerability",
-      "ecosystem": "cloud",
-      "category": "webstack",
-      "severity": "critical",
-      "proof": "working public poc",
-      "pocValidation": {
-        "valid": true,
-        "score": 10,
-        "codeFiles": [
-          "CVE-2026-33017_POC.py"
-        ],
-        "attackFiles": [
-          "CVE-2026-33017_POC.py"
-        ],
-        "hasUsage": true,
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "r3nsi15",
-      "researcherUrl": "https://github.com/r3nsi15",
-      "pocWorks": "Yes",
-      "difficulty": "easy",
-      "added": "5:01 PM CDT",
-      "firstSeenAt": "2026-05-22T22:01:05Z",
-      "language": "Python",
-      "summary": "Langflow contains a code injection vulnerability that could allow building public flows without requiring authentication.",
-      "technicalSummary": "Langflow is a tool for building and deploying AI-powered agents and workflows. In versions prior to 1.9.0, the POST /api/v1/build_public_tmp/{flow_id}/flow endpoint allows building public flows without requiring authentication.",
-      "breakdown": "Langflow is a tool for building and deploying AI-powered agents and workflows. In versions prior to 1.9.0, the POST /api/v1/build_public_tmp/{flow_id}/flow endpoint allows building public flows without requiring authentication.",
-      "reality": " ",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/r3nsi15/CVE-2026-33017-langflow-rce\ncd CVE-2026-33017-langflow-rce\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Cloud",
-        "Webstack",
-        "RCE",
-        "KEV"
-      ],
-      "confidence": 98,
-      "weaponization": 91,
-      "dayOffset": 2,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/r3nsi15/CVE-2026-33017-langflow-rce"
-        ],
-        [
-          "Vendor Advisory",
-          "https://github.com/langflow-ai/langflow/security/advisories/GHSA-vwmf-pq79-vjvx"
         ]
       ]
     },
