@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-05-26T14:39:52Z",
-  "lastRunAt": "2026-05-26T14:39:52Z",
+  "updatedAt": "2026-05-26T16:25:51Z",
+  "lastRunAt": "2026-05-26T16:25:51Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -53,59 +53,6 @@
   ],
   "research": [],
   "vulns": [
-    {
-      "cve": "CVE-2026-39987",
-      "title": "Marimo Remote Code Execution Vulnerability",
-      "ecosystem": "cloud",
-      "category": "webstack",
-      "severity": "critical",
-      "proof": "working public poc",
-      "pocValidation": {
-        "valid": true,
-        "score": 10,
-        "codeFiles": [
-          "CVE-2026-39987.py"
-        ],
-        "attackFiles": [
-          "CVE-2026-39987.py"
-        ],
-        "hasUsage": true,
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "M3PH1569",
-      "researcherUrl": "https://github.com/M3PH1569",
-      "pocWorks": "Yes",
-      "difficulty": "easy",
-      "added": "1:00 PM CDT",
-      "firstSeenAt": "2026-05-24T18:00:33Z",
-      "language": "Python",
-      "summary": "Marimo contains an pre-authorization remote code execution vulnerability, allowing an unauthenticated attacked to shell access and execute arbitrary system commands.",
-      "technicalSummary": "marimo is a reactive Python notebook. Prior to 0.23.0, Marimo has a Pre-Auth RCE vulnerability. The terminal WebSocket endpoint /terminal/ws lacks authentication validation, allowing an unauthenticated attacker to obtain a full PTY shell and execute arbitrary system commands.",
-      "breakdown": "marimo is a reactive Python notebook. Prior to 0.23.0, Marimo has a Pre-Auth RCE vulnerability. The terminal WebSocket endpoint /terminal/ws lacks authentication validation, allowing an unauthenticated attacker to obtain a full PTY shell and execute arbitrary system commands.",
-      "reality": " ",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/M3PH1569/CVE-2026-39987-POC\ncd CVE-2026-39987-POC\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Cloud",
-        "Webstack",
-        "RCE",
-        "KEV"
-      ],
-      "confidence": 98,
-      "weaponization": 99,
-      "dayOffset": 2,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/M3PH1569/CVE-2026-39987-POC"
-        ],
-        [
-          "Vendor Advisory",
-          "https://github.com/marimo-team/marimo/security/advisories/GHSA-2679-6mx9-h9xc"
-        ]
-      ]
-    },
     {
       "cve": "CVE-2026-31431",
       "title": "Linux Kernel Incorrect Resource Transfer Between Spheres Vulnerability",
