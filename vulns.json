@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-26T21:59:40Z",
+  "updatedAt": "2026-05-27T06:37:45Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -49,22 +49,7 @@
     "Exodus Intelligence",
     "The GitHub Blog Security"
   ],
-  "research": [
-    {
-      "title": "Detecting Tycoon 2FA AiTM attacks across Entra ID and Google Workspace",
-      "source": "Elastic Security Labs",
-      "sourceUrl": "https://www.elastic.co/security-labs",
-      "url": "https://www.elastic.co/security-labs/tycoon-2fa-aitm-detection-engineering",
-      "summary": "Tycoon 2FA is currently the most prolific Phishing-as-a-Service (PhaaS) platform among AiTM phishing kits. First observed in August 2023 and attributed to Storm-1747 (per Microsoft Threat Intelligence), the kit provides turnkey adversary-in-the-middle (AiTM).",
-      "publishedAt": "2026-05-26T00:00:00Z",
-      "cves": [],
-      "tags": [
-        "Android",
-        "ADCS",
-        "Session Theft"
-      ]
-    }
-  ],
+  "research": [],
   "vulns": [
     {
       "cve": "CVE-2026-9082",
@@ -120,7 +105,7 @@
       ],
       "confidence": 98,
       "weaponization": 86,
-      "dayOffset": 5,
+      "dayOffset": 6,
       "links": [
         [
           "GitHub",
@@ -189,7 +174,7 @@
       ],
       "confidence": 98,
       "weaponization": 99,
-      "dayOffset": 2,
+      "dayOffset": 3,
       "links": [
         [
           "GitHub",
@@ -252,7 +237,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 1,
+      "dayOffset": 2,
       "links": [
         [
           "GitHub",
@@ -313,7 +298,7 @@
       ],
       "confidence": 98,
       "weaponization": 74,
-      "dayOffset": 5,
+      "dayOffset": 6,
       "links": [
         [
           "GitHub",
@@ -376,7 +361,7 @@
       ],
       "confidence": 98,
       "weaponization": 91,
-      "dayOffset": 4,
+      "dayOffset": 5,
       "links": [
         [
           "GitHub",
@@ -445,7 +430,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 4,
+      "dayOffset": 5,
       "links": [
         [
           "GitHub",
@@ -514,7 +499,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 4,
+      "dayOffset": 5,
       "links": [
         [
           "GitHub",
@@ -576,7 +561,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 4,
+      "dayOffset": 5,
       "links": [
         [
           "GitHub",
@@ -638,7 +623,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 4,
+      "dayOffset": 5,
       "links": [
         [
           "GitHub",
@@ -707,7 +692,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 4,
+      "dayOffset": 5,
       "links": [
         [
           "GitHub",
@@ -752,8 +737,8 @@
       "researcherUrl": "https://github.com/venglin",
       "pocWorks": "Yes",
       "difficulty": "moderate",
-      "added": "11:40 PM CDT",
-      "firstSeenAt": "2026-05-21T04:40:37Z",
+      "added": "1:37 AM CDT",
+      "firstSeenAt": "2026-05-27T06:37:45Z",
       "language": "C",
       "summary": "FreeBSD 14.x LPE",
       "technicalSummary": "FreeBSD 14.x LPE",
@@ -774,7 +759,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 6,
+      "dayOffset": 0,
       "links": [
         [
           "GitHub",
@@ -838,7 +823,7 @@
       ],
       "confidence": 98,
       "weaponization": 89,
-      "dayOffset": 3,
+      "dayOffset": 4,
       "links": [
         [
           "GitHub",
@@ -901,7 +886,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 3,
+      "dayOffset": 4,
       "links": [
         [
           "GitHub",
@@ -965,7 +950,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 2,
+      "dayOffset": 3,
       "links": [
         [
           "GitHub",
@@ -1006,8 +991,8 @@
       "researcherUrl": "https://github.com/ZeroPathAI",
       "pocWorks": "Yes",
       "difficulty": "moderate",
-      "added": "1:55 PM CDT",
-      "firstSeenAt": "2026-05-20T18:55:58Z",
+      "added": "1:37 AM CDT",
+      "firstSeenAt": "2026-05-27T06:37:45Z",
       "language": "Python",
       "summary": "POC for which allows session hijacking in AutoGpt",
       "technicalSummary": "POC for which allows session hijacking in AutoGpt",
@@ -1028,7 +1013,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 6,
+      "dayOffset": 0,
       "links": [
         [
           "GitHub",
@@ -1041,45 +1026,41 @@
       ]
     },
     {
-      "cve": "CVE-2026-42271",
-      "title": "The code for personally reproducing the corresponding vulnerability",
-      "ecosystem": "web",
-      "category": "vpn-edge",
+      "cve": "CVE-2026-5172",
+      "title": "buffer overflow in extract_addresses() on crafted resource record PoC",
+      "ecosystem": "cloud",
+      "category": "webstack",
       "severity": "high",
       "proof": "working public poc",
-      "pocUrl": "https://github.com/learner202649/CVE-2026-42271-PoC",
+      "pocUrl": "https://github.com/lottiedeyan/CVE20265172poc",
       "pocValidation": {
         "valid": true,
-        "score": 11,
+        "score": 8,
         "codeFiles": [
-          "docker-compose.yml",
-          "exploit/exploit.py",
-          "exploit/payload.py"
+          "query_client.py",
+          "server.py"
         ],
-        "attackFiles": [
-          "exploit/exploit.py",
-          "exploit/payload.py"
-        ],
-        "hasUsage": false,
+        "attackFiles": [],
+        "hasUsage": true,
         "cveRefs": [
-          "CVE-2026-42271"
+          "CVE-2026-5172"
         ],
         "language": "Python"
       },
       "reliability": "reliable exploit",
-      "researcher": "learner202649",
-      "researcherUrl": "https://github.com/learner202649",
+      "researcher": "lottiedeyan",
+      "researcherUrl": "https://github.com/lottiedeyan",
       "pocWorks": "Yes",
       "difficulty": "moderate",
-      "added": "4:59 PM CDT",
-      "firstSeenAt": "2026-05-26T21:59:40Z",
+      "added": "12:49 AM CDT",
+      "firstSeenAt": "2026-05-27T05:49:49Z",
       "language": "Python",
-      "summary": "The code for personally reproducing the corresponding vulnerability",
-      "technicalSummary": "The code for personally reproducing the corresponding vulnerability",
-      "breakdown": "The code for personally reproducing the corresponding vulnerability",
-      "whatBroke": "The code for personally reproducing the corresponding vulnerability",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at learner202649/CVE-2026-42271-PoC.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/learner202649/CVE-2026-42271-PoC\ncd CVE-2026-42271-PoC\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "summary": "buffer overflow in extract_addresses() on crafted resource record PoC",
+      "technicalSummary": "buffer overflow in extract_addresses() on crafted resource record PoC",
+      "breakdown": "buffer overflow in extract_addresses() on crafted resource record PoC",
+      "whatBroke": "buffer overflow in extract_addresses() on crafted resource record PoC",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at lottiedeyan/CVE20265172poc.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/lottiedeyan/CVE20265172poc\ncd CVE20265172poc\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
         "initial access through exposed the affected product",
         "internal pivot from an internet-facing control point",
@@ -1087,9 +1068,9 @@
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Web",
-        "VPN Edge",
-        "Exploit"
+        "Cloud",
+        "Webstack",
+        "Memory Corruption"
       ],
       "confidence": 98,
       "weaponization": 73,
@@ -1097,11 +1078,11 @@
       "links": [
         [
           "GitHub",
-          "https://github.com/learner202649/CVE-2026-42271-PoC"
+          "https://github.com/lottiedeyan/CVE20265172poc"
         ],
         [
           "Vendor Advisory",
-          "https://github.com/BerriAI/litellm/releases/tag/v1.83.7-stable"
+          "https://github.com/NixOS/nixpkgs/pull/519082"
         ]
       ]
     },
@@ -1155,11 +1136,77 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 0,
+      "dayOffset": 1,
       "links": [
         [
           "GitHub",
           "https://github.com/nayakchinmohan/CVE-2026-45401"
+        ],
+        [
+          "Vendor Advisory",
+          "https://github.com/open-webui/open-webui/security/advisories/GHSA-rh5x-h6pp-cjj6"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-4893",
+      "title": "Generate the poc for CVE-2026-4893: broken EDNS Client Subnet validation.",
+      "ecosystem": "cloud",
+      "category": "webstack",
+      "severity": "high",
+      "proof": "working public poc",
+      "pocUrl": "https://github.com/lottiedeyan/CVE20264893poc",
+      "pocValidation": {
+        "valid": true,
+        "score": 10,
+        "codeFiles": [
+          "exp.py"
+        ],
+        "attackFiles": [
+          "exp.py"
+        ],
+        "hasUsage": true,
+        "cveRefs": [
+          "CVE-2026-4893"
+        ],
+        "language": "Python"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "lottiedeyan",
+      "researcherUrl": "https://github.com/lottiedeyan",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "12:27 AM CDT",
+      "firstSeenAt": "2026-05-27T05:27:28Z",
+      "language": "Python",
+      "summary": "Generate the poc for broken EDNS Client Subnet validation.",
+      "technicalSummary": "Generate the poc for broken EDNS Client Subnet validation.",
+      "breakdown": "Generate the poc for broken EDNS Client Subnet validation.",
+      "whatBroke": "Generate the poc for broken EDNS Client Subnet validation.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at lottiedeyan/CVE20264893poc.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/lottiedeyan/CVE20264893poc\ncd CVE20264893poc\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Cloud",
+        "Webstack",
+        "Exploit"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/lottiedeyan/CVE20264893poc"
+        ],
+        [
+          "Vendor Advisory",
+          "https://github.com/NixOS/nixpkgs/pull/519082"
         ]
       ]
     }
