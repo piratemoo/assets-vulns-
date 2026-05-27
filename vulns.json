@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-27T16:54:10Z",
+  "updatedAt": "2026-05-27T21:06:05Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -635,6 +635,85 @@
       ]
     },
     {
+      "cve": "CVE-2026-43284",
+      "title": "Exploit Development Lab: 12 progressive classes from stack buffer overflow to Windows kernel exploitation.",
+      "ecosystem": "windows",
+      "category": "kernel",
+      "severity": "high",
+      "proof": "working public poc",
+      "pocUrl": "https://github.com/Sheri98/exploit-lab",
+      "pocValidation": {
+        "valid": true,
+        "score": 7,
+        "codeFiles": [
+          "c-fundamentals/ex01_pointers.c",
+          "c-fundamentals/ex02_memory_layout.c",
+          "c-fundamentals/ex03_structs_casting.c",
+          "c-fundamentals/ex04_stack_frame.c",
+          "c-fundamentals/ex05_heap_internals.c",
+          "c-fundamentals/ex06_integer_overflow.c",
+          "c-fundamentals/ex07_string_bugs.c",
+          "c-fundamentals/ex08_file_and_io.c"
+        ],
+        "attackFiles": [
+          "class01/exploit/exploit.py",
+          "class02/exploit/exploit.py",
+          "class03/exploit/exploit.py",
+          "class04/exploit/exploit.py",
+          "class05/exploit/exploit.py",
+          "class06/exploit/exploit.py",
+          "class07/exploit/exploit.py",
+          "class08/exploit/exploit.py"
+        ],
+        "hasUsage": true,
+        "cveRefs": [
+          "CVE-2023-3269",
+          "CVE-2024-1086",
+          "CVE-2025-21756",
+          "CVE-2026-43284"
+        ],
+        "language": "C"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "Sheri98",
+      "researcherUrl": "https://github.com/Sheri98",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "3:55 PM CDT",
+      "firstSeenAt": "2026-05-27T20:55:30Z",
+      "language": "C",
+      "summary": "Exploit Development Lab: 12 progressive classes from stack buffer overflow to Windows kernel exploitation (PreviousMode + token steal). Each class: vulnerable C source + working Python exploit.",
+      "technicalSummary": "Exploit Development Lab: 12 progressive classes from stack buffer overflow to Windows kernel exploitation (PreviousMode + token steal). Each class: vulnerable C source + working Python exploit.",
+      "breakdown": "Exploit Development Lab: 12 progressive classes from stack buffer overflow to Windows kernel exploitation (PreviousMode + token steal). Each class: vulnerable C source + working Python exploit.",
+      "whatBroke": "Exploit Development Lab: 12 progressive classes from stack buffer overflow to Windows kernel exploitation (PreviousMode + token steal). Each class: vulnerable C source + working Python exploit.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Sheri98/exploit-lab.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/Sheri98/exploit-lab\ncd exploit-lab\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "local privilege escalation after a foothold",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Windows",
+        "Kernel",
+        "Memory Corruption"
+      ],
+      "confidence": 98,
+      "weaponization": 74,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/Sheri98/exploit-lab"
+        ],
+        [
+          "Vendor Advisory",
+          "https://git.kernel.org/stable/c/50ed1e7873100f77abad20fd31c51029bc49cd03"
+        ]
+      ]
+    },
+    {
       "cve": "CVE-2026-7669",
       "title": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for.",
       "ecosystem": "cloud",
@@ -958,69 +1037,6 @@
         [
           "Vendor Advisory",
           "http://hunan.com"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-30950",
-      "title": "POC for CVE-2026-30950 which allows session hijacking in AutoGpt",
-      "ecosystem": "web",
-      "category": "webstack",
-      "severity": "critical",
-      "proof": "working public poc",
-      "pocUrl": "https://github.com/ZeroPathAI/autogpt-CVE-2026-30950-poc",
-      "pocValidation": {
-        "valid": true,
-        "score": 9,
-        "codeFiles": [
-          "pocs/session_hijack.py",
-          "setup/docker-compose.override.yml",
-          "setup/setup.sh",
-          "setup/teardown.sh"
-        ],
-        "attackFiles": [],
-        "hasUsage": false,
-        "cveRefs": [
-          "CVE-2026-30950"
-        ],
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "ZeroPathAI",
-      "researcherUrl": "https://github.com/ZeroPathAI",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "1:37 AM CDT",
-      "firstSeenAt": "2026-05-27T06:37:45Z",
-      "language": "Python",
-      "summary": "POC for which allows session hijacking in AutoGpt",
-      "technicalSummary": "POC for which allows session hijacking in AutoGpt",
-      "breakdown": "POC for which allows session hijacking in AutoGpt",
-      "whatBroke": "POC for which allows session hijacking in AutoGpt",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at ZeroPathAI/autogpt-CVE-2026-30950-poc.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/ZeroPathAI/autogpt-CVE-2026-30950-poc\ncd autogpt-CVE-2026-30950-poc\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Web",
-        "Webstack",
-        "Session Theft"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 0,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/ZeroPathAI/autogpt-CVE-2026-30950-poc"
-        ],
-        [
-          "Vendor Advisory",
-          "https://github.com/Significant-Gravitas/AutoGPT/commit/eca7b5e79370c34ed75e80badb824023d7d8629d"
         ]
       ]
     },
