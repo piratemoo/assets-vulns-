@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-27T22:17:49Z",
+  "updatedAt": "2026-05-28T06:20:40Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -104,7 +104,7 @@
       ],
       "confidence": 98,
       "weaponization": 99,
-      "dayOffset": 0,
+      "dayOffset": 1,
       "links": [
         [
           "GitHub",
@@ -173,7 +173,7 @@
       ],
       "confidence": 98,
       "weaponization": 99,
-      "dayOffset": 3,
+      "dayOffset": 4,
       "links": [
         [
           "GitHub",
@@ -182,6 +182,67 @@
         [
           "Vendor Advisory",
           "https://github.com/marimo-team/marimo/security/advisories/GHSA-2679-6mx9-h9xc"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-31431",
+      "title": "Linux Kernel Incorrect Resource Transfer Between Spheres Vulnerability",
+      "ecosystem": "linux",
+      "category": "kernel",
+      "severity": "high",
+      "proof": "working public poc",
+      "pocUrl": "https://github.com/JimmyPughtron/CVE-2026-31431-Copy-Fail---Minified-LPE-PoC",
+      "pocValidation": {
+        "valid": true,
+        "score": 9,
+        "codeFiles": [
+          "CopyFail_mini.py"
+        ],
+        "attackFiles": [],
+        "hasUsage": false,
+        "cveRefs": [
+          "CVE-2026-31431"
+        ],
+        "language": "Python"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "JimmyPughtron",
+      "researcherUrl": "https://github.com/JimmyPughtron",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "1:20 AM CDT",
+      "firstSeenAt": "2026-05-28T06:20:40Z",
+      "language": "Python",
+      "summary": "CopyFail---Minified-LPE-PoC",
+      "technicalSummary": "CopyFail---Minified-LPE-PoC",
+      "breakdown": "CopyFail---Minified-LPE-PoC",
+      "whatBroke": "CopyFail---Minified-LPE-PoC",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at JimmyPughtron/CVE-2026-31431-Copy-Fail---Minified-LPE-PoC.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/JimmyPughtron/CVE-2026-31431-Copy-Fail---Minified-LPE-PoC\ncd CVE-2026-31431-Copy-Fail---Minified-LPE-PoC\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed Kernel",
+        "local privilege escalation after a foothold",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Linux",
+        "Kernel",
+        "Local LPE",
+        "KEV"
+      ],
+      "confidence": 98,
+      "weaponization": 74,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/JimmyPughtron/CVE-2026-31431-Copy-Fail---Minified-LPE-PoC"
+        ],
+        [
+          "Vendor Advisory",
+          "https://lore.kernel.org/linux-cve-announce/2026042214-CVE-2026-31431-3d65@gregkh/;"
         ]
       ]
     },
@@ -236,7 +297,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 2,
+      "dayOffset": 3,
       "links": [
         [
           "GitHub",
@@ -245,67 +306,6 @@
         [
           "Vendor Advisory",
           "https://support.apple.com/en-us/126346"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-31431",
-      "title": "Linux Kernel Incorrect Resource Transfer Between Spheres Vulnerability",
-      "ecosystem": "linux",
-      "category": "kernel",
-      "severity": "high",
-      "proof": "working public poc",
-      "pocUrl": "https://github.com/JimmyPughtron/CVE-2026-31431-Copy-Fail---Minified-LPE-PoC",
-      "pocValidation": {
-        "valid": true,
-        "score": 9,
-        "codeFiles": [
-          "CopyFail_mini.py"
-        ],
-        "attackFiles": [],
-        "hasUsage": false,
-        "cveRefs": [
-          "CVE-2026-31431"
-        ],
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "JimmyPughtron",
-      "researcherUrl": "https://github.com/JimmyPughtron",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "2:43 PM CDT",
-      "firstSeenAt": "2026-05-21T19:43:50Z",
-      "language": "Python",
-      "summary": "CopyFail---Minified-LPE-PoC",
-      "technicalSummary": "CopyFail---Minified-LPE-PoC",
-      "breakdown": "CopyFail---Minified-LPE-PoC",
-      "whatBroke": "CopyFail---Minified-LPE-PoC",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at JimmyPughtron/CVE-2026-31431-Copy-Fail---Minified-LPE-PoC.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/JimmyPughtron/CVE-2026-31431-Copy-Fail---Minified-LPE-PoC\ncd CVE-2026-31431-Copy-Fail---Minified-LPE-PoC\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed Kernel",
-        "local privilege escalation after a foothold",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Linux",
-        "Kernel",
-        "Local LPE",
-        "KEV"
-      ],
-      "confidence": 98,
-      "weaponization": 74,
-      "dayOffset": 6,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/JimmyPughtron/CVE-2026-31431-Copy-Fail---Minified-LPE-PoC"
-        ],
-        [
-          "Vendor Advisory",
-          "https://lore.kernel.org/linux-cve-announce/2026042214-CVE-2026-31431-3d65@gregkh/;"
         ]
       ]
     },
@@ -360,7 +360,7 @@
       ],
       "confidence": 98,
       "weaponization": 92,
-      "dayOffset": 5,
+      "dayOffset": 6,
       "links": [
         [
           "GitHub",
@@ -429,7 +429,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 5,
+      "dayOffset": 6,
       "links": [
         [
           "GitHub",
@@ -498,7 +498,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 5,
+      "dayOffset": 6,
       "links": [
         [
           "GitHub",
@@ -560,7 +560,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 5,
+      "dayOffset": 6,
       "links": [
         [
           "GitHub",
@@ -622,7 +622,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 5,
+      "dayOffset": 6,
       "links": [
         [
           "GitHub",
@@ -701,7 +701,7 @@
       ],
       "confidence": 98,
       "weaponization": 74,
-      "dayOffset": 0,
+      "dayOffset": 1,
       "links": [
         [
           "GitHub",
@@ -770,7 +770,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 5,
+      "dayOffset": 6,
       "links": [
         [
           "GitHub",
@@ -779,73 +779,6 @@
         [
           "Vendor Advisory",
           "https://github.com/gouldnicholas/CVE-2026-7669-PoC"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-45250",
-      "title": "FreeBSD 14.x LPE",
-      "ecosystem": "linux",
-      "category": "kernel",
-      "severity": "high",
-      "proof": "working public poc",
-      "pocUrl": "https://github.com/venglin/setcred",
-      "pocValidation": {
-        "valid": true,
-        "score": 9,
-        "codeFiles": [
-          "exploits/exp2_lpe_no_smap.c",
-          "exploits/exp_setcred_smap_zfs.c",
-          "exploits/poc_dos.c",
-          "exploits/wrapper.c"
-        ],
-        "attackFiles": [
-          "exploits/exp2_lpe_no_smap.c",
-          "exploits/exp_setcred_smap_zfs.c",
-          "exploits/poc_dos.c"
-        ],
-        "hasUsage": false,
-        "cveRefs": [
-          "CVE-2026-45250"
-        ],
-        "language": "C"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "venglin",
-      "researcherUrl": "https://github.com/venglin",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "1:37 AM CDT",
-      "firstSeenAt": "2026-05-27T06:37:45Z",
-      "language": "C",
-      "summary": "FreeBSD 14.x LPE",
-      "technicalSummary": "FreeBSD 14.x LPE",
-      "breakdown": "FreeBSD 14.x LPE",
-      "whatBroke": "FreeBSD 14.x LPE",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at venglin/setcred.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/venglin/setcred\ncd setcred\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "local privilege escalation after a foothold",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Linux",
-        "Kernel",
-        "Local LPE"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 0,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/venglin/setcred"
-        ],
-        [
-          "Vendor Advisory",
-          "https://security.freebsd.org/advisories/FreeBSD-SA-26:18.setcred.asc"
         ]
       ]
     },
@@ -901,7 +834,7 @@
       ],
       "confidence": 98,
       "weaponization": 89,
-      "dayOffset": 4,
+      "dayOffset": 5,
       "links": [
         [
           "GitHub",
@@ -964,7 +897,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 4,
+      "dayOffset": 5,
       "links": [
         [
           "GitHub",
@@ -1028,7 +961,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 3,
+      "dayOffset": 4,
       "links": [
         [
           "GitHub",
@@ -1089,7 +1022,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 0,
+      "dayOffset": 1,
       "links": [
         [
           "GitHub",
@@ -1098,6 +1031,68 @@
         [
           "Vendor Advisory",
           "https://github.com/NixOS/nixpkgs/pull/519082"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-20817",
+      "title": "PoC for CVE-2026-20817",
+      "ecosystem": "windows",
+      "category": "webstack",
+      "severity": "high",
+      "proof": "working public poc",
+      "pocUrl": "https://github.com/dwgth4i/CVE-2026-20817",
+      "pocValidation": {
+        "valid": true,
+        "score": 11,
+        "codeFiles": [
+          "poc.cpp"
+        ],
+        "attackFiles": [
+          "poc.cpp"
+        ],
+        "hasUsage": false,
+        "cveRefs": [
+          "CVE-2026-20817"
+        ],
+        "language": "C"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "dwgth4i",
+      "researcherUrl": "https://github.com/dwgth4i",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "10:22 PM CDT",
+      "firstSeenAt": "2026-05-28T03:22:49Z",
+      "language": "C",
+      "summary": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
+      "technicalSummary": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
+      "breakdown": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
+      "whatBroke": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at dwgth4i/CVE-2026-20817.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/dwgth4i/CVE-2026-20817\ncd CVE-2026-20817\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Windows",
+        "Webstack",
+        "Exploit"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 1,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/dwgth4i/CVE-2026-20817"
+        ],
+        [
+          "Vendor Advisory",
+          "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-20817"
         ]
       ]
     },
@@ -1151,7 +1146,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 1,
+      "dayOffset": 2,
       "links": [
         [
           "GitHub",
@@ -1213,7 +1208,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 0,
+      "dayOffset": 1,
       "links": [
         [
           "GitHub",
