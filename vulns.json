@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-29T02:49:52Z",
+  "updatedAt": "2026-05-29T06:22:20Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -62,104 +62,6 @@
         "Cloud",
         "DevOps"
       ]
-    },
-    {
-      "title": "ZDI-26-326: TrendAI Vision One Security Agent Time-Of-Check Time-Of-Use Local Privilege Escalation Vulnerability",
-      "source": "ZDI",
-      "sourceUrl": "https://x.com/thezdi",
-      "url": "http://www.zerodayinitiative.com/advisories/ZDI-26-326/",
-      "summary": "This vulnerability allows local attackers to escalate privileges on affected installations of TrendAI Vision One Security Agent. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this.",
-      "publishedAt": "2026-05-28T05:00:00Z",
-      "cves": [
-        "CVE-2026-45208"
-      ],
-      "tags": [
-        "Local Lpe"
-      ]
-    },
-    {
-      "title": "ZDI-26-325: TrendAI Vision One Security Agent Origin Validation Error Local Privilege Escalation Vulnerability",
-      "source": "ZDI",
-      "sourceUrl": "https://x.com/thezdi",
-      "url": "http://www.zerodayinitiative.com/advisories/ZDI-26-325/",
-      "summary": "This vulnerability allows local attackers to escalate privileges on affected installations of TrendAI Vision One Security Agent. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this.",
-      "publishedAt": "2026-05-28T05:00:00Z",
-      "cves": [
-        "CVE-2026-45207"
-      ],
-      "tags": [
-        "Local Lpe"
-      ]
-    },
-    {
-      "title": "ZDI-26-324: TrendAI Vision One Security Agent Origin Validation Error Local Privilege Escalation Vulnerability",
-      "source": "ZDI",
-      "sourceUrl": "https://x.com/thezdi",
-      "url": "http://www.zerodayinitiative.com/advisories/ZDI-26-324/",
-      "summary": "This vulnerability allows local attackers to escalate privileges on affected installations of TrendAI Vision One Security Agent. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this.",
-      "publishedAt": "2026-05-28T05:00:00Z",
-      "cves": [
-        "CVE-2026-45206"
-      ],
-      "tags": [
-        "Local Lpe"
-      ]
-    },
-    {
-      "title": "ZDI-26-323: TrendAI Vision One Security Agent Origin Validation Error Local Privilege Escalation Vulnerability",
-      "source": "ZDI",
-      "sourceUrl": "https://x.com/thezdi",
-      "url": "http://www.zerodayinitiative.com/advisories/ZDI-26-323/",
-      "summary": "This vulnerability allows local attackers to escalate privileges on affected installations of TrendAI Vision One Security Agent. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this.",
-      "publishedAt": "2026-05-28T05:00:00Z",
-      "cves": [
-        "CVE-2026-34930"
-      ],
-      "tags": [
-        "Local Lpe"
-      ]
-    },
-    {
-      "title": "ZDI-26-322: TrendAI Vision One Security Agent Origin Validation Error Local Privilege Escalation Vulnerability",
-      "source": "ZDI",
-      "sourceUrl": "https://x.com/thezdi",
-      "url": "http://www.zerodayinitiative.com/advisories/ZDI-26-322/",
-      "summary": "This vulnerability allows local attackers to escalate privileges on affected installations of TrendAI Vision One Security Agent. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this.",
-      "publishedAt": "2026-05-28T05:00:00Z",
-      "cves": [
-        "CVE-2026-34929"
-      ],
-      "tags": [
-        "Local Lpe"
-      ]
-    },
-    {
-      "title": "ZDI-26-321: TrendAI Vision One Security Agent Origin Validation Error Local Privilege Escalation Vulnerability",
-      "source": "ZDI",
-      "sourceUrl": "https://x.com/thezdi",
-      "url": "http://www.zerodayinitiative.com/advisories/ZDI-26-321/",
-      "summary": "This vulnerability allows local attackers to escalate privileges on affected installations of TrendAI Vision One Security Agent. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this.",
-      "publishedAt": "2026-05-28T05:00:00Z",
-      "cves": [
-        "CVE-2026-34928"
-      ],
-      "tags": [
-        "Local Lpe"
-      ]
-    },
-    {
-      "title": "ZDI-26-320: TrendAI Vision One Security Agent Origin Validation Error Local Privilege Escalation Vulnerability",
-      "source": "ZDI",
-      "sourceUrl": "https://x.com/thezdi",
-      "url": "http://www.zerodayinitiative.com/advisories/ZDI-26-320/",
-      "summary": "This vulnerability allows local attackers to escalate privileges on affected installations of TrendAI Vision One Security Agent. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this.",
-      "publishedAt": "2026-05-28T05:00:00Z",
-      "cves": [
-        "CVE-2026-34927"
-      ],
-      "tags": [
-        "Local Lpe"
-      ]
     }
   ],
   "vulns": [
@@ -216,7 +118,7 @@
       ],
       "confidence": 98,
       "weaponization": 99,
-      "dayOffset": 1,
+      "dayOffset": 2,
       "links": [
         [
           "GitHub",
@@ -281,7 +183,7 @@
       ],
       "confidence": 98,
       "weaponization": 99,
-      "dayOffset": 4,
+      "dayOffset": 5,
       "links": [
         [
           "GitHub",
@@ -344,7 +246,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 3,
+      "dayOffset": 4,
       "links": [
         [
           "GitHub",
@@ -408,7 +310,7 @@
       ],
       "confidence": 98,
       "weaponization": 74,
-      "dayOffset": 0,
+      "dayOffset": 1,
       "links": [
         [
           "GitHub",
@@ -448,8 +350,8 @@
       "researcherUrl": "https://github.com/r3nsi15",
       "pocWorks": "Yes",
       "difficulty": "moderate",
-      "added": "5:01 PM CDT",
-      "firstSeenAt": "2026-05-22T22:01:05Z",
+      "added": "1:22 AM CDT",
+      "firstSeenAt": "2026-05-29T06:22:20Z",
       "language": "Python",
       "summary": "Langflow contains a code injection vulnerability that could allow building public flows without requiring authentication.",
       "technicalSummary": "Langflow contains a code injection vulnerability that could allow building public flows without requiring authentication.",
@@ -471,7 +373,7 @@
       ],
       "confidence": 98,
       "weaponization": 92,
-      "dayOffset": 6,
+      "dayOffset": 0,
       "links": [
         [
           "GitHub",
@@ -517,8 +419,8 @@
       "researcherUrl": "https://github.com/gouldnicholas",
       "pocWorks": "Yes",
       "difficulty": "moderate",
-      "added": "11:30 AM CDT",
-      "firstSeenAt": "2026-05-22T16:30:23Z",
+      "added": "1:22 AM CDT",
+      "firstSeenAt": "2026-05-29T06:22:20Z",
       "language": "Python",
       "summary": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
       "technicalSummary": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
@@ -540,7 +442,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 6,
+      "dayOffset": 0,
       "links": [
         [
           "GitHub",
@@ -586,8 +488,8 @@
       "researcherUrl": "https://github.com/gouldnicholas",
       "pocWorks": "Yes",
       "difficulty": "moderate",
-      "added": "11:30 AM CDT",
-      "firstSeenAt": "2026-05-22T16:30:23Z",
+      "added": "1:22 AM CDT",
+      "firstSeenAt": "2026-05-29T06:22:20Z",
       "language": "Python",
       "summary": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
       "technicalSummary": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
@@ -609,7 +511,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 6,
+      "dayOffset": 0,
       "links": [
         [
           "GitHub",
@@ -618,68 +520,6 @@
         [
           "Vendor Advisory",
           "https://docs.docker.com/desktop/release-notes/#4710"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-9018",
-      "title": "Unauthenticated Privilege Escalation CVE-2026-9018: Easy Elements for Elementor",
-      "ecosystem": "web",
-      "category": "webstack",
-      "severity": "high",
-      "proof": "working public poc",
-      "pocUrl": "https://github.com/xxconi/CVE-2026-9018",
-      "pocValidation": {
-        "valid": true,
-        "score": 12,
-        "codeFiles": [
-          "CVE-2026-9018.py"
-        ],
-        "attackFiles": [
-          "CVE-2026-9018.py"
-        ],
-        "hasUsage": true,
-        "cveRefs": [
-          "CVE-2026-9018"
-        ],
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "xxconi",
-      "researcherUrl": "https://github.com/xxconi",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "11:34 PM CDT",
-      "firstSeenAt": "2026-05-23T04:34:31Z",
-      "language": "Python",
-      "summary": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
-      "technicalSummary": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
-      "breakdown": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
-      "whatBroke": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at xxconi/CVE-2026-9018.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/xxconi/CVE-2026-9018\ncd CVE-2026-9018\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Web",
-        "Webstack",
-        "Local LPE"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 6,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/xxconi/CVE-2026-9018"
-        ],
-        [
-          "Vendor Advisory",
-          "https://plugins.trac.wordpress.org/browser/easy-elements/tags/1.4.5/includes/Utils/Enqueue.php#L200"
         ]
       ]
     },
@@ -750,7 +590,7 @@
       ],
       "confidence": 98,
       "weaponization": 93,
-      "dayOffset": 1,
+      "dayOffset": 2,
       "links": [
         [
           "GitHub",
@@ -796,8 +636,8 @@
       "researcherUrl": "https://github.com/gouldnicholas",
       "pocWorks": "Yes",
       "difficulty": "moderate",
-      "added": "11:30 AM CDT",
-      "firstSeenAt": "2026-05-22T16:30:23Z",
+      "added": "1:22 AM CDT",
+      "firstSeenAt": "2026-05-29T06:22:20Z",
       "language": "Python",
       "summary": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
       "technicalSummary": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
@@ -819,7 +659,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 6,
+      "dayOffset": 0,
       "links": [
         [
           "GitHub",
@@ -883,7 +723,7 @@
       ],
       "confidence": 98,
       "weaponization": 89,
-      "dayOffset": 5,
+      "dayOffset": 6,
       "links": [
         [
           "GitHub",
@@ -946,7 +786,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 5,
+      "dayOffset": 6,
       "links": [
         [
           "GitHub",
@@ -1010,7 +850,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 4,
+      "dayOffset": 5,
       "links": [
         [
           "GitHub",
@@ -1077,7 +917,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 0,
+      "dayOffset": 1,
       "links": [
         [
           "GitHub",
@@ -1092,7 +932,7 @@
     {
       "cve": "CVE-2026-6279",
       "title": "\u2014 Avada Builder <= 3.15.2 Unauthenticated RCE via call_user_func()",
-      "ecosystem": "cloud",
+      "ecosystem": "web",
       "category": "webstack",
       "severity": "critical",
       "proof": "working public poc",
@@ -1135,24 +975,28 @@
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Cloud",
+        "Web",
         "Webstack",
         "RCE"
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 5,
+      "dayOffset": 6,
       "links": [
         [
           "GitHub",
           "https://github.com/zycoder0day/CVE-2026-6279"
+        ],
+        [
+          "Vendor Advisory",
+          "https://avada.com/documentation/avada-changelog/"
         ]
       ]
     },
     {
       "cve": "CVE-2026-5118",
       "title": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "ecosystem": "cloud",
+      "ecosystem": "web",
       "category": "webstack",
       "severity": "high",
       "proof": "working public poc",
@@ -1177,8 +1021,8 @@
       "researcherUrl": "https://github.com/Yucaerin",
       "pocWorks": "Yes",
       "difficulty": "moderate",
-      "added": "2:53 AM CDT",
-      "firstSeenAt": "2026-05-22T07:53:21Z",
+      "added": "1:22 AM CDT",
+      "firstSeenAt": "2026-05-29T06:22:20Z",
       "language": "Python",
       "summary": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
       "technicalSummary": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
@@ -1193,17 +1037,21 @@
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Cloud",
+        "Web",
         "Webstack",
         "Local LPE"
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 6,
+      "dayOffset": 0,
       "links": [
         [
           "GitHub",
           "https://github.com/Yucaerin/CVE-2026-5118"
+        ],
+        [
+          "Vendor Advisory",
+          "https://diviengine.com/divi-form-builder-changelog/"
         ]
       ]
     },
@@ -1212,7 +1060,7 @@
       "title": "buffer overflow in extract_addresses() on crafted resource record PoC",
       "ecosystem": "cloud",
       "category": "webstack",
-      "severity": "critical",
+      "severity": "high",
       "proof": "working public poc",
       "pocUrl": "https://github.com/lottiedeyan/CVE20265172poc",
       "pocValidation": {
@@ -1256,18 +1104,80 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 1,
+      "dayOffset": 2,
       "links": [
         [
           "GitHub",
           "https://github.com/lottiedeyan/CVE20265172poc"
+        ],
+        [
+          "Vendor Advisory",
+          "https://github.com/NixOS/nixpkgs/pull/519082"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-9018",
+      "title": "Unauthenticated Privilege Escalation CVE-2026-9018: Easy Elements for Elementor",
+      "ecosystem": "cloud",
+      "category": "webstack",
+      "severity": "high",
+      "proof": "working public poc",
+      "pocUrl": "https://github.com/xxconi/CVE-2026-9018",
+      "pocValidation": {
+        "valid": true,
+        "score": 12,
+        "codeFiles": [
+          "CVE-2026-9018.py"
+        ],
+        "attackFiles": [
+          "CVE-2026-9018.py"
+        ],
+        "hasUsage": true,
+        "cveRefs": [
+          "CVE-2026-9018"
+        ],
+        "language": "Python"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "xxconi",
+      "researcherUrl": "https://github.com/xxconi",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "1:22 AM CDT",
+      "firstSeenAt": "2026-05-29T06:22:20Z",
+      "language": "Python",
+      "summary": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
+      "technicalSummary": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
+      "breakdown": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
+      "whatBroke": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at xxconi/CVE-2026-9018.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/xxconi/CVE-2026-9018\ncd CVE-2026-9018\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Cloud",
+        "Webstack",
+        "Local LPE"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/xxconi/CVE-2026-9018"
         ]
       ]
     },
     {
       "cve": "CVE-2026-20817",
       "title": "PoC for CVE-2026-20817",
-      "ecosystem": "cloud",
+      "ecosystem": "windows",
       "category": "webstack",
       "severity": "high",
       "proof": "working public poc",
@@ -1295,10 +1205,10 @@
       "added": "10:22 PM CDT",
       "firstSeenAt": "2026-05-28T03:22:49Z",
       "language": "C",
-      "summary": "The affected component exposes a exploit path with recent public exploit tooling signal.",
-      "technicalSummary": "The affected component exposes a exploit path with recent public exploit tooling signal.",
-      "breakdown": "The affected component exposes a exploit path with recent public exploit tooling signal.",
-      "whatBroke": "The affected component exposes a exploit path with recent public exploit tooling signal.",
+      "summary": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
+      "technicalSummary": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
+      "breakdown": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
+      "whatBroke": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at dwgth4i/CVE-2026-20817.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/dwgth4i/CVE-2026-20817\ncd CVE-2026-20817\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
@@ -1308,17 +1218,21 @@
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Cloud",
+        "Windows",
         "Webstack",
         "Exploit"
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 1,
+      "dayOffset": 2,
       "links": [
         [
           "GitHub",
           "https://github.com/dwgth4i/CVE-2026-20817"
+        ],
+        [
+          "Vendor Advisory",
+          "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-20817"
         ]
       ]
     }
