@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-29T16:51:32Z",
+  "updatedAt": "2026-05-29T21:11:42Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -216,6 +216,69 @@
         [
           "Vendor Advisory",
           "https://github.com/marimo-team/marimo/security/advisories/GHSA-2679-6mx9-h9xc"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-0257",
+      "title": "Palo Alto Networks PAN-OS Authentication Bypass Vulnerability",
+      "ecosystem": "cloud",
+      "category": "vpn-edge",
+      "severity": "critical",
+      "proof": "working public poc",
+      "pocUrl": "https://github.com/sfewer-r7/CVE-2026-0257",
+      "pocValidation": {
+        "valid": true,
+        "score": 10,
+        "codeFiles": [
+          "forge_cookie.py"
+        ],
+        "attackFiles": [],
+        "hasUsage": true,
+        "cveRefs": [
+          "CVE-2026-0257"
+        ],
+        "language": "Python"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "sfewer-r7",
+      "researcherUrl": "https://github.com/sfewer-r7",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "6:46 AM CDT",
+      "firstSeenAt": "2026-05-29T11:46:55Z",
+      "language": "Python",
+      "summary": "Proof-of-concept script to leverage the PAN-OS GlobalProtect authentication bypass",
+      "technicalSummary": "Proof-of-concept script to leverage the PAN-OS GlobalProtect authentication bypass",
+      "breakdown": "Proof-of-concept script to leverage the PAN-OS GlobalProtect authentication bypass",
+      "whatBroke": "Proof-of-concept script to leverage the PAN-OS GlobalProtect authentication bypass",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at sfewer-r7/CVE-2026-0257.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/sfewer-r7/CVE-2026-0257\ncd CVE-2026-0257\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed PAN-OS",
+        "credential access from service context",
+        "webshell or command execution follow-up",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Cloud",
+        "VPN Edge",
+        "Auth Bypass",
+        "KEV"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/sfewer-r7/CVE-2026-0257"
+        ],
+        [
+          "Vendor Advisory",
+          "https://security.paloaltonetworks.com/CVE-2026-0257"
         ]
       ]
     },
@@ -929,7 +992,7 @@
     {
       "cve": "CVE-2026-20817",
       "title": "PoC for CVE-2026-20817",
-      "ecosystem": "windows",
+      "ecosystem": "cloud",
       "category": "webstack",
       "severity": "high",
       "proof": "working public poc",
@@ -957,10 +1020,10 @@
       "added": "10:22 PM CDT",
       "firstSeenAt": "2026-05-28T03:22:49Z",
       "language": "C",
-      "summary": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
-      "technicalSummary": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
-      "breakdown": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
-      "whatBroke": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
+      "summary": "The affected component exposes a exploit path with recent public exploit tooling signal.",
+      "technicalSummary": "The affected component exposes a exploit path with recent public exploit tooling signal.",
+      "breakdown": "The affected component exposes a exploit path with recent public exploit tooling signal.",
+      "whatBroke": "The affected component exposes a exploit path with recent public exploit tooling signal.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at dwgth4i/CVE-2026-20817.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/dwgth4i/CVE-2026-20817\ncd CVE-2026-20817\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
@@ -970,7 +1033,7 @@
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Windows",
+        "Cloud",
         "Webstack",
         "Exploit"
       ],
@@ -981,10 +1044,6 @@
         [
           "GitHub",
           "https://github.com/dwgth4i/CVE-2026-20817"
-        ],
-        [
-          "Vendor Advisory",
-          "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-20817"
         ]
       ]
     },
