@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-29T06:22:20Z",
+  "updatedAt": "2026-05-29T16:51:32Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -51,16 +51,40 @@
   ],
   "research": [
     {
-      "title": "Extending EOL/EOS Software Intelligence Across Containers, Kubernetes, and Modern Workloads",
-      "source": "Qualys Research",
-      "sourceUrl": "https://blog.qualys.com/",
-      "url": "https://blog.qualys.com/product-tech/2026/05/28/eol-eos-software-detection-containers-kubernetes",
-      "summary": "Key Takeaways Unsupported software increasingly exists inside container images and Kubernetes workloads, not just traditional infrastructure. Lifecycle risk extends beyond CVEs because unsupported software eventually stops receiving patches and vendor.",
-      "publishedAt": "2026-05-28T16:00:00Z",
+      "title": "Rapid Response",
+      "source": "Horizon3 Attack Team",
+      "sourceUrl": "https://x.com/Horizon3Attack",
+      "url": "https://horizon3.ai/downloads/factsheets/rapid-response/",
+      "summary": "Emerging vulnerabilities create immediate pressure for security teams. The challenge isn\u2019t determining whether a CVE exists\u2014it\u2019s determining whether it can actually be exploited in your environment before attackers move faster than your remediation process..",
+      "publishedAt": "2026-05-29T16:00:00Z",
+      "cves": [],
+      "tags": []
+    },
+    {
+      "title": "CVE-2026-27771 | Gitea Container Registry Authentication Bypass Vulnerability",
+      "source": "Horizon3 Attack Team",
+      "sourceUrl": "https://x.com/Horizon3Attack",
+      "url": "https://horizon3.ai/attack-research/vulnerabilities/cve-2026-27771/",
+      "summary": "Gitea contains a high-severity authentication bypass vulnerability affecting the built-in container and package registry functionality. CVE-2026-27771 allows unauthenticated remote attackers to retrieve private container images and package artifacts without.",
+      "publishedAt": "2026-05-29T15:22:53Z",
+      "cves": [
+        "CVE-2026-27771"
+      ],
+      "tags": [
+        "Kubernetes",
+        "Auth Bypass"
+      ]
+    },
+    {
+      "title": "What\u2019s in the container? Analyzing vulnerabilities, risks and protection with Kaspersky Container Security and the KIRA AI assistant",
+      "source": "Kaspersky GReAT",
+      "sourceUrl": "https://securelist.com/",
+      "url": "https://securelist.com/container-security-typical-issues/119974/",
+      "summary": "",
+      "publishedAt": "2026-05-29T07:00:51Z",
       "cves": [],
       "tags": [
-        "Cloud",
-        "DevOps"
+        "Kubernetes"
       ]
     }
   ],
@@ -140,14 +164,14 @@
       "pocUrl": "https://github.com/M3PH1569/CVE-2026-39987-POC",
       "pocValidation": {
         "valid": true,
-        "score": 11,
+        "score": 12,
         "codeFiles": [
           "CVE-2026-39987.py"
         ],
         "attackFiles": [
           "CVE-2026-39987.py"
         ],
-        "hasUsage": false,
+        "hasUsage": true,
         "cveRefs": [
           "CVE-2026-39987"
         ],
@@ -386,144 +410,6 @@
       ]
     },
     {
-      "cve": "CVE-2026-5817",
-      "title": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for.",
-      "ecosystem": "web",
-      "category": "kubernetes",
-      "severity": "high",
-      "proof": "working public poc",
-      "pocUrl": "https://github.com/gouldnicholas/CVE-2026-5817-PoC",
-      "pocValidation": {
-        "valid": true,
-        "score": 9,
-        "codeFiles": [
-          "docker-compose.yml",
-          "rce_registry.py",
-          "run_poc.sh",
-          "test_claims.py"
-        ],
-        "attackFiles": [
-          "rce_registry.py",
-          "run_poc.sh"
-        ],
-        "hasUsage": true,
-        "cveRefs": [
-          "CVE-2026-5817",
-          "CVE-2026-5843",
-          "CVE-2026-7669"
-        ],
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "gouldnicholas",
-      "researcherUrl": "https://github.com/gouldnicholas",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "1:22 AM CDT",
-      "firstSeenAt": "2026-05-29T06:22:20Z",
-      "language": "Python",
-      "summary": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
-      "technicalSummary": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
-      "breakdown": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
-      "whatBroke": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at gouldnicholas/CVE-2026-5817-PoC.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/gouldnicholas/CVE-2026-5817-PoC\ncd CVE-2026-5817-PoC\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Web",
-        "Kubernetes",
-        "RCE"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 0,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/gouldnicholas/CVE-2026-5817-PoC"
-        ],
-        [
-          "Vendor Advisory",
-          "https://docs.docker.com/desktop/release-notes/#4680"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-5843",
-      "title": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for.",
-      "ecosystem": "web",
-      "category": "kubernetes",
-      "severity": "high",
-      "proof": "working public poc",
-      "pocUrl": "https://github.com/gouldnicholas/CVE-2026-5817-PoC",
-      "pocValidation": {
-        "valid": true,
-        "score": 7,
-        "codeFiles": [
-          "docker-compose.yml",
-          "rce_registry.py",
-          "run_poc.sh",
-          "test_claims.py"
-        ],
-        "attackFiles": [
-          "rce_registry.py",
-          "run_poc.sh"
-        ],
-        "hasUsage": true,
-        "cveRefs": [
-          "CVE-2026-5817",
-          "CVE-2026-5843",
-          "CVE-2026-7669"
-        ],
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "gouldnicholas",
-      "researcherUrl": "https://github.com/gouldnicholas",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "1:22 AM CDT",
-      "firstSeenAt": "2026-05-29T06:22:20Z",
-      "language": "Python",
-      "summary": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
-      "technicalSummary": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
-      "breakdown": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
-      "whatBroke": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at gouldnicholas/CVE-2026-5817-PoC.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/gouldnicholas/CVE-2026-5817-PoC\ncd CVE-2026-5817-PoC\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Web",
-        "Kubernetes",
-        "RCE"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 0,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/gouldnicholas/CVE-2026-5817-PoC"
-        ],
-        [
-          "Vendor Advisory",
-          "https://docs.docker.com/desktop/release-notes/#4710"
-        ]
-      ]
-    },
-    {
       "cve": "CVE-2026-43284",
       "title": "Exploit Development Lab: 12 progressive classes from stack buffer overflow to Windows kernel exploitation.",
       "ecosystem": "windows",
@@ -603,58 +489,113 @@
       ]
     },
     {
-      "cve": "CVE-2026-7669",
-      "title": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for.",
-      "ecosystem": "cloud",
+      "cve": "CVE-2026-40564",
+      "title": "SSRF via FlinkSessionJob jarURI in apache/flink-kubernetes-operator. Self-contained reproducer that runs on.",
+      "ecosystem": "web",
       "category": "kubernetes",
-      "severity": "critical",
+      "severity": "high",
       "proof": "working public poc",
-      "pocUrl": "https://github.com/gouldnicholas/CVE-2026-5817-PoC",
+      "pocUrl": "https://github.com/oscerd/CVE-2026-40564",
       "pocValidation": {
         "valid": true,
-        "score": 7,
+        "score": 9,
         "codeFiles": [
-          "docker-compose.yml",
-          "rce_registry.py",
-          "run_poc.sh",
-          "test_claims.py"
+          "manifests/session-cluster.yaml",
+          "manifests/vulnerable-sessionjob.yaml"
+        ],
+        "attackFiles": [],
+        "hasUsage": false,
+        "cveRefs": [
+          "CVE-2026-40564"
+        ],
+        "language": "Makefile"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "oscerd",
+      "researcherUrl": "https://github.com/oscerd",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "4:32 AM CDT",
+      "firstSeenAt": "2026-05-29T09:32:14Z",
+      "language": "Makefile",
+      "summary": "SSRF via FlinkSessionJob jarURI in apache/flink-kubernetes-operator. Self-contained reproducer that runs on a local kind cluster with one make command.",
+      "technicalSummary": "SSRF via FlinkSessionJob jarURI in apache/flink-kubernetes-operator. Self-contained reproducer that runs on a local kind cluster with one make command.",
+      "breakdown": "SSRF via FlinkSessionJob jarURI in apache/flink-kubernetes-operator. Self-contained reproducer that runs on a local kind cluster with one make command.",
+      "whatBroke": "SSRF via FlinkSessionJob jarURI in apache/flink-kubernetes-operator. Self-contained reproducer that runs on a local kind cluster with one make command.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at oscerd/CVE-2026-40564.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/oscerd/CVE-2026-40564\ncd CVE-2026-40564\n# use the repo README invocation against https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Web",
+        "Kubernetes",
+        "Exploit"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 0,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/oscerd/CVE-2026-40564"
+        ],
+        [
+          "Vendor Advisory",
+          "https://lists.apache.org/thread/jvxs2kh2o60sl7qkl5nss4r5phzfl4cz"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-46840",
+      "title": "Oracle REST Data Services (ORDS) Unauthenticated RCE (CVE-2026-46840)",
+      "ecosystem": "cloud",
+      "category": "webstack",
+      "severity": "critical",
+      "proof": "working public poc",
+      "pocUrl": "https://github.com/fangbarristerbar/CVE-2026-46840-ORDS-RCE",
+      "pocValidation": {
+        "valid": true,
+        "score": 11,
+        "codeFiles": [
+          "CVE-2026-46840.py"
         ],
         "attackFiles": [
-          "rce_registry.py",
-          "run_poc.sh"
+          "CVE-2026-46840.py"
         ],
-        "hasUsage": true,
+        "hasUsage": false,
         "cveRefs": [
-          "CVE-2026-5817",
-          "CVE-2026-5843",
-          "CVE-2026-7669"
+          "CVE-2026-46840"
         ],
         "language": "Python"
       },
       "reliability": "reliable exploit",
-      "researcher": "gouldnicholas",
-      "researcherUrl": "https://github.com/gouldnicholas",
+      "researcher": "fangbarristerbar",
+      "researcherUrl": "https://github.com/fangbarristerbar",
       "pocWorks": "Yes",
       "difficulty": "moderate",
-      "added": "1:22 AM CDT",
-      "firstSeenAt": "2026-05-29T06:22:20Z",
+      "added": "11:15 AM CDT",
+      "firstSeenAt": "2026-05-29T16:15:49Z",
       "language": "Python",
-      "summary": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
-      "technicalSummary": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
-      "breakdown": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
-      "whatBroke": "Docker Model Runner container-to-host RCE / Escape: A critical vulnerability that allows for container-to-host code execution in the Docker Model Runner MLX / SGLANG / VLLM inference backend.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at gouldnicholas/CVE-2026-5817-PoC.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/gouldnicholas/CVE-2026-5817-PoC\ncd CVE-2026-5817-PoC\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "summary": "Oracle REST Data Services (ORDS) Unauthenticated RCE ()",
+      "technicalSummary": "Oracle REST Data Services (ORDS) Unauthenticated RCE ()",
+      "breakdown": "Oracle REST Data Services (ORDS) Unauthenticated RCE ()",
+      "whatBroke": "Oracle REST Data Services (ORDS) Unauthenticated RCE ()",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at fangbarristerbar/CVE-2026-46840-ORDS-RCE.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/fangbarristerbar/CVE-2026-46840-ORDS-RCE\ncd CVE-2026-46840-ORDS-RCE\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
         "initial access through exposed the affected product",
         "credential access from service context",
         "webshell or command execution follow-up",
+        "internal pivot from an internet-facing control point",
         "lateral movement if secrets or management access are recovered"
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
         "Cloud",
-        "Kubernetes",
+        "Webstack",
         "RCE"
       ],
       "confidence": 98,
@@ -663,11 +604,11 @@
       "links": [
         [
           "GitHub",
-          "https://github.com/gouldnicholas/CVE-2026-5817-PoC"
+          "https://github.com/fangbarristerbar/CVE-2026-46840-ORDS-RCE"
         ],
         [
           "Vendor Advisory",
-          "https://github.com/gouldnicholas/CVE-2026-7669-PoC"
+          "https://www.oracle.com/security-alerts/cspumay2026.html"
         ]
       ]
     },
@@ -863,199 +804,6 @@
       ]
     },
     {
-      "cve": "CVE-2026-9256",
-      "title": "nginx ngx_http_rewrite_module Heap Buffer Overflow",
-      "ecosystem": "web",
-      "category": "webstack",
-      "severity": "critical",
-      "proof": "working public poc",
-      "pocUrl": "https://github.com/3nou9h/CVE-2026-9256-Poc",
-      "pocValidation": {
-        "valid": true,
-        "score": 12,
-        "codeFiles": [
-          "crash_verify.py",
-          "env/docker-compose.yml",
-          "env/entrypoint.sh",
-          "env/entrypoint_aslr_off.sh",
-          "heap_leak.py",
-          "libc_leak.py"
-        ],
-        "attackFiles": [
-          "crash_verify.py"
-        ],
-        "hasUsage": true,
-        "cveRefs": [
-          "CVE-2026-9256"
-        ],
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "3nou9h",
-      "researcherUrl": "https://github.com/3nou9h",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "10:12 AM CDT",
-      "firstSeenAt": "2026-05-28T15:12:42Z",
-      "language": "Python",
-      "summary": "NGINX Plus and NGINX Open Source have a vulnerability in the ngx_http_rewrite_module module. This vulnerability exists when a rewrite directive uses a regex pattern with distinct, overlapping Perl-Compatible Regular Expression.",
-      "technicalSummary": "NGINX Plus and NGINX Open Source have a vulnerability in the ngx_http_rewrite_module module. This vulnerability exists when a rewrite directive uses a regex pattern with distinct, overlapping Perl-Compatible Regular Expression.",
-      "breakdown": "NGINX Plus and NGINX Open Source have a vulnerability in the ngx_http_rewrite_module module. This vulnerability exists when a rewrite directive uses a regex pattern with distinct, overlapping Perl-Compatible Regular Expression.",
-      "whatBroke": "NGINX Plus and NGINX Open Source have a vulnerability in the ngx_http_rewrite_module module. This vulnerability exists when a rewrite directive uses a regex pattern with distinct, overlapping Perl-Compatible Regular Expression.",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at 3nou9h/CVE-2026-9256-Poc.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/3nou9h/CVE-2026-9256-Poc\ncd CVE-2026-9256-Poc\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Web",
-        "Webstack",
-        "Memory Corruption"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 1,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/3nou9h/CVE-2026-9256-Poc"
-        ],
-        [
-          "Vendor Advisory",
-          "https://my.f5.com/manage/s/article/K000161377"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-6279",
-      "title": "\u2014 Avada Builder <= 3.15.2 Unauthenticated RCE via call_user_func()",
-      "ecosystem": "web",
-      "category": "webstack",
-      "severity": "critical",
-      "proof": "working public poc",
-      "pocUrl": "https://github.com/zycoder0day/CVE-2026-6279",
-      "pocValidation": {
-        "valid": true,
-        "score": 11,
-        "codeFiles": [
-          "CVE-2026-6279.py"
-        ],
-        "attackFiles": [
-          "CVE-2026-6279.py"
-        ],
-        "hasUsage": false,
-        "cveRefs": [
-          "CVE-2026-6279"
-        ],
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "zycoder0day",
-      "researcherUrl": "https://github.com/zycoder0day",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "4:33 AM CDT",
-      "firstSeenAt": "2026-05-23T09:33:32Z",
-      "language": "Python",
-      "summary": "\u2014 Avada Builder <= 3.15.2 Unauthenticated RCE via call_user_func()",
-      "technicalSummary": "\u2014 Avada Builder <= 3.15.2 Unauthenticated RCE via call_user_func()",
-      "breakdown": "\u2014 Avada Builder <= 3.15.2 Unauthenticated RCE via call_user_func()",
-      "whatBroke": "\u2014 Avada Builder <= 3.15.2 Unauthenticated RCE via call_user_func()",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at zycoder0day/CVE-2026-6279.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/zycoder0day/CVE-2026-6279\ncd CVE-2026-6279\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "credential access from service context",
-        "webshell or command execution follow-up",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Web",
-        "Webstack",
-        "RCE"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 6,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/zycoder0day/CVE-2026-6279"
-        ],
-        [
-          "Vendor Advisory",
-          "https://avada.com/documentation/avada-changelog/"
-        ]
-      ]
-    },
-    {
-      "cve": "CVE-2026-5118",
-      "title": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "ecosystem": "web",
-      "category": "webstack",
-      "severity": "high",
-      "proof": "working public poc",
-      "pocUrl": "https://github.com/Yucaerin/CVE-2026-5118",
-      "pocValidation": {
-        "valid": true,
-        "score": 11,
-        "codeFiles": [
-          "exploit.py"
-        ],
-        "attackFiles": [
-          "exploit.py"
-        ],
-        "hasUsage": false,
-        "cveRefs": [
-          "CVE-2026-5118"
-        ],
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "Yucaerin",
-      "researcherUrl": "https://github.com/Yucaerin",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "1:22 AM CDT",
-      "firstSeenAt": "2026-05-29T06:22:20Z",
-      "language": "Python",
-      "summary": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "technicalSummary": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "breakdown": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "whatBroke": "Divi Form Builder <= 5.1.2 \u2014 Unauthenticated Privilege Escalation via Role Injection",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at Yucaerin/CVE-2026-5118.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/Yucaerin/CVE-2026-5118\ncd CVE-2026-5118\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Web",
-        "Webstack",
-        "Local LPE"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 0,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/Yucaerin/CVE-2026-5118"
-        ],
-        [
-          "Vendor Advisory",
-          "https://diviengine.com/divi-form-builder-changelog/"
-        ]
-      ]
-    },
-    {
       "cve": "CVE-2026-5172",
       "title": "buffer overflow in extract_addresses() on crafted resource record PoC",
       "ecosystem": "cloud",
@@ -1119,7 +867,7 @@
     {
       "cve": "CVE-2026-9018",
       "title": "Unauthenticated Privilege Escalation CVE-2026-9018: Easy Elements for Elementor",
-      "ecosystem": "cloud",
+      "ecosystem": "web",
       "category": "webstack",
       "severity": "high",
       "proof": "working public poc",
@@ -1160,7 +908,7 @@
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Cloud",
+        "Web",
         "Webstack",
         "Local LPE"
       ],
@@ -1171,6 +919,10 @@
         [
           "GitHub",
           "https://github.com/xxconi/CVE-2026-9018"
+        ],
+        [
+          "Vendor Advisory",
+          "https://plugins.trac.wordpress.org/browser/easy-elements/tags/1.4.5/includes/Utils/Enqueue.php#L200"
         ]
       ]
     },
@@ -1233,6 +985,127 @@
         [
           "Vendor Advisory",
           "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-20817"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-4893",
+      "title": "Generate the poc for CVE-2026-4893: broken EDNS Client Subnet validation.",
+      "ecosystem": "cloud",
+      "category": "webstack",
+      "severity": "high",
+      "proof": "working public poc",
+      "pocUrl": "https://github.com/lottiedeyan/CVE20264893poc",
+      "pocValidation": {
+        "valid": true,
+        "score": 10,
+        "codeFiles": [
+          "exp.py"
+        ],
+        "attackFiles": [
+          "exp.py"
+        ],
+        "hasUsage": true,
+        "cveRefs": [
+          "CVE-2026-4893"
+        ],
+        "language": "Python"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "lottiedeyan",
+      "researcherUrl": "https://github.com/lottiedeyan",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "12:27 AM CDT",
+      "firstSeenAt": "2026-05-27T05:27:28Z",
+      "language": "Python",
+      "summary": "Generate the poc for broken EDNS Client Subnet validation.",
+      "technicalSummary": "Generate the poc for broken EDNS Client Subnet validation.",
+      "breakdown": "Generate the poc for broken EDNS Client Subnet validation.",
+      "whatBroke": "Generate the poc for broken EDNS Client Subnet validation.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at lottiedeyan/CVE20264893poc.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/lottiedeyan/CVE20264893poc\ncd CVE20264893poc\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Cloud",
+        "Webstack",
+        "Exploit"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 2,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/lottiedeyan/CVE20264893poc"
+        ]
+      ]
+    },
+    {
+      "cve": "CVE-2026-9256",
+      "title": "nginx ngx_http_rewrite_module Heap Buffer Overflow",
+      "ecosystem": "cloud",
+      "category": "webstack",
+      "severity": "high",
+      "proof": "working public poc",
+      "pocUrl": "https://github.com/3nou9h/CVE-2026-9256-Poc",
+      "pocValidation": {
+        "valid": true,
+        "score": 12,
+        "codeFiles": [
+          "crash_verify.py",
+          "env/docker-compose.yml",
+          "env/entrypoint.sh",
+          "env/entrypoint_aslr_off.sh",
+          "heap_leak.py",
+          "libc_leak.py"
+        ],
+        "attackFiles": [
+          "crash_verify.py"
+        ],
+        "hasUsage": true,
+        "cveRefs": [
+          "CVE-2026-9256"
+        ],
+        "language": "Python"
+      },
+      "reliability": "reliable exploit",
+      "researcher": "3nou9h",
+      "researcherUrl": "https://github.com/3nou9h",
+      "pocWorks": "Yes",
+      "difficulty": "moderate",
+      "added": "10:12 AM CDT",
+      "firstSeenAt": "2026-05-28T15:12:42Z",
+      "language": "Python",
+      "summary": "The affected component exposes a exploit path with recent public exploit tooling signal.",
+      "technicalSummary": "The affected component exposes a exploit path with recent public exploit tooling signal.",
+      "breakdown": "The affected component exposes a exploit path with recent public exploit tooling signal.",
+      "whatBroke": "The affected component exposes a exploit path with recent public exploit tooling signal.",
+      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at 3nou9h/CVE-2026-9256-Poc.",
+      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/3nou9h/CVE-2026-9256-Poc\ncd CVE-2026-9256-Poc\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
+      "chains": [
+        "initial access through exposed the affected product",
+        "internal pivot from an internet-facing control point",
+        "lateral movement if secrets or management access are recovered"
+      ],
+      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
+      "tags": [
+        "Cloud",
+        "Webstack",
+        "Exploit"
+      ],
+      "confidence": 98,
+      "weaponization": 73,
+      "dayOffset": 1,
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/3nou9h/CVE-2026-9256-Poc"
         ]
       ]
     }
