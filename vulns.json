@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-30T02:23:41Z",
+  "updatedAt": "2026-05-30T05:54:21Z",
   "cadence": "3x daily",
   "proofPolicy": "verified working public pocs",
   "sources": [
@@ -158,7 +158,7 @@
       ],
       "confidence": 98,
       "weaponization": 99,
-      "dayOffset": 2,
+      "dayOffset": 3,
       "links": [
         [
           "GitHub",
@@ -223,7 +223,7 @@
       ],
       "confidence": 98,
       "weaponization": 99,
-      "dayOffset": 5,
+      "dayOffset": 6,
       "links": [
         [
           "GitHub",
@@ -286,7 +286,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 0,
+      "dayOffset": 1,
       "links": [
         [
           "GitHub",
@@ -349,7 +349,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 4,
+      "dayOffset": 5,
       "links": [
         [
           "GitHub",
@@ -413,7 +413,7 @@
       ],
       "confidence": 98,
       "weaponization": 74,
-      "dayOffset": 1,
+      "dayOffset": 2,
       "links": [
         [
           "GitHub",
@@ -492,7 +492,7 @@
       ],
       "confidence": 98,
       "weaponization": 93,
-      "dayOffset": 2,
+      "dayOffset": 3,
       "links": [
         [
           "GitHub",
@@ -552,7 +552,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 0,
+      "dayOffset": 1,
       "links": [
         [
           "GitHub",
@@ -616,7 +616,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 0,
+      "dayOffset": 1,
       "links": [
         [
           "GitHub",
@@ -656,8 +656,8 @@
       "researcherUrl": "https://github.com/diamorphine666",
       "pocWorks": "Yes",
       "difficulty": "easy",
-      "added": "4:29 PM CDT",
-      "firstSeenAt": "2026-05-23T21:29:19Z",
+      "added": "12:54 AM CDT",
+      "firstSeenAt": "2026-05-30T05:54:21Z",
       "language": "Python",
       "summary": "exploit. The Prodigy Commerce plugin for WordPress Local File Inclusion",
       "technicalSummary": "exploit. The Prodigy Commerce plugin for WordPress Local File Inclusion",
@@ -680,7 +680,7 @@
       ],
       "confidence": 98,
       "weaponization": 89,
-      "dayOffset": 6,
+      "dayOffset": 0,
       "links": [
         [
           "GitHub",
@@ -721,8 +721,8 @@
       "researcherUrl": "https://github.com/satchfunky",
       "pocWorks": "Yes",
       "difficulty": "moderate",
-      "added": "7:46 PM CDT",
-      "firstSeenAt": "2026-05-24T00:46:09Z",
+      "added": "12:54 AM CDT",
+      "firstSeenAt": "2026-05-30T05:54:21Z",
       "language": "C",
       "summary": "windows api bug",
       "technicalSummary": "windows api bug",
@@ -743,7 +743,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 6,
+      "dayOffset": 0,
       "links": [
         [
           "GitHub",
@@ -807,7 +807,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 5,
+      "dayOffset": 6,
       "links": [
         [
           "GitHub",
@@ -868,7 +868,7 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 2,
+      "dayOffset": 3,
       "links": [
         [
           "GitHub",
@@ -881,71 +881,9 @@
       ]
     },
     {
-      "cve": "CVE-2026-9018",
-      "title": "Unauthenticated Privilege Escalation CVE-2026-9018: Easy Elements for Elementor",
-      "ecosystem": "web",
-      "category": "webstack",
-      "severity": "high",
-      "proof": "working public poc",
-      "pocUrl": "https://github.com/xxconi/CVE-2026-9018",
-      "pocValidation": {
-        "valid": true,
-        "score": 12,
-        "codeFiles": [
-          "CVE-2026-9018.py"
-        ],
-        "attackFiles": [
-          "CVE-2026-9018.py"
-        ],
-        "hasUsage": true,
-        "cveRefs": [
-          "CVE-2026-9018"
-        ],
-        "language": "Python"
-      },
-      "reliability": "reliable exploit",
-      "researcher": "xxconi",
-      "researcherUrl": "https://github.com/xxconi",
-      "pocWorks": "Yes",
-      "difficulty": "moderate",
-      "added": "1:22 AM CDT",
-      "firstSeenAt": "2026-05-29T06:22:20Z",
-      "language": "Python",
-      "summary": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
-      "technicalSummary": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
-      "breakdown": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
-      "whatBroke": "Unauthenticated Privilege Escalation Easy Elements for Elementor",
-      "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at xxconi/CVE-2026-9018.",
-      "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/xxconi/CVE-2026-9018\ncd CVE-2026-9018\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
-      "chains": [
-        "initial access through exposed the affected product",
-        "internal pivot from an internet-facing control point",
-        "lateral movement if secrets or management access are recovered"
-      ],
-      "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
-      "tags": [
-        "Web",
-        "Webstack",
-        "Local LPE"
-      ],
-      "confidence": 98,
-      "weaponization": 73,
-      "dayOffset": 0,
-      "links": [
-        [
-          "GitHub",
-          "https://github.com/xxconi/CVE-2026-9018"
-        ],
-        [
-          "Vendor Advisory",
-          "https://plugins.trac.wordpress.org/browser/easy-elements/tags/1.4.5/includes/Utils/Enqueue.php#L200"
-        ]
-      ]
-    },
-    {
       "cve": "CVE-2026-20817",
       "title": "PoC for CVE-2026-20817",
-      "ecosystem": "cloud",
+      "ecosystem": "windows",
       "category": "webstack",
       "severity": "high",
       "proof": "working public poc",
@@ -973,10 +911,10 @@
       "added": "10:22 PM CDT",
       "firstSeenAt": "2026-05-28T03:22:49Z",
       "language": "C",
-      "summary": "The affected component exposes a exploit path with recent public exploit tooling signal.",
-      "technicalSummary": "The affected component exposes a exploit path with recent public exploit tooling signal.",
-      "breakdown": "The affected component exposes a exploit path with recent public exploit tooling signal.",
-      "whatBroke": "The affected component exposes a exploit path with recent public exploit tooling signal.",
+      "summary": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
+      "technicalSummary": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
+      "breakdown": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
+      "whatBroke": "Improper handling of insufficient permissions or privileges in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at dwgth4i/CVE-2026-20817.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/dwgth4i/CVE-2026-20817\ncd CVE-2026-20817\nmake\n./<compiled-poc> <authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
@@ -986,17 +924,21 @@
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Cloud",
+        "Windows",
         "Webstack",
         "Exploit"
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 2,
+      "dayOffset": 3,
       "links": [
         [
           "GitHub",
           "https://github.com/dwgth4i/CVE-2026-20817"
+        ],
+        [
+          "Vendor Advisory",
+          "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-20817"
         ]
       ]
     },
@@ -1050,20 +992,24 @@
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 2,
+      "dayOffset": 3,
       "links": [
         [
           "GitHub",
           "https://github.com/lottiedeyan/CVE20264893poc"
+        ],
+        [
+          "Vendor Advisory",
+          "https://github.com/NixOS/nixpkgs/pull/519082"
         ]
       ]
     },
     {
       "cve": "CVE-2026-9256",
       "title": "nginx ngx_http_rewrite_module Heap Buffer Overflow",
-      "ecosystem": "cloud",
+      "ecosystem": "web",
       "category": "webstack",
-      "severity": "high",
+      "severity": "critical",
       "proof": "working public poc",
       "pocUrl": "https://github.com/3nou9h/CVE-2026-9256-Poc",
       "pocValidation": {
@@ -1094,10 +1040,10 @@
       "added": "10:12 AM CDT",
       "firstSeenAt": "2026-05-28T15:12:42Z",
       "language": "Python",
-      "summary": "The affected component exposes a exploit path with recent public exploit tooling signal.",
-      "technicalSummary": "The affected component exposes a exploit path with recent public exploit tooling signal.",
-      "breakdown": "The affected component exposes a exploit path with recent public exploit tooling signal.",
-      "whatBroke": "The affected component exposes a exploit path with recent public exploit tooling signal.",
+      "summary": "NGINX Plus and NGINX Open Source have a vulnerability in the ngx_http_rewrite_module module. This vulnerability exists when a rewrite directive uses a regex pattern with distinct, overlapping Perl-Compatible Regular Expression.",
+      "technicalSummary": "NGINX Plus and NGINX Open Source have a vulnerability in the ngx_http_rewrite_module module. This vulnerability exists when a rewrite directive uses a regex pattern with distinct, overlapping Perl-Compatible Regular Expression.",
+      "breakdown": "NGINX Plus and NGINX Open Source have a vulnerability in the ngx_http_rewrite_module module. This vulnerability exists when a rewrite directive uses a regex pattern with distinct, overlapping Perl-Compatible Regular Expression.",
+      "whatBroke": "NGINX Plus and NGINX Open Source have a vulnerability in the ngx_http_rewrite_module module. This vulnerability exists when a rewrite directive uses a regex pattern with distinct, overlapping Perl-Compatible Regular Expression.",
       "reality": "Realistic when the affected product is exposed and unpatched. The updater only includes this because public tooling signal was found at 3nou9h/CVE-2026-9256-Poc.",
       "exploitSyntax": "# authorized lab / owned targets only\ngit clone https://github.com/3nou9h/CVE-2026-9256-Poc\ncd CVE-2026-9256-Poc\npython3 <script>.py --target https://<authorized-target>\n# confirm exact flags in the linked GitHub README before validation",
       "chains": [
@@ -1107,17 +1053,21 @@
       ],
       "weaponized": "Likely worth tracking because public tooling exists and recent source activity was observed.",
       "tags": [
-        "Cloud",
+        "Web",
         "Webstack",
-        "Exploit"
+        "Memory Corruption"
       ],
       "confidence": 98,
       "weaponization": 73,
-      "dayOffset": 1,
+      "dayOffset": 2,
       "links": [
         [
           "GitHub",
           "https://github.com/3nou9h/CVE-2026-9256-Poc"
+        ],
+        [
+          "Vendor Advisory",
+          "https://my.f5.com/manage/s/article/K000161377"
         ]
       ]
     }
